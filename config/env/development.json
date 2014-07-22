@@ -1,0 +1,6 @@
+{
+    "db": "mongodb://localhost/servant-boilerplate-mean-dev",
+    "app": {
+        "name": "Servant Boilerplate – MEAN (Development Version)"
+    }
+}

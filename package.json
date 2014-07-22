@@ -1,0 +1,13 @@
+{
+  "name": "starter-node-angular",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "~1.4.2",
+    "express": "~4.5.1",
+    "jade": "^1.4.2",
+    "lodash": "^2.4.1",
+    "method-override": "~2.0.2",
+    "mongoose": "~3.8.0",
+    "servant-sdk": "^0.1.0"
+  }
+}

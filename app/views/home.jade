@@ -1,0 +1,19 @@
+extends layouts/home_layout
+
+block content
+	h1 Hello!
+	section.content(id="home-page")
+		section.container-fluid(ng-controller="HomeController")
+			.row
+				.col-md-12
+					.logo-container
+						img.logo(src="../img/logo.png")
+					p.st-centered(style="padding-bottom:10px;font-weight:100") Show Off Your Products Online and Offline By Simply Connecting Your Servant!
+					p.st-centered(style="margin-top:40px;")
+						//- Showcase Development - Servant Production
+						//- a.btn-primary.btn-lg.st-bold.fade-link(href="http://www.servant.co/connect/v1/oauth2/authorize?response_type=code&client_id=client_tZql5PhG0n9UGgqH&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth%2Fservant%2Fcallback") Connect Servant
+						//- Showcase Development - Servant Development
+						//- a.btn-primary.btn-lg.st-bold.fade-link(href="http://localhost:4000/connect/v1/oauth2/authorize?response_type=code&client_id=client_TGR5njDGddHolod5&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth%2Fservant%2Fcallback") Connect Servant
+						//- Showcase Production - Servant Production
+						a.btn-primary.btn-lg.st-bold.fade-link(href="http://www.servant.co/connect/v1/oauth2/authorize?response_type=code&client_id=client_tZql5PhG0n9UGgqH&redirect_uri=http%3A%2F%2Fshowcase.servant.co%2Fauth%2Fservant%2Fcallback") Connect Servant
+
