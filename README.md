@@ -1,6 +1,6 @@
 # Servant Boilerplate: MEAN Stack
 
-A Servant Boilerplate Application already integrated with Servant built on the MEAN (MongoDB, Express, Angular, Node) stack.  You can rapidly build Servant applications by starting with this boilerplate application.
+A Servant Boilerplate Application already integrated with Servant built on the MEAN (MongoDB, Express, Angular, Node) stack.  Rapidly build Servant applications by starting with this boilerplate application.
 
 ## Features:
 
@@ -13,9 +13,9 @@ A Servant Boilerplate Application already integrated with Servant built on the M
 
 ## Installation & Set-Up:
 
-### Database or Session Storage?
+### Part 2 – Database or Session Storage:
 
-Servant hosts most of the User's data for you, so a database may not be required.  However, this app is ready to be used with or without a database.  
+Servant hosts most User Data for you, so a database may not be required.  However, this app is ready to be used with or without a database.  
 
 ##### How To Tell If You Need To Use A Database...
 
