@@ -6,7 +6,7 @@ A Servant Boilerplate Application already integrated with Servant built on the M
 
 * **Lean MEAN Stack:** There is very little bloat in this version of the MEAN stack.
 * **User Management:** User Authentication via Servant is already built and ready to use.  Authentication libraries like Passport are not needed!
-* **Single Page Application:** Architected to be an easy-to-use Single Plage Application.
+* **Single Page Application:** Architected to be a Single Page Application.
 * **Database Not Necessary:** A MongoDB database is set-up, but since this is a Servant app, you may only need cookies to store minimal amounts of data.
 * **Production Optimizations:** Minifies javascript files for use in production and more.
 * **Servant Visual Elements:** Servant graphics, colors & fonts included for matching Servant's visual style
@@ -14,11 +14,11 @@ A Servant Boilerplate Application already integrated with Servant built on the M
 
 ## Installation & Set-Up:
 
-### Part 1 – Register You App:
+### Part 1 – Register Your Application:
 
-Go to http://servant.co and register your application in the dashboard.  
+Go to http://www.servant.co and register your application in the dashboard.  
 
-Make the Redirect URL: *http://localhost:8080/auth/servant/callback*
+Enter this Redirect URL: *http://localhost:8080/auth/servant/callback*
 
 ### Part 2 – Database or Session Storage:
 

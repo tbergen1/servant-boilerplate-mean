@@ -1,19 +1,26 @@
 script(type='text/javascript', src='/libs/jquery/dist/jquery.min.js')
 
-// Bootstrap
+//- Bootstrap
 script(type='text/javascript', src='/libs/bootstrap/dist/js/bootstrap.min.js')
 
-// AngularJS
+//- AngularJS
 script(type='text/javascript', src='/libs/angular/angular.js')
 script(type='text/javascript', src='/libs/angular-resource/angular-resource.js')
 script(type='text/javascript', src='/libs/angular-bootstrap/ui-bootstrap-tpls.min.js')
 script(type='text/javascript', src='/libs/angular-local-storage/angular-local-storage.min.js')
 
-// Application Files
-script(type='text/javascript', src='/js/home/app.js')
+//-  If Site is in Production, use minified asset
+if (process.env.NODE_ENV === 'production')
+	//- Home App
+	script(type='text/javascript', src='/dist/home.min.js')
 
-// Application Services
+//-  If Site is not in Production, use raw assets, which make it easier for debugging
+if (process.env.NODE_ENV !== 'production')
+	//- Application Files
+	script(type='text/javascript', src='/js/home/app.js')
 
-// Application Controllers
-script(type='text/javascript', src='/js/home/controllers/home.js')
+	//- Application Services
+
+	//- Application Controllers
+	script(type='text/javascript', src='/js/home/controllers/home.js')
 	
