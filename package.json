@@ -1,15 +1,21 @@
 {
-  "name": "starter-node-angular",
+  "name": "servant-boilerplate-mean",
+  "engines": {
+    "node": "0.10.x",
+    "npm": "1.2.x"
+  },
   "main": "server.js",
   "dependencies": {
     "body-parser": "~1.4.2",
+    "bower": "1.3.8",
     "express": "~4.5.1",
     "express-session": "^1.7.0",
+    "forever": "0.11.1",
     "jade": "^1.4.2",
     "lodash": "^2.4.1",
     "method-override": "~2.0.2",
     "mongoose": "~3.8.0",
-    "servant-sdk": "^0.1.0",
+    "servant-sdk": "git://github.com/ac360/servant-node-sdk.git",
     "tiny-lr": "0.0.9"
   },
   "devDependencies": {
@@ -24,5 +30,8 @@
     "gulp-uglify": "^0.3.0",
     "jshint-stylish": "^0.2.0",
     "tiny-lr": "0.0.7"
+  },
+  "scripts": {
+    "postinstall": "bower install"
   }
 }

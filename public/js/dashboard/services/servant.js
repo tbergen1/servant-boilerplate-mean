@@ -1,5 +1,5 @@
 // Servant service used for REST Endpoint
-angular.module('appDashboard').factory("Servant", function($resource, $rootScope) {
+angular.module('appDashboard').factory('Servant', function($resource, $rootScope) {
     return $resource('', null, {
     	getUser: {
             method: 'GET',

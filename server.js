@@ -14,7 +14,7 @@ var config = require('./config/config');
 var port = process.env.PORT || config.app.port;
 
 // Connect to our MongoDB Database
-mongoose.connect(config.db);
+// mongoose.connect(config.db);
 
 // Express Session
 app.use(session({
@@ -48,5 +48,5 @@ require('./app/routes')(app); // pass our application into our routes
 
 // start app ===============================================
 app.listen(port);
-console.log('Servant Boilerplate is now running on port ' + port); // shoutout to the user
+console.log('****** Servant Boilerplate is now running on port ' + port + ' ******'); // shoutout to the user
 exports = module.exports = app; // expose app

@@ -1,4 +1,4 @@
-// include gulp
+// Module Dependencies
 var gulp = require('gulp'),
 	gconcat = require('gulp-concat'),
 	gzip = require('gulp-gzip'),
@@ -6,9 +6,7 @@ var gulp = require('gulp'),
 	csslint = require('gulp-csslint'),
 	ngmin = require('gulp-ngmin'),
 	rename = require('gulp-rename'),
-	uglify = require('gulp-uglify')
-	// , refresh  = require('gulp-livereload')
-	,
+	uglify = require('gulp-uglify'),
 	lr = require('tiny-lr'),
 	spawn = require('child_process').spawn,
 	lrServer = lr(),
@@ -76,15 +74,11 @@ gulp.task('server', function() {
 
 
 // Watch Statements
-gulp.task('default', function() {
+gulp.task('default', ['jsLint', 'build', 'server'], function() {
 
-	gulp.run('jsLint', 'build', 'server');
+	gulp.watch(alljsLocations, ['build', 'server'], function() {});
 
-	gulp.watch(alljsLocations, function() {
-		gulp.run('build', 'server'); // put jsLint back in at some point
-	});
-
-	lrServer.listen(35729, function(err) {
+	lrServer.listen(35731, function(err) {
 		if (err) return console.log(err);
 	});
 

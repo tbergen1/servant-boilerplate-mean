@@ -40,7 +40,7 @@ html, body { height:100%;font-family: "Helvetica Neue",Helvetica,Arial,sans-seri
 #dashboard-navigation ul {margin-bottom:0px;}
 #dashboard-navigation a {text-align: right!important;font-size:11px;}
 #dashboard-content {height:500px;background:#f4f4f4;overflow:hidden!important;-webkit-border-radius:6px;border-radius:6px;border: 1px solid rgba(0,0,0,0.2);-webkit-box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.15), inset 0 1px 0 1px rgba(255,255,255,0.7);box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.15), inset 0 1px 0 1px rgba(255,255,255,0.7);}
-#welcome-notice {min-width:150px;max-width:300px;margin:0px auto;margin-top:30px;}
+#welcome-notice {min-width:150px;max-width:500px;margin:0px auto;margin-top:30px;}
 #welcome-notice h5 {margin:0px 0px 5px 0px;}
 #welcome-notice ul {margin-top:10px;}
 #welcome-notice ul>li {font-weight: 500;padding:3px;}

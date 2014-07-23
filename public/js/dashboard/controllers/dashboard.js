@@ -8,13 +8,16 @@ angular.module('appDashboard').controller('DashboardController', ['$rootScope', 
 			Servant.getUser({
 				token: $rootScope.servant.token
 			}, function(response) {
-				console.log(response)
+				console.log('Servant User Information Fetched: ', response);
 				$rootScope.servant.user = response.user;
 				$rootScope.servant.servants = response.servants;
-				if (!$rootScope.servant.servants.length) alert("You either have on servants on your Servant account, or you have not allowed any to use this application.  Go into your Servant Dashboard to change this: http://www.servant.co")
+				if (!$rootScope.servant.servants.length) alert('You either have on servants on your Servant account, or you have not allowed any to use this application.  Go into your Servant Dashboard to change this: http://www.servant.co');
+			
+				// Check Out the servant.js for data you can retrive next
+
 			}, function(error) {
-				console.log("Error Fetching User From Servant: ", error);
-			})
+				console.log('Error Fetching User From Servant: ', error);
+			});
 
 		};
 
