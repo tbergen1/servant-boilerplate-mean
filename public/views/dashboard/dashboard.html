@@ -1,11 +1,53 @@
-<div class="row">
-	<div id="dashboard-header" class="col-md-12">
-		<a class="pull-right st-font" href="/logout" style="margin-right:50px;">Sign Out</a>
-	</div>
-</div>
+<div id="dashboard-page" class="animated fadeIn" data-ng-controller="DashboardController" data-ng-init="initialize()">
 
-<div class="row">
-	<div class="col-md-12">
-		<h1 class="st-centered st-font">Servant Boilerplate Dashboard</h1>
+	<!-- Dashboard Header -->
+	<div class="row">
+		<div id="dashboard-header" class="col-md-12">
+			<h1 class="st-centered st-font logo animated fadeIn">
+				Servant Boilerplate Dashboard
+			</h1>
+		</div>
 	</div>
+
+	<!-- Dashboard Navigation -->
+	<div class="row">
+		<div id="dashboard-navigation" class="col-md-offset-3 col-md-6">
+			<ul class="list-inline pull-right">
+				<li>
+					<a class="pull-right st-font" href="/logout">Sign Out</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<!-- Dashboard Content -->
+	<div class="row">
+		<div id="dashboard-content" class="col-md-offset-3 col-md-6">
+			
+			<div id="welcome-notice" class="st-sign-outer animated bounceInUp">
+				<div class="st-sign-inner">
+					<h4 class="st-red">
+						Welcome!
+					</h4>
+					<h5>
+						Hi {{ servant.user.display_name }},
+					</h5>
+					<h5>
+						You own the following Servants:
+					</h5>
+					<hr style="width:70%;margin:15px auto 8px auto;">
+					<ul class="list-unstyled">
+						<li data-ng-repeat="servant in servant.servants">
+							<img src="/img/servant_bowtie.png"> {{ servant.personality }} - <span data-ng-show="servant.master">{{ servant.master }}</span><span data-ng-hide="servant.master" style="opacity:0.5">(No Master)</span>
+						</li>
+					</ul>
+					<p data-ng-hide="servant.servants.length">
+						You have no Servnts.  Go to your <a href="http://www.servant.co">Servant account</a> and make one!
+					</p>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
 </div>

@@ -25,7 +25,7 @@ app.use(session({
 		secure: false, // Secure is Recommeneded, However it requires an HTTPS enabled website (SSL Certificate)
 		maxAge: 259200000 // 3 Days in Miliseconds
 	}
-}))
+}));
 
 // Get req.body as JSON when receiving POST requests
 app.use(bodyParser.json()); // parse application/json 

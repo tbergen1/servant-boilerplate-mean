@@ -8,7 +8,7 @@ angular.module('appDashboard').config(['$stateProvider', '$urlRouterProvider',
 			.state('dashboard', {
 				url: '/',
 				templateUrl: 'views/dashboard/dashboard.html'
-			})
+			});
 	}
 ]);
 
