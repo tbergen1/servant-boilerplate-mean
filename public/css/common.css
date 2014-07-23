@@ -20,6 +20,7 @@ a:hover {text-decoration:none;color:#e96c6c;cursor:pointer;}
 
 /* Custom Styles */
 html, body { height:100%;font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;background:#e4e4e4;color:#4d4d4d;padding:15px;}
+[ng\:cloak], [ng-cloak], .ng-cloak { display: none !important; }
 .st-centered {text-align: center}
 .st-font {font-family: 'trend_sans_oneregular';text-transform: uppercase!important;letter-spacing:-1px;}
 .st-sign-outer {background:#ffffff;padding:2px;margin:10px auto;height:auto;-webkit-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.3);box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.3);border-top:1px solid rgba(0,0,0,0.2);border-right:1px solid rgba(0,0,0,0.2);border-left:1px solid rgba(0,0,0,0.2);}

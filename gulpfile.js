@@ -66,9 +66,8 @@ gulp.task('server', function() {
 		stdio: 'inherit'
 	});
 	node.on('close', function(code) {
-		if (code === 8) {
-			console.log('Error detected, waiting for changes...');
-		}
+		if (code === 8) console.log('Error detected, waiting for changes...');
+		lrServer.close();
 	});
 });
 
