@@ -7,10 +7,10 @@
     "angular-resource": "latest",
     "angular-cookies": "latest",
     "angular-ui-router": "latest",
-    "angular-ui-bootstrap": "0.11.0",
     "angular-local-storage": "~0.0.5",
     "animate.css": "~3.2.0",
     "font-awesome": "4.1.0",
-    "jquery": "1.11.1"
+    "jquery": "1.11.1",
+    "angular-bootstrap": "~0.11.0"
   }
 }

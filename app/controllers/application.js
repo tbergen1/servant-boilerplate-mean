@@ -1,36 +1,33 @@
-'use strict';
 
 // Module dependencies.
+var Servant = require('servant-sdk').Servant,
+	config = require('../../config/config');
 
-var Servant    = require('servant-sdk').Servant;
-var production = true;
-
+// Instantiate Servant SDK depending on development environment
 if (process.env.NODE_ENV && process.env.NODE_ENV === 'production') {
-	var servant = new Servant('client_tZql5PhG0n9UGgqH', 'secret_k4rrst9m97KK3i2wA2Lo4zpde5tAyxne', 'http://showcase-servantapp.herokuapp.com/auth/servant/callback', 'v1');
+	var servant = new Servant(config.servant.client_key, config.servant.client_secret, 'Enter Your Production Callback URL Here', 'v1');
 } else {
-	// Showcase Development - Servant Production
-	// var servant = new Servant('client_tZql5PhG0n9UGgqH', 'secret_k4rrst9m97KK3i2wA2Lo4zpde5tAyxne', 'http://localhost:3000/auth/servant/callback', 'v1');
-	// Showcase Development - Servant Develpment
-	var servant = new Servant('client_TGR5njDGddHolod5', 'secret_wnxIfNdEDPcuzvRejDDJgLLspSLWzTGw', 'http://localhost:3000/auth/servant/callback', 'v1');
-};
+	var servant = new Servant(config.servant.client_key, config.servant.client_secret, 'http://localhost:8080/auth/servant/callback', 'v1');
+}
 
 var home = function(req, res) {
-	res.render('home');
+	res.render('home', {connect_url: config.servant.connect_url});
 };
 
-var stage = function(req, res, token) {
-	res.render('stage');
+var dashboard = function(req, res) {
+	res.render('dashboard');
 };
 
 var callback = function(req, res) {
 	servant.getAccessToken(req, function(error, tokens) {
+		console.log(error, tokens);
 		// Add Only The Client Token
-		res.redirect('/stage/#!/products?client_token=' + tokens.client_token);
+		res.redirect('/');
 	});
 };
 
 module.exports = {
-    home:           home,
-    stage:          stage,
-    callback:       callback
-}
+	home: home,
+	dashboard: dashboard,
+	callback: callback
+};

@@ -1,6 +1,11 @@
 {
-    "db": "",
-    "app": {
-        "name": "Servant Boilerplate – MEAN"
-    }
+	"db": "mongodb://localhost/servant-boilerplate-mean-dev",
+	"app": {
+		"name": "Servant Boilerplate – MEAN (Development Version)"
+	},
+	"servant": {
+		"client_key": "",
+		"client_secret": "",
+		"connect_url": "http://www.servant.co/connect/v1/oauth2/authorize?response_type=code&client_id=client_l73nGEZOueTTIG7v&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fauth%2Fservant%2Fcallback"
+	}
 }

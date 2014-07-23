@@ -1,15 +1,19 @@
-// modules =================================================
+// Module Dependencies
 var express = require('express');
 var app = express();
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
+
 // Set Environment from ENV variable or default to development
 var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 var config = require('./config/config');
 
-var port = process.env.PORT || 8080; // set our port
-mongoose.connect(config.db); // connect to our mongoDB database
+// Set Port
+var port = process.env.PORT || config.app.port;
+
+// Connect to our MongoDB Database
+mongoose.connect(config.db);
 
 // Get req.body as JSON when receiving POST requests
 app.use(bodyParser.json()); // parse application/json 
