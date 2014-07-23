@@ -17,14 +17,18 @@ a:hover {text-decoration: none}
 
 /* Custom Styles */
 html, body { height:100%;font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;background:#f2f2f2;color:#4d4d4d; }
+.st-centered {text-align: center}
 .st-font {font-family: 'trend_sans_oneregular';text-transform: uppercase!important;}
 
 /* Home Page */
 #logo-container {padding-top:50px;text-align: center;}
 #logo-container .logo {letter-spacing: -2px}
-#logo-container .tagline {color:#666666;font-size:12px;letter-spacing: -0.5px;padding-top:10px;}
+#logo-container .tagline {color:#777777;font-size:12px;letter-spacing: -0.5px;padding-top:10px;}
 #logo-container .tagline span {margin:0px 5px;}
 #logo-container .tagline i {opacity:0.2;}
 #info-container {padding-top:30px;text-align: center;}
+
+/* Dashboard */
+#dashboard-container {height:100%;}
 
 

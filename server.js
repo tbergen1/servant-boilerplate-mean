@@ -3,6 +3,7 @@ var express = require('express');
 var app = express();
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
+var session = require('express-session');
 var methodOverride = require('method-override');
 
 // Set Environment from ENV variable or default to development
@@ -14,6 +15,17 @@ var port = process.env.PORT || config.app.port;
 
 // Connect to our MongoDB Database
 mongoose.connect(config.db);
+
+// Express Session
+app.use(session({
+	secret: 'NAEMETALPRELIOBTNAVRES',
+	resave: true,
+	saveUninitialized: true,
+	cookie: {
+		secure: false, // Secure is Recommeneded, However it requires an HTTPS enabled website (SSL Certificate)
+		maxAge: 259200000 // 3 Days in Miliseconds
+	}
+}))
 
 // Get req.body as JSON when receiving POST requests
 app.use(bodyParser.json()); // parse application/json 
