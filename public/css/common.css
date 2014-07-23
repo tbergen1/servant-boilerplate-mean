@@ -23,6 +23,8 @@ html, body { height:100%;font-family: "Helvetica Neue",Helvetica,Arial,sans-seri
 #logo-container {padding-top:50px;text-align: center;}
 #logo-container .logo {letter-spacing: -2px}
 #logo-container .tagline {color:#666666;font-size:12px;letter-spacing: -0.5px;padding-top:10px;}
+#logo-container .tagline span {margin:0px 5px;}
+#logo-container .tagline i {opacity:0.2;}
 #info-container {padding-top:30px;text-align: center;}
 
 
