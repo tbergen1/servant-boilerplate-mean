@@ -1,7 +1,9 @@
 {
 	"db": "mongodb://localhost/servant-boilerplate-mean-dev",
 	"app": {
-		"name": "Servant Boilerplate – MEAN (Development Version)"
+		"name": "Servant Boilerplate – MEAN Stack",
+		"description" : "Use this boilerplate application to rapidly build Servant applications!",
+		"keywords": "servant, content, cloud, cms, data, blog, products, events"
 	},
 	"servant": {
 		"client_key": "",

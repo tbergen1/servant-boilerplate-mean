@@ -3,20 +3,20 @@ head
 	meta(http-equiv='X-UA-Compatible', content='IE=edge,chrome=1')
 	meta(name='viewport', content='width=device-width,initial-scale=1')
 
-	title= 'Servant Boilerplate – MEAN'
+	title #{name}
 	meta(http-equiv='Content-type', content='text/html; charset=UTF-8')
-	meta(name='keywords', content='servant, content, cloud, blog, products, events')
-	meta(name='description', content='A Boilerplate App')
+	meta(name='keywords', content='#{keywords}')
+	meta(name='description', content='#{description}')
 
 	link(href='/img/icons/favicon.ico', rel='shortcut icon', type='image/x-icon')
 
 	meta(property='fb:app_id', content='APP_ID')
-	meta(property='og:title', content='#{appName} - #{title}')
-	meta(property='og:description', content='Showcase - Show Off The Products On Your Servant With This Swipeable App!')
+	meta(property='og:title', content='#{name} - #{description}')
+	meta(property='og:description', content='#{name} - #{description}')
 	meta(property='og:type', content='website')
 	meta(property='og:url', content='APP_URL')
 	meta(property='og:image', content='APP_LOGO')
-	meta(property='og:site_name', content='Showcase - Show Off The Products On Your Servant With This Swipeable App!')
+	meta(property='og:site_name', content='#{name} - #{description}')
 	meta(property='fb:admins', content='APP_ADMIN')
 
 	link(rel='stylesheet', href='/libs/bootstrap/dist/css/bootstrap.min.css')
