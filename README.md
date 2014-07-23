@@ -11,6 +11,8 @@ A Servant Boilerplate Application already integrated with Servant built on the M
 * **Production Optimizations:** Minifies javascript files for use in production and more.
 
 
+## Installation & Set-Up
+
 ### Database / Sessions
 
 Servant hosts most of the User's data for you, so a database may not be required.  However, this app is ready to be used with or without a database.  
