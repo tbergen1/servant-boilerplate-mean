@@ -35,3 +35,12 @@ Servant hosts most User Data for you, so a database may not be required.  Howeve
 This is the fastest way to get up and running.  The app is set up so that it will store the User's *User ID, Access Token & Client Token* from their Servant account in cookies.  A potential downside is that any time the server is restarted, the user will need to Connect again via the Connect Servant button.  During development, this is kind of a pain, but the Connect process is quick and streamlined.  Further, your production application won't be restarted frequently.
 
 Please note that we highly recommend getting an SSL certificate if you go this route.
+
+
+
+## Deploying To Heroku:
+
+Remember to set the following environment variables on your Heroku Server:
+* NODE_ENV = production
+* SERVANT_CLIENT_KEY = yourclientkey
+* SERVANT_SECRET_KEY = yoursecretkey

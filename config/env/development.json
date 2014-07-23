@@ -8,7 +8,7 @@
     },
     "servant": {
     	"client_key": "client_l73nGEZOueTTIG7v",
-        "client_secret": "secret_xJCCqwWtAbX8ag322Ue3wjtcbUy88twK",
-        "connect_url": "http://www.servant.co/connect/v1/oauth2/authorize?response_type=code&client_id=client_l73nGEZOueTTIG7v&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fauth%2Fservant%2Fcallback"
+        "client_secret": "",
+        "connect_url": ""
     }
 }

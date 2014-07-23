@@ -13,7 +13,7 @@ var config = require('./config/config');
 // Set Port
 var port = process.env.PORT || config.app.port;
 
-// Connect to our MongoDB Database
+// Connect to our MongoDB Database 
 // mongoose.connect(config.db);
 
 // Express Session
