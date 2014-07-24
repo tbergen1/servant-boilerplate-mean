@@ -16,6 +16,7 @@
     "method-override": "~2.0.2",
     "mongoose": "~3.8.0",
     "servant-sdk": "git://github.com/ac360/servant-node-sdk.git",
+    "serve-favicon": "^2.0.1",
     "tiny-lr": "0.0.9"
   },
   "devDependencies": {
