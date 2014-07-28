@@ -20,21 +20,21 @@ Go to http://www.servant.co and register your application in the dashboard.
 
 Enter this Redirect URL: *http://localhost:8080/auth/servant/callback*
 
-### Part 2 – Database or Session Storage:
-
-Servant hosts most User Data for you, so a database may not be required.  However, this app is ready to be used with or without a database.  
-
+### Part 2 – Session Storage: Cookies or Database:
+necessary.  However, this app is ready to be used with or without a database.  
 ##### How To Tell If You Need To Use A Database...
 
 * If you need to store additional data types that Servant does not work with, or expand upon the Data Archetypes, then we recommend using a database, and the application is set up to use MongoDB.  
 
 * If you are planning on only modifying and displaying data hosted on Users' Servants, then we recommend not using a database.
 
-##### Setting Up Session Storage
+##### Setting Up Sessions Storage Using Cookies
 
-This is the fastest way to get up and running.  The app is set up so that it will store the User's *User ID, Access Token & Client Token* from their Servant account in cookies.  A potential downside is that any time the server is restarted, the user will need to Connect again via the Connect Servant button.  During development, this is kind of a pain, but the Connect process is quick and streamlined.  Further, your production application won't be restarted frequently.
+This is the fastest way to get up and running.  The app is set up so that it will store the User's *Servant User ID, Access Token & Client Token* from their Servant account in cookies.  A potential downside is that any time the server is restarted, the user will need to Connect again via the Connect Servant button.  During development, this is kind of a pain, but the Connect process is quick and streamlined.  Further, your production application won't be restarted frequently.
 
 Please note that we highly recommend getting an SSL certificate if you go this route.
+
+##### Setting Up Sessions Storage Using A Database
 
 
 
