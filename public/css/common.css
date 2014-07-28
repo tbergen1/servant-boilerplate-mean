@@ -34,6 +34,7 @@ html, body { height:100%;font-family: "Helvetica Neue",Helvetica,Arial,sans-seri
 #logo-container .tagline i {opacity:0.2;}
 #info-container {padding-top:30px;text-align: center;}
 
+
 /* Dashboard */
 #dashboard-page {height:100%;}
 #dashboard-header .logo {letter-spacing: -1px;margin-top:5px;font-size:18px;}
