@@ -4,12 +4,12 @@ angular.module('appDashboard').factory('Servant', function($resource, $rootScope
     	getUser: {
             method: 'GET',
             isArray: false,
-            url: 'http://www.servant.co/api/v1/:token/user'
+            url: 'http://api.servant.co/v0/:token/user'
         },
         getProducts: {
             method: 'GET',
             isArray: false,
-            url: 'http://www.servant.co/api/v1/:token/servants/:servantID/products'
+            url: 'http://api.servant.co/v0/:token/servants/:servantID/products'
         }
     });
 });

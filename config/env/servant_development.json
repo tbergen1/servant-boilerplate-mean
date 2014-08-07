@@ -7,8 +7,8 @@
         "port": 8080
     },
     "servant": {
-        "client_id": "",
-        "client_secret": "",
-        "connect_url": ""
+        "client_id": "client_pIljIPVji25eSSRR",
+        "client_secret": "secret_Wrfp65WLI12vxStH9yptHsRwsC7I9OPi",
+        "connect_url": "http://lvh.me:4000/connect/v0/oauth2/authorize?response_type=code&client_id=client_pIljIPVji25eSSRR&redirect_url=http%3A%2F%2Flocalhost%3A8080%2Fauth%2Fservant%2Fcallback"
     }
 }

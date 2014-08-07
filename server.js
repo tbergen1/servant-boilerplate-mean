@@ -10,7 +10,7 @@ var favicon = require('serve-favicon');
 var methodOverride = require('method-override');
 
 // Set Environment from ENV variable or default to development
-var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+var env = process.env.NODE_ENV = process.env.NODE_ENV || 'servant_development'; // Change to 'servant_development' for testing with a local copy of Servant
 var config = require('./config/config');
 
 // Set Port
@@ -54,7 +54,7 @@ app.use(session({
 		secure: false, // Secure is Recommeneded, However it requires an HTTPS enabled website (SSL Certificate)
 		maxAge: 864000000 // 10 Days in miliseconds
 	}
-}))
+}));
 
 // Favicon
 app.use(favicon(__dirname + '/public/img/favicon.ico'));
@@ -82,3 +82,5 @@ require('./app/routes')(app); // pass our application into our routes
 app.listen(port);
 console.log('****** Servant Boilerplate is now running on port ' + port + ' ******'); // shoutout to the user
 exports = module.exports = app; // expose app
+
+// End
