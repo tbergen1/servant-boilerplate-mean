@@ -1,5 +1,9 @@
 {
   "name": "servant-boilerplate-mean",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/servant-cmes/servant-boilerplate-mean.git"
+  },
   "engines": {
     "node": "0.10.x",
     "npm": "1.2.x"

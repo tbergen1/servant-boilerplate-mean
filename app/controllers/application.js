@@ -5,9 +5,9 @@ var mongoose = require('mongoose'),
 
 // Instantiate Servant SDK depending on development environment
 if (process.env.NODE_ENV && process.env.NODE_ENV === 'production') {
-	var Servant = require('servant-sdk')(process.env.SERVANT_CLIENT_ID, process.env.SERVANT_SECRET_KEY, 'Enter Your Production Callback URL Here', 0);
+	var Servant = require('servant-sdk-node')(process.env.SERVANT_CLIENT_ID, process.env.SERVANT_SECRET_KEY, 'Enter Your Production Callback URL Here', 0);
 } else {
-	var Servant = require('servant-sdk')(config.servant.client_id, config.servant.client_secret, 'http://localhost:8080/auth/servant/callback', 0);
+	var Servant = require('servant-sdk-node')(config.servant.client_id, config.servant.client_secret, 'http://localhost:8080/auth/servant/callback', 0);
 }
 
 // Render Either Home Page or Dashboard Page If User is Logged In
