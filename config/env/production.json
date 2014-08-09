@@ -6,8 +6,6 @@
 		"keywords": "servant, content, cloud, cms, data, blog, products, events"
 	},
 	"servant": {
-		"client_id": "",
-		"client_secret": "",
 		"connect_url": ""
 	}
 }
