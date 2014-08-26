@@ -10,7 +10,7 @@ var favicon = require('serve-favicon');
 var methodOverride = require('method-override');
 
 // Set Environment from ENV variable or default to development
-var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development'; // Change to 'servant_development' for testing with a local copy of Servant
+var env = process.env.NODE_ENV = process.env.NODE_ENV || 'servant_development'; // Change to 'servant_development' for testing with a local copy of Servant
 var config = require('./config/config');
 
 // Set Port

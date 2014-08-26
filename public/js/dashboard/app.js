@@ -11,7 +11,7 @@ angular.module('appDashboard').run(['$rootScope', '$timeout', '$interval',
 	function($rootScope, $timeout, $interval) {
 
 		// Defaults
-		
+		$rootScope.servant = {};
 
 	}
 ]);
