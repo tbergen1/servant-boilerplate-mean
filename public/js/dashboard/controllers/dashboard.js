@@ -14,7 +14,7 @@ angular.module('appDashboard').controller('DashboardController', ['$rootScope', 
 					$rootScope.servant.servants = response.servants;
 					if (!$rootScope.servant.servants.length) alert('You either have on servants on your Servant account, or you have not allowed any to use this application.  Go into your Servant Dashboard to change this: http://www.servant.co');
 					console.log('Servant User Information Fetched: ', $rootScope.servant);
-				})
+				});
 			}, function(error) {
 				console.log('Error Fetching User From Servant: ', error);
 			});

@@ -10,7 +10,7 @@
     "latedef": true, // Prohibit variable use before definition.
     "newcap": true, // Require capitalization of all constructor functions e.g. `new F()`.
     "noarg": true, // Prohibit use of `arguments.caller` and `arguments.callee`.
-    "quotmark": "single", // Define quotes to string values.
+    "quotmark": "true", // Define quotes to string values.
     "regexp": true, // Prohibit `.` and `[^...]` in regular expressions.
     "undef": true, // Require all non-global variables be declared before they are used.
     "unused": false, // Warn unused variables.
@@ -19,6 +19,8 @@
     "smarttabs": false, // Suppresses warnings about mixed tabs and spaces
     "globals": { // Globals variables.
         "angular": true,
+        "Servant": true,
+        "servant": true,
         "$": true
     },
     "predef": [ // Extra globals.
@@ -34,7 +36,7 @@
         "it"
     ],
     "indent": 4, // Specify indentation spacing
-    "maxlen": 400, // Max line lenght
+    "maxlen": false, // Max line lenght
     "laxcomma": true, // Comma warnings
     "devel": true, // Allow development statements e.g. `console.log();`.
     "noempty": true // Prohibit use of empty blocks.
