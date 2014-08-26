@@ -3,6 +3,9 @@ script(type='text/javascript', src='/libs/jquery/dist/jquery.min.js')
 //- Bootstrap
 script(type='text/javascript', src='/libs/bootstrap/dist/js/bootstrap.min.js')
 
+//- Servant-SDK-Javascript
+script(type='text/javascript', src='/libs/servant-sdk-javascript/servant_sdk_javascript.js')
+
 //- AngularJS
 script(type='text/javascript', src='/libs/angular/angular.js')
 script(type='text/javascript', src='/libs/angular-resource/angular-resource.js')
@@ -18,6 +21,9 @@ if (process.env.NODE_ENV === 'production')
 //-  If Site is not in Production, use raw assets, which make it easier for debugging
 if (process.env.NODE_ENV !== 'production')
 
+	//- Application Init File
+	script(type='text/javascript', src='/js/dashboard/init.js')
+
 	//- Application Files
 	script(type='text/javascript', src='/js/dashboard/app.js')
 	script(type='text/javascript', src='/js/dashboard/config.js')
@@ -25,7 +31,6 @@ if (process.env.NODE_ENV !== 'production')
 	script(type='text/javascript', src='/js/dashboard/filters.js')
 
 	//- Application Services
-	script(type='text/javascript', src='/js/dashboard/services/servant.js')
 
 	//- Application Controllers
 	script(type='text/javascript', src='/js/dashboard/controllers/dashboard.js')

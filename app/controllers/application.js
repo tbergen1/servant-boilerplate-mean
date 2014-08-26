@@ -1,18 +1,25 @@
 // Module dependencies.
 var mongoose = require('mongoose'),
 	User = mongoose.model('User'),
+	request = require('request'),
 	config = require('../../config/config');
 
-// Instantiate Servant SDK depending on development environment
+/**
+ * Instantiate Servant SDK depending on development environment
+ */
 if (process.env.NODE_ENV && process.env.NODE_ENV === 'production') {
 	var Servant = require('servant-sdk-node')(process.env.SERVANT_CLIENT_ID, process.env.SERVANT_SECRET_KEY, 'Enter Your Production Callback URL Here', 0);
 } else {
 	var Servant = require('servant-sdk-node')(config.servant.client_id, config.servant.client_secret, 'http://localhost:8080/auth/servant/callback', 0);
 }
 
-// Render Either Home Page or Dashboard Page If User is Logged In
+
+
+/**
+ * Render Either Home Page or Dashboard Page If User is Logged In
+ */
 var index = function(req, res) {
-	// Variables to pass into the views
+	// Variables to pass into the views using Jade templates
 	var variables = {
 		connect_url: config.servant.connect_url,
 		name: config.app.name,
@@ -20,7 +27,7 @@ var index = function(req, res) {
 		keywords: config.app.keywords,
 		environment: process.env.NODE_ENV
 	};
-	variables.token = req.session.servant !== undefined ? req.session.servant.client_token : undefined;
+	variables.access_token = req.session.servant !== undefined ? req.session.servant.access_token : undefined;
 
 	if (req.session.servant && req.session.servant.user_id) {
 		res.render('dashboard', variables);
@@ -29,43 +36,33 @@ var index = function(req, res) {
 	}
 };
 
-// Log Out User & Redirect
+
+
+/**
+ * Log Out User & Redirect
+ */
 var logout = function(req, res) {
 	// Destroy The Session, And Redirect
 	req.session = null;
 	res.redirect('/');
 };
 
-// Handle Servant Authentication Callback
+
+
+/**
+ * Handle Servant Authentication Callback
+ */
 var authenticationCallback = function(req, res) {
 
-	// ****** COOKIES-ONLY VERSION – Get Access Token via Servant-SDK
-	// Servant.getAccessToken(req, function(error, tokens) {
-	// 	if (error) {
-	// 		console.log(error);
-	// 		return res.redirect('/');
-	// 	}
-	// 	// Save User Data & API Tokens To Session (SSL Certificate Is Recommened For Production + Set Session Secure to 'true' in Server.js)
-	// 	req.session.servant = {
-	// 		user_id: tokens.user_id,
-	// 		client_token: tokens.client_token
-	// 	};
-
-	// 	res.redirect('/');
-
-	// });
-
-	// ****** DATABASE VERSION – Get Access Token via Servant-SDK
-	Servant.getAccessToken(req, function(error, tokens) {
-
+	// Exchange Authorization Code for an AccessToken and a RefreshToken
+	Servant.exchangeAuthCode(req, function(error, tokens) {
 		if (error) {
 			console.log(error);
 			return res.redirect('/');
 		}
-
-		// Fetch User's data from Servant & build a profile with it
+		// Fetch User's data from Servant & save user to your database
 		Servant.getUser({
-			token: tokens.access_token
+			access_token: tokens.access_token
 		}, function(error, servantUser) {
 
 			if (error) {
@@ -92,7 +89,7 @@ var authenticationCallback = function(req, res) {
 					appUser.username = servantUser.user.username;
 					appUser.servant_user_id = servantUser.user._id;
 					appUser.servant_access_token = tokens.access_token;
-					appUser.servant_client_token = tokens.client_token;
+					appUser.servant_refresh_token = tokens.refresh_token;
 					appUser.save(function(error, savedUser) {
 						if (error) return console.log(error);
 						return callback(savedUser);
@@ -107,18 +104,34 @@ var authenticationCallback = function(req, res) {
 					req.session.servant = {
 						user_id: savedUser.servant_user_id,
 						user: savedUser,
-						client_token: tokens.client_token
+						access_token: tokens.access_token
 					};
+
 					return res.redirect('/');
+
 				}); // saveUser()
+
 			}); // User.findOne
 		}); // Servant.getUser
-	}); // Servant.getAccessToken
-
+	}); // Servant.exchangeAuthCode
 }; // authenticationCallback
+
+
+
+/**
+ * Refresh AccessToken - Example/Helper function showing how to refresh AccessToken
+ */
+
+// Servant.refreshAccessToken(req.user.servant_refresh_token, function(error, tokens) {
+// 	console.log(errors, tokens)
+// });
+
+
 
 module.exports = {
 	index: index,
 	logout: logout,
 	authenticationCallback: authenticationCallback
 };
+
+// End

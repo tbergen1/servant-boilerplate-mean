@@ -35,6 +35,10 @@ var UserSchema = new Schema({
 		type: String,
 		unique: true
 	},
+	servant_refresh_token: {
+		type: String,
+		unique: true
+	},
 	servant_client_token: {
 		type: String,
 		unique: true
