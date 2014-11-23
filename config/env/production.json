@@ -6,6 +6,6 @@
 		"keywords": "servant, content, cloud, cms, data, blog, products, events"
 	},
 	"servant": {
-		"connect_url": ""
+		"connect_url": "https://www.servant.co/connect/oauth2/authorize?response_type=code&client_id=hOphQRk34e8Ryd3l"
 	}
 }

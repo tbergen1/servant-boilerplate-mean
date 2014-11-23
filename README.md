@@ -1,5 +1,7 @@
 # Servant Boilerplate: MEAN Stack
 
+###Unstable - This is currently under active development, and will be ready for use in a few days.
+
 A Servant Boilerplate Application already integrated with Servant built on the MEAN (MongoDB, Express, Angular, Node) stack.  Use this to rapidly build Servant applications by starting with this boilerplate application.  We do!
 
 ## Features:

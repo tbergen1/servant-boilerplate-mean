@@ -2,7 +2,7 @@
   "name": "servant-boilerplate-mean",
   "repository": {
     "type": "git",
-    "url": "https://github.com/servant-cmes/servant-boilerplate-mean.git"
+    "url": "https://github.com/servant-app/servant-boilerplate-mean.git"
   },
   "engines": {
     "node": "0.10.x",
@@ -20,9 +20,9 @@
     "lodash": "^2.4.1",
     "method-override": "~2.0.2",
     "mongoose": "~3.8.0",
-    "servant-sdk-node": "git://github.com/servant-cmes/servant-sdk-node.git",
-    "serve-favicon": "^2.0.1",
     "request": "2.40.0",
+    "servant-sdk-node": "git://github.com/servant-app/servant-sdk-node.git",
+    "serve-favicon": "^2.0.1",
     "tiny-lr": "0.0.9"
   },
   "devDependencies": {
