@@ -1,48 +1,34 @@
 # Servant Boilerplate: MEAN Stack
 
-###Unstable - This is currently under active development, and will be ready for use in a few days.
-
-A Servant Boilerplate Application already integrated with Servant built on the MEAN (MongoDB, Express, Angular, Node) stack.  Use this to rapidly build Servant applications by starting with this boilerplate application.  We do!
+A Servant Boilerplate Application already integrated with [Servant](https://www.servant.co) built on the MEAN (MongoDB, Express, Angular, Node) stack.  Use this to rapidly build Servant applications by starting with this boilerplate application.  It's what we use! –  The Servant Team
 
 ## Features:
 
 * **Lean MEAN Stack:** There is very little bloat in this version of the MEAN stack.
 * **User Management:** User Authentication via Servant is already built and ready to use.  Authentication libraries like Passport are not needed!
 * **Single Page Application:** Architected to be a Single Page Application.
-* **Database Not Necessary:** A MongoDB database is set-up, but since this is a Servant app, you may only need cookies to store minimal amounts of data.
+* **Database:** A MongoDB database is set-up and user records are stored automatically when a user connects their servants.
+* **Webhooks:** Webhook integration is already set up.  Every time content is created/edited/destroyed on a Servant connected to this app, this app is notified.
 * **Production Optimizations:** Minifies javascript files for use in production and more.
 * **Servant Visual Elements:** Servant graphics, colors & fonts included for matching Servant's visual style
 
 
 ## Installation & Set-Up:
 
-### Part 1 – Register Your Application:
+### Register Your Application On Servant:
 
-Go to http://www.servant.co and register your application in the dashboard.  
+Go to https://www.servant.co and register your application in the dashboard.  
 
-Enter this Redirect URL: *http://localhost:8080/auth/servant/callback*
+Enter this Redirect URL: *http://localhost:8080/servant/callback*
 
-### Part 2 – Session Storage: Cookies or Database:
-necessary.  However, this app is ready to be used with or without a database.  
-##### How To Tell If You Need To Use A Database...
-
-* If you need to store additional data types that Servant does not work with, or expand upon the Data Archetypes, then we recommend using a database, and the application is set up to use MongoDB.  
-
-* If you are planning on only modifying and displaying data hosted on Users' Servants, then we recommend not using a database.
-
-##### Setting Up Sessions Storage Using Cookies
-
-This is the fastest way to get up and running.  The app is set up so that it will store the User's *Servant User ID, Access Token & Client Token* from their Servant account in cookies.  A potential downside is that any time the server is restarted, the user will need to Connect again via the Connect Servant button.  During development, this is kind of a pain, but the Connect process is quick and streamlined.  Further, your production application won't be restarted frequently.
-
-Please note that we highly recommend getting an SSL certificate if you go this route.
-
-##### Setting Up Sessions Storage Using A Database
-
-
-
-## Deploying To Heroku:
+### Deploying To Heroku:
 
 Remember to set the following environment variables on your Heroku Server:
 * NODE_ENV = production
-* SERVANT_CLIENT_KEY = yourclientkey
+* SERVANT_CLIENT_ID = yourclientkey
 * SERVANT_SECRET_KEY = yoursecretkey
+
+Use this command: 
+
+    heroku config:set SERVANT_CLIENT_ID=yourclientkey
+
