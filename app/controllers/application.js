@@ -61,7 +61,7 @@ var servantConnectCallback = function(req, res) {
                 if (error) return callback(error, null);
                 // Set Properties
                 var servant_user = response.user;
-                if (!user) var user = new User();
+                if (!user) user = new User();
                 user.full_name = servant_user.full_name;
                 user.nick_name = servant_user.nick_name;
                 user.email     = servant_user.email;
@@ -77,7 +77,7 @@ var servantConnectCallback = function(req, res) {
                 });      
             });
         }); // Servant.getUserAndServants
-    } // _saveUser()
+    }; // _saveUser()
 
     // If AuthorizationCode was included in the parameters, the user hasn't authorized. Exchange AuthCode For Tokens
     if (req.query.code) {

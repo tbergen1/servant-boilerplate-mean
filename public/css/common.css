@@ -34,10 +34,9 @@ html, body { height:100%;font-family: "Helvetica Neue",Helvetica,Arial,sans-seri
 #logo-container .tagline i {opacity:0.2;}
 #info-container {padding-top:30px;text-align: center;}
 
-
 /* Dashboard */
 #dashboard-page {height:100%;}
-#dashboard-header .logo {letter-spacing: -1px;margin-top:5px;font-size:18px;}
+#dashboard-header .logo {letter-spacing: -1px;margin-top:5px;font-size:14px;}
 #dashboard-navigation {padding:0px;}
 #dashboard-navigation ul {margin-bottom:0px;}
 #dashboard-navigation a {text-align: right!important;font-size:11px;}

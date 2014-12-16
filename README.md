@@ -12,12 +12,23 @@ A Servant Boilerplate Application already integrated with [Servant](https://www.
 * **Production Optimizations:** Minifies javascript files for use in production and more.
 * **Servant Visual Elements:** Servant graphics, colors & fonts included for matching Servant's visual style
 
+### Install Dependencies & Go!
+Run: 
 
-## Installation & Set-Up:
+    npm install
+
+This app uses Gulp, to launch the application run:
+
+    gulp
+
+Navigate your browser to:
+
+    http://localhost:8080
+
 
 ### Register Your Application On Servant:
 
-Go to https://www.servant.co and register your application in the dashboard.  
+When you are ready to make this your own application, go to https://www.servant.co and register your application in the dashboard.  
 
 Enter this Redirect URL: *http://localhost:8080/servant/callback*
 

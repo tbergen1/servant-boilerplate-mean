@@ -18,22 +18,6 @@ var serverjsLocations = ['./app/controllers/*.js', './app/controllers/api/*.js',
 	homejsLocations = ['./public/js/home/**/*.js'],
 	alljsLocations = serverjsLocations.concat(dashboardjsLocations, homejsLocations),
 	cssLocations = ['./public/css/*.css'];
-// , jadeLocations          = ['./app/views/*.jade', './app/views/includes/*.jade', './app/views/layouts/*.jade', './app/views/oauth/*.jade']
-// , viewLocations          = ['./public/views/*.html', './public/views/content/*.html', './public/views/content/products/*.html', './public/views/footer/*.html', './public/views/header/*.html', './public/views/modals/*.html'];
-
-// JS hint task
-gulp.task('jsLint', function() {
-	gulp.src(alljsLocations)
-		.pipe(jshint())
-		.pipe(jshint.reporter('jshint-stylish'));
-});
-
-// CSSLint Task
-gulp.task('cssLint', function() {
-	gulp.src(cssLocations)
-		.pipe(csslint())
-		.pipe(csslint.reporter());
-});
 
 // Build Task
 gulp.task('build', function() {
@@ -71,9 +55,8 @@ gulp.task('server', function() {
 	});
 });
 
-
 // Watch Statements
-gulp.task('default', ['jsLint', 'build', 'server'], function() {
+gulp.task('default', ['build', 'server'], function() {
 
 	gulp.watch(alljsLocations, ['build', 'server'], function() {});
 
