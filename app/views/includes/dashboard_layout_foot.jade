@@ -1,17 +1,11 @@
-script(type='text/javascript', src='/libs/jquery/dist/jquery.min.js')
-
-//- Bootstrap
-script(type='text/javascript', src='/libs/bootstrap/dist/js/bootstrap.min.js')
-
-//- Servant-SDK-Javascript
-script(type='text/javascript', src='/libs/servant-sdk-javascript/servant_sdk_javascript.js')
-
-//- AngularJS
-script(type='text/javascript', src='/libs/angular/angular.js')
-script(type='text/javascript', src='/libs/angular-resource/angular-resource.js')
-script(type='text/javascript', src='/libs/angular-ui-router/release/angular-ui-router.min.js')
-script(type='text/javascript', src='/libs/angular-bootstrap/ui-bootstrap-tpls.min.js')
-script(type='text/javascript', src='/libs/angular-local-storage/angular-local-storage.min.js')
+script(type='text/javascript', src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js')
+script(type='text/javascript', src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/js/bootstrap.min.js')
+script(type='text/javascript', src='https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.min.js')
+script(type='text/javascript', src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.20/angular-resource.min.js')
+script(type='text/javascript', src='https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.11.0/ui-bootstrap-tpls.min.js')
+script(type='text/javascript', src='https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.11/angular-ui-router.min.js')
+//- Servant SDK
+script(type='text/javascript', src='https://d2d0226i04jal.cloudfront.net/sdk/1/servant.js')
 
 //-  If Site is in Production, use minfied assets
 if (process.env.NODE_ENV === 'production')
@@ -21,18 +15,13 @@ if (process.env.NODE_ENV === 'production')
 //-  If Site is not in Production, use raw assets, which make it easier for debugging
 if (process.env.NODE_ENV !== 'production')
 
-	//- Application Init File
-	script(type='text/javascript', src='/js/dashboard/init.js')
-
-	//- Application Files
+	//- Angular Core
 	script(type='text/javascript', src='/js/dashboard/app.js')
 	script(type='text/javascript', src='/js/dashboard/config.js')
 	script(type='text/javascript', src='/js/dashboard/directives.js')
 	script(type='text/javascript', src='/js/dashboard/filters.js')
-
-	//- Application Services
-	script(type='text/javascript', src='/js/dashboard/services/servant.js')
-
-	//- Application Controllers
+	//- Angular Services
+	script(type='text/javascript', src='/js/dashboard/services/servant_sdk_service.js')
+	//- Angular Controllers
 	script(type='text/javascript', src='/js/dashboard/controllers/dashboard.js')
 	

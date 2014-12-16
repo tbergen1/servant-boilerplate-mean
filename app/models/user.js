@@ -1,21 +1,14 @@
-// ****** DATABASE VERSION – USER Model – Use this if you are using a database
-
 // Module dependencies.
 var mongoose = require('mongoose'),
 	Schema = mongoose.Schema;
 
-
 // User Schema
 var UserSchema = new Schema({
-	first_name: {
+	full_name: {
 		type: String,
 		trim: true
 	},
-	last_name: {
-		type: String,
-		trim: true
-	},
-	display_name: {
+	nick_name: {
 		type: String,
 		trim: true
 	},
@@ -23,25 +16,18 @@ var UserSchema = new Schema({
 		type: String,
 		trim: true
 	},
-	username: {
-		type: String,
-		unique: true
-	},
 	servant_user_id: {
 		type: String,
 		unique: true
 	},
 	servant_access_token: {
-		type: String,
-		unique: true
+		type: String
+	},
+	servant_access_token_limited: {
+		type: String
 	},
 	servant_refresh_token: {
-		type: String,
-		unique: true
-	},
-	servant_client_token: {
-		type: String,
-		unique: true
+		type: String
 	},
 	updated: {
 		type: Date
@@ -49,6 +35,9 @@ var UserSchema = new Schema({
 	created: {
 		type: Date,
 		default: Date.now
+	},
+	last_signed_in: {
+		type: Date
 	}
 });
 
