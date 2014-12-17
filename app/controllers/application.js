@@ -5,8 +5,11 @@ var mongoose = require('mongoose'),
     config = require('../../config/config');
 
 // Instantiate Servant SDK
-if (process.env.NODE_ENV && process.env.NODE_ENV === 'production') var Servant = require('servant-sdk-node')(process.env.SERVANT_CLIENT_ID, process.env.SERVANT_SECRET_KEY, 'http', 0);
-else var Servant = require('servant-sdk-node')(config.servant.client_id, config.servant.client_secret, 'http', 0);
+if (process.env.NODE_ENV && process.env.NODE_ENV === 'production') {
+    var Servant = require('servant-sdk-node')({ application_client_id: process.env.SERVANT_CLIENT_ID, application_client_secret: process.env.SERVANT_SECRET_KEY });
+} else {
+    var Servant = require('servant-sdk-node')({ application_client_id: config.servant.client_id, application_client_secret: config.servant.client_secret });
+}
 
 /**
  * Render Either Home Page or Dashboard Page Depending On User Session

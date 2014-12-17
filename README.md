@@ -39,7 +39,7 @@ Remember to set the following environment variables on your Heroku Server:
 * SERVANT_CLIENT_ID = yourclientkey
 * SERVANT_SECRET_KEY = yoursecretkey
 
-Use this command: 
+Use this command to set environment variables: 
 
     heroku config:set SERVANT_CLIENT_ID=yourclientkey
 
