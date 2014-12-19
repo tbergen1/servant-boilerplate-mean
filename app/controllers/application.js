@@ -85,9 +85,9 @@ var servantConnectCallback = function(req, res) {
     // If AuthorizationCode was included in the parameters, the user hasn't authorized. Exchange AuthCode For Tokens
     if (req.query.code) {
         Servant.exchangeAuthCode(req.query.code, function(error, servant_tokens) {
-            if (error) res.status(500).json({ error: error });
+            if (error) return res.status(500).json({ error: error });
             self._saveUser(servant_tokens, function(error, user) {
-                if (error) res.status(500).json({ error: error });
+                if (error) return res.status(500).json({ error: error });
                 // Save Session
                 req.session.servant = {
                     user_id: user._id,
@@ -101,7 +101,7 @@ var servantConnectCallback = function(req, res) {
     // If RefreshToken was included in the parameters, the User has already authenticated
     if (req.query.refresh_token) {
         self._saveUser(req.query, function(error, user) {
-            if (error) res.status(500).json({ error: error });
+            if (error) return res.status(500).json({ error: error });
             // Save Session
             req.session.servant = {
                 user_id: user._id,
