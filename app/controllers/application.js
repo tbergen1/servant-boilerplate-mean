@@ -90,7 +90,7 @@ var servantConnectCallback = function(req, res) {
                 if (error) return res.status(500).json({ error: error });
                 // Save Session
                 req.session.servant = {
-                    user_id: user._id,
+                    user_id: user.servant_user_id,
                     access_token: user.servant_access_token,
                     access_token_limited: user.servant_access_token_limited
                 }; 
@@ -104,7 +104,7 @@ var servantConnectCallback = function(req, res) {
             if (error) return res.status(500).json({ error: error });
             // Save Session
             req.session.servant = {
-                user_id: user._id,
+                user_id: user.servant_user_id,
                 access_token: user.servant_access_token,
                 access_token_limited: user.servant_access_token_limited
             }; 
