@@ -27,7 +27,6 @@ var index = function(req, res) {
     variables.access_token = req.session.servant !== undefined ? req.session.servant.access_token : undefined;
     variables.access_token_limited = req.session.servant !== undefined ? req.session.servant.access_token_limited : undefined;
 
-
     if (req.session.servant && req.session.servant.user_id) {
         User.find({ servant_user_id: req.session.servant.user_id }).limit(1).exec(function(error, users) {
             if (error) return res.status(500).json({ error: error });
@@ -67,7 +66,6 @@ var servantConnectCallback = function(req, res) {
         // Get User & Servants
         Servant.getUserAndServants(tokens.access_token, function(error, response) {
             if (error) return callback(error, null);
-            
             // Find Servant User In Database
             User.findOne({
                  servant_user_id: response.user._id
@@ -101,7 +99,7 @@ var servantConnectCallback = function(req, res) {
                 if (error) return res.status(500).json({ error: error });
                 // Save Session
                 req.session.servant = {
-                    user_id: user._id,
+                    user_id: user.servant_user_id,
                     access_token: user.servant_access_token,
                     access_token_limited: user.servant_access_token_limited
                 }; 
@@ -115,7 +113,7 @@ var servantConnectCallback = function(req, res) {
             if (error) return res.status(500).json({ error: error });
             // Save Session
             req.session.servant = {
-                user_id: user._id,
+                user_id: user.servant_user_id,
                 access_token: user.servant_access_token,
                 access_token_limited: user.servant_access_token_limited
             }; 
