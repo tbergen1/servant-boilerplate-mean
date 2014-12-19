@@ -4,7 +4,7 @@
 	<div class="row">
 		<div id="dashboard-header" class="col-md-12">
 			<h1 class="st-centered st-font logo animated fadeIn">
-				Servant Boilerplate Dashboard
+				Servant Text Messenger
 			</h1>
 		</div>
 	</div>
@@ -26,21 +26,7 @@
 			
 			<div id="welcome-notice" class="st-sign-outer animated bounceInUp">
 				<div class="st-sign-inner">
-					<h4 class="st-red">
-						Welcome {{ servant.user.display_name }}!
-					</h4>
-					<h5>
-						You own the following Servants:
-					</h5>
-					<hr style="width:70%;margin:15px auto 8px auto;">
-					<ul class="list-unstyled">
-						<li data-ng-repeat="servant in servant.servants">
-							<img src="/img/servant_bowtie.png"> {{ servant.personality }} - <span data-ng-show="servant.master">{{ servant.master }}</span><span data-ng-hide="servant.master" style="opacity:0.5">(No Master)</span>
-						</li>
-					</ul>
-					<p data-ng-hide="servant.servants.length">
-						You have no Servnts.  Go to your <a href="http://www.servant.co">Servant account</a> and make one!
-					</p>
+					<button class="btn btn-primary" data-ng-click="checkout(9)">Checkout</button>
 				</div>
 			</div>
 

@@ -6,6 +6,8 @@ script(type='text/javascript', src='https://cdnjs.cloudflare.com/ajax/libs/angul
 script(type='text/javascript', src='https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.11/angular-ui-router.min.js')
 //- Servant SDK
 script(type='text/javascript', src='https://d2d0226i04jal.cloudfront.net/sdk/1/servant.js')
+//- Stripe Checkout
+script(type='text/javascript', src='https://checkout.stripe.com/checkout.js')
 
 //-  If Site is in Production, use minfied assets
 if (process.env.NODE_ENV === 'production')
@@ -24,4 +26,3 @@ if (process.env.NODE_ENV !== 'production')
 	script(type='text/javascript', src='/js/dashboard/services/servant_sdk_service.js')
 	//- Angular Controllers
 	script(type='text/javascript', src='/js/dashboard/controllers/dashboard.js')
-	
