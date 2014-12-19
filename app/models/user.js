@@ -29,6 +29,10 @@ var UserSchema = new Schema({
 	servant_refresh_token: {
 		type: String
 	},
+	stripe_subscription: {
+		type: Boolean,
+		default: false
+	},
 	updated: {
 		type: Date
 	},

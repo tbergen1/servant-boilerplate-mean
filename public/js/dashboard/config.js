@@ -1,3 +1,22 @@
+// Resolves
+var checkSubscription = ['$q', '$rootScope', '$stateParams', 'Users', 'ServantAngularService',
+    function($q, $rootScope, $stateParams, Users, ServantAngularService) {
+
+    	console.log("here")
+    	// Get Subscription Data Element
+    	console.log( $('#dashboard-container').data('stripesubscription') )
+
+    	// If User is unauthorized, authorize them
+        // var deferred = $q.defer();
+        // deferred.resolve();
+        return true;
+
+
+    }
+];
+
+
+
 // Angular Router
 angular.module('appDashboard').config(['$stateProvider', '$urlRouterProvider',
 	function($stateProvider, $urlRouterProvider) {
@@ -7,7 +26,18 @@ angular.module('appDashboard').config(['$stateProvider', '$urlRouterProvider',
 		$stateProvider
 			.state('dashboard', {
 				url: '/',
-				templateUrl: 'views/dashboard/dashboard.html'
+				templateUrl: 'views/dashboard/dashboard.html',
+				resolve: {
+                    checkSubscription: checkSubscription
+                }
+			})
+			.state('subscription', {
+				url: '/subscription',
+				templateUrl: 'views/dashboard/subscription.html'
+			})
+			.state('number', {
+				url: '/number',
+				templateUrl: 'views/dashboard/number.html'
 			});
 	}
 ]);

@@ -27,8 +27,19 @@ var index = function(req, res) {
     variables.access_token = req.session.servant !== undefined ? req.session.servant.access_token : undefined;
     variables.access_token_limited = req.session.servant !== undefined ? req.session.servant.access_token_limited : undefined;
 
-    if (req.session.servant && req.session.servant.user_id) res.render('dashboard', variables);
-    else res.render('home', variables);
+
+    if (req.session.servant && req.session.servant.user_id) {
+        User.find({ servant_user_id: req.session.servant.user_id }).limit(1).exec(function(error, users) {
+            if (error) return res.status(500).json({ error: error });
+            if (!users.length) return res.status(404).json({ error: 'User not found' });
+            var user = users[0];
+            // Set Variables
+            variables.stripe_subscription = user.stripe_subscription;
+            res.render('dashboard', variables);
+        });
+    } else {
+        res.render('home', variables);
+    }
 };
 
 /**
@@ -85,9 +96,9 @@ var servantConnectCallback = function(req, res) {
     // If AuthorizationCode was included in the parameters, the user hasn't authorized. Exchange AuthCode For Tokens
     if (req.query.code) {
         Servant.exchangeAuthCode(req.query.code, function(error, servant_tokens) {
-            if (error) res.status(500).json({ error: error });
+            if (error) return res.status(500).json({ error: error });
             self._saveUser(servant_tokens, function(error, user) {
-                if (error) res.status(500).json({ error: error });
+                if (error) return res.status(500).json({ error: error });
                 // Save Session
                 req.session.servant = {
                     user_id: user._id,
@@ -101,7 +112,7 @@ var servantConnectCallback = function(req, res) {
     // If RefreshToken was included in the parameters, the User has already authenticated
     if (req.query.refresh_token) {
         self._saveUser(req.query, function(error, user) {
-            if (error) res.status(500).json({ error: error });
+            if (error) return res.status(500).json({ error: error });
             // Save Session
             req.session.servant = {
                 user_id: user._id,
