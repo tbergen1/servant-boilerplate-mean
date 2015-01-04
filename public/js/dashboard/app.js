@@ -13,14 +13,6 @@ angular.module('appDashboard').run(['$rootScope', '$timeout', '$interval',
 			tinytexts: []
 		};
 
-		// Watch State Change
-		$rootScope.$on('$stateChangeSuccess', 
-		function(event, toState, toParams, fromState, fromParams){ 
-		    if (toState.name !== fromState.name) {
-		    	$rootScope.s.state = toState.name;
-		    }
-		});
-
 	}
 ]);    
 

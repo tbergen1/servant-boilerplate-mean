@@ -33,30 +33,6 @@ var UserSchema = new Schema({
 		type: Schema.Types.Mixed,
 		default: []
 	},
-	plan: {
-		type: String,
-		default: 'free'
-	},
-	stripe_customer_id: {
-        type: String,
-        trim: true
-    },
-    stripe_subscription_id: {
-        type: String,
-        trim: true
-    },
-    stripe_card_last4: {
-        type: String,
-        trim: true
-    },
-    stripe_card_brand: {
-        type: String,
-        trim: true
-    },
-    payment_status: {
-        type: String,
-        default: 'none' // Enum: none, valid, card_error
-    },
 	updated: {
 		type: Date
 	},

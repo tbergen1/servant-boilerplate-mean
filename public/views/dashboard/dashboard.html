@@ -2,19 +2,25 @@
     <div id="dashboard-page" class="dashboard-page st-animate-zoom-in">
 
 
+
+        <!-- Servant Wizard Screen -->
         <div id="wizard-servant" class="wizard-container st-sign-outer st-animate-zoom-in" data-ng-show="view === 'servant'">
             <div class="st-sign-inner wizard-inner">
                 <h1 class="st-font" style="margin:0px 0px 5px 0px;">Welcome!</h1>
-                <p class="st-font">Which Servant Would You Like To Use?</p>
+                <p class="st-font">Hi {{s.user.nick_name }}, Which Servant Would You Like To Use?</p>
 
-                <ul id="servant-list" class="list-unstyled">
-                    <li class="st-font st-link servant" data-ng-repeat="servant in s.servants" data-ng-click="wizardSetServant(servant, $index)">
+                <ul id="servant-list" class="list-unstyled" style="margin-top:30px;">
+                    <li class="st-font st-link servant" data-ng-repeat="servant in s.servants" data-ng-click="wizardSetServant(servant._id)">
                         <img class="servant-image" data-ng-src="https://d2d0226i04jal.cloudfront.net/images/servants/{{ servant.personality.toLowerCase() }}.svg"> {{ servant.master }}
                     </li>
                 </ul>
             </div>
         </div>
 
+
+
+
+        <!-- Menu Wizard Screen -->
         <div id="wizard-menu" class="wizard-container st-sign-outer st-animate-zoom-in" data-ng-show="view === 'menu'">
             <div class="st-sign-inner wizard-inner">
                 <p class="st-centered">
@@ -37,40 +43,108 @@
             </div>
         </div>
 
-        <div id="wizard-plan" class="wizard-container st-sign-outer st-animate-zoom-in" data-ng-show="view === 'plan'">
+
+
+        <!-- Create Number Wizard Screen -->
+        <div id="wizard-createnumber" class="wizard-container st-sign-outer st-animate-zoom-in" data-ng-show="view === 'createnumber'">
             <div class="st-sign-inner wizard-inner">
                 <p class="st-centered">
-                    <img class="servant-image" data-ng-src="https://d2d0226i04jal.cloudfront.net/images/servants/{{ s.servants[servant_index].personality.toLowerCase() }}.svg">
+                    <img class="servant-image st-animate-bounce-in" data-ng-src="https://d2d0226i04jal.cloudfront.net/images/servants/{{ s.servants[servant_index].personality.toLowerCase() }}.svg">
                 </p>
                 <p class="st-centered st-font st-red">{{s.servants[servant_index].master}} </p>
 
-                <p class="st-font" data-ng-show="s.servants[servant_index].servant_pay_subscription_status === 'none'">
-                    This Servant does not have a subscription
+                <p class="st-font">
+                    This Servant does not have a number
                 </p>
 
                 <hr style="margin: 20px auto 20px auto;width:75%">
 
                 <p class="st-font" data-ng-show="s.servants[servant_index].servant_pay_subscription_status === 'none'">
-                    How Many Text Messages Do You Need?
+                    How Many Text Messages Do You Need A Month?
                 </p>
+            </div>
+        </div>
 
-                <p class="st-font" data-ng-show="s.servants[servant_index].servant_pay_subscription_status === 'none'">
-                    Every Subscription Includes:
-                </p>
 
-                <!-- Plan Features -->
-                <ul class="list-unstyled plan-features st-font">
-                    <li>
-                        <i class="fa fa-chevron-right"></i> 1 dedicated phone number (To send texts from)
-                    </li>
-                    <li>
-                        <i class="fa fa-chevron-right"></i> No additional fees
-                    </li>
-                    <li>
-                        <i class="fa fa-chevron-right"></i> Cancel at any time
-                    </li>
-                </ul>
 
+
+        <!-- Create Plan Wizard Screen -->
+        <div id="wizard-createplan" class="wizard-container st-sign-outer st-animate-zoom-in" data-ng-show="view === 'createplan'">
+            <div class="st-sign-inner wizard-inner">
+                <div data-ng-show="subscribed">
+                    <h3 class="st-font st-centered">
+                        Congratulations!
+                    </h3>
+                    <p class="st-font st-centered" style="margin-top:30px;">
+                        Your Subscription Was Successfully Created!
+                    </p>
+                    <p class="st-font st-centered st-animate-blink" style="margin-top:30px;">
+                        Redirecting You...
+                    </p>
+                </div>
+                <div data-ng-show="!subscribed">
+                    <p class="st-centered">
+                        <img class="servant-image st-animate-bounce-in" data-ng-src="https://d2d0226i04jal.cloudfront.net/images/servants/{{ s.servants[servant_index].personality.toLowerCase() }}.svg">
+                    </p>
+                    <p class="st-centered st-font st-red">{{s.servants[servant_index].master}} </p>
+
+                    <p class="st-font" data-ng-show="s.servants[servant_index].servant_pay_subscription_status === 'none'">
+                        This Servant does not have a subscription
+                    </p>
+
+                    <hr style="margin: 20px auto 20px auto;width:75%">
+
+                    <p class="st-font" data-ng-show="s.servants[servant_index].servant_pay_subscription_status === 'none'">
+                        How Many Text Messages Do You Need A Month?
+                    </p>
+
+                    <p class="st-centered" style="margin-top:20px;">
+                        <select class="form-control input-lg plan-select" data-ng-model="newPlan" data-ng-options="plan.plan_id as plan.label for plan in plans" style="font-size:16px;">
+                        </select>
+                    </p>
+
+                    <p class="st-font" style="margin-top:30px;" data-ng-show="s.servants[servant_index].servant_pay_subscription_status === 'none'">
+                        Every Subscription Includes:
+                    </p>
+
+                    <!-- Plan Features -->
+                    <ul class="list-unstyled plan-features st-font">
+                        <li>
+                            <i class="fa fa-chevron-right"></i> 1 dedicated phone number (To send texts from)
+                        </li>
+                        <li>
+                            <i class="fa fa-chevron-right"></i> Change/Cancel at any time
+                        </li>
+                        <li>
+                            <i class="fa fa-chevron-right"></i> No additional fees
+                        </li>
+                    </ul>
+
+                    <p class="st-font" style="margin-top:30px;">
+                        Subscribe To
+                        <span data-ng-show="newPlan === 'plan1'">500</span>
+                        <span data-ng-show="newPlan === 'plan2'">1000</span>
+                        <span data-ng-show="newPlan === 'plan3'">1500</span>
+                        <span data-ng-show="newPlan === 'plan4'">2000</span>
+                        <span data-ng-show="newPlan === 'plan5'">2500</span> Texts For
+                        <span data-ng-show="newPlan === 'plan1'">$10/Month?</span>
+                        <span data-ng-show="newPlan === 'plan2'">$20/Month?</span>
+                        <span data-ng-show="newPlan === 'plan3'">$30/Month?</span>
+                        <span data-ng-show="newPlan === 'plan4'">$40/Month?</span>
+                        <span data-ng-show="newPlan === 'plan5'">$50/Month?</span>
+                    </p>
+
+                    <p class="st-font" style="margin-top:20px;" data-ng-show="s.servants[servant_index].servant_pay_subscription_status === 'none'">
+                        <button class="btn btn-primary btn-lg" data-ng-hide="subscribing" data-ng-click="subscribe()">Subscribe</button>
+                        <button class="btn btn-primary btn-lg disabled" data-ng-show="subscribing">
+                            <i class="fa fa-refresh fa-spin"></i> Subscribing
+                        </button>
+                    </p>
+
+                    <p class="st-font st-centered" style="opacity:0.7;font-size:10px;margin:20px auto 0px auto;width:75%;">
+                        Clicking Subscribe will automatically charge the card you have on file with Servant
+                    </p>
+                </div>
 
             </div>
         </div>
@@ -79,10 +153,6 @@
 
     </div>
 </div>
-
-
-
-
 
 
 

@@ -3,24 +3,26 @@ angular.module('appDashboard').controller('DashboardController', ['$rootScope', 
 
         // Defaults
         $scope.servant_index = 0;
-        $scope.view = 'servant';
-        $scope.newPlan = undefined;
+        $rootScope.view = 'servant';
+        $scope.newPlan = 'plan1';
         $scope.plans = [{
-            label: 'No Plan',
-            plan_id: undefined
-        }, {
-            label: '$10/Month',
+            label: '500 Text Messages for $10/Month',
             plan_id: 'plan1'
         }, {
-            label: '$20/Month',
+            label: '1000 Text Messages for $20/Month',
             plan_id: 'plan2'
         }, {
-            label: '$30/Month',
+            label: '1500 Text Messages for $30/Month',
             plan_id: 'plan3'
         }, {
-            label: '$40/Month',
+            label: '2000 Text Messages for $40/Month',
             plan_id: 'plan4'
+        }, {
+            label: '2500 Text Messages for $50/Month',
+            plan_id: 'plan5'
         }];
+        $scope.subscribing;
+        $scope.subscribed;
 
         // $scope.$watch('servant_index', function(newValue, oldValue) {
         //     if (!$rootScope.s.servants) return;
@@ -42,16 +44,27 @@ angular.module('appDashboard').controller('DashboardController', ['$rootScope', 
             });
         };
 
-        $scope.wizardSetServant = function(servant, index) {
-        	// Set Servant
-        	ServantAngularService.setServant($rootScope.s.servants[$scope.servant_index]);
-        	// Set Servant Index
-        	$scope.servant_index = index;
-        	$scope.view = 'plan';
-        };	
+        $scope.wizardSetServant = function(servantID) {
+            // Set Servant
+            for (i = 0; i < $rootScope.s.servants.length; i++) {
+                if ($rootScope.s.servants[i]._id.toString() === servantID.toString()) $scope.servant_index = i;
+            }
+            ServantAngularService.setServant($rootScope.s.servants[$scope.servant_index]);
+            // Redirect
+            if ($rootScope.s.servants[$scope.servant_index].servant_pay_subscription_status === 'none') {
+            	$rootScope.view = 'createplan';
+            } else {
+            	$rootScope.view = 'createnumber';
+            }
+            // ServantAngularService.servantpayCustomerDelete().then(function(resp) {
+            // 	console.log(resp)
+            // }, function(error) {
+            // 	console.log(error)
+            // });
+        };
 
-        $scope.refreshCurrentServant = function() {
-            ServantAngularService.showServant($rootScope.s.servants[$scope.servant_index]._id).then(function(response) {
+        $scope.showServant = function(servantID) {
+            ServantAngularService.showServant(servantID).then(function(response) {
                 $rootScope.s.servants[$scope.servant_index] = response;
                 console.log(response)
             }, function(error) {
@@ -74,7 +87,7 @@ angular.module('appDashboard').controller('DashboardController', ['$rootScope', 
             document.getElementById("modal-overlay").style.display = 'block';
             document.getElementById("modal-box").style.display = 'block';
             // Change View Back
-            $scope.view = view;
+            $rootScope.view = view;
         };
 
         $scope.hideModal = function() {
@@ -86,13 +99,20 @@ angular.module('appDashboard').controller('DashboardController', ['$rootScope', 
         };
 
         $scope.subscribe = function() {
+            $scope.subscribing = true;
             // Check Subscription Status
             if ($rootScope.s.servants[$scope.servant_index].servant_pay_subscription_status === 'active') {
                 if ($scope.newPlan) {
                     // Update
                     ServantAngularService.servantpaySubscriptionUpdate($scope.newPlan).then(function(response) {
                         console.log(response);
-                        return $scope.refreshCurrentServant();
+                        $scope.subscribing = false;
+                        $scope.subscribed = true;
+                        $timeout(function() {
+                            $scope.subscribed = false;
+                            $rootScope.view = 'menu';
+                        }, 3000);
+                        return $scope.showServant($rootScope.s.servants[$scope.servant_index]._id);
                     }, function(error) {
                         console.log(error)
                     });
@@ -100,7 +120,13 @@ angular.module('appDashboard').controller('DashboardController', ['$rootScope', 
                     // Cancel
                     ServantAngularService.servantpaySubscriptionCancel().then(function(response) {
                         console.log(response);
-                        return $scope.refreshCurrentServant();
+                        $scope.subscribing = false;
+                        $scope.subscribed = true;
+                        $timeout(function() {
+                            $scope.subscribed = false;
+                            $rootScope.view = 'menu';
+                        }, 3000);
+                        return $scope.showServant($rootScope.s.servants[$scope.servant_index]._id);
                     }, function(error) {
                         console.log(error)
                     });
@@ -109,11 +135,20 @@ angular.module('appDashboard').controller('DashboardController', ['$rootScope', 
                 // Create
                 ServantAngularService.servantpaySubscriptionCreate($scope.newPlan).then(function(response) {
                     console.log(response);
-                    return $scope.refreshCurrentServant();
+                    $scope.subscribing = false;
+                    $scope.subscribed = true;
+                    $timeout(function() {
+                        $scope.subscribed = false;
+                        $rootScope.view = 'menu';
+                    }, 3000);
+                    return $scope.showServant($rootScope.s.servants[$scope.servant_index]._id);
                 }, function(error) {
                     console.log(error)
                 });
             }
         };
+
+
+
     }
 ]);

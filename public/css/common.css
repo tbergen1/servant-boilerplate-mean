@@ -285,7 +285,7 @@ html, body {
 /* Wizard */
 
 #wizard-servant {
-    padding: 30px 20px 60px 20px;
+    padding: 30px 20px 40px 20px;
 }
 #servant-list {
     margin: 20px auto 0px auto;
@@ -311,13 +311,33 @@ html, body {
 #wizard-menu #options-menu li {
     padding: 5px;
 }
-#wizard-plan {
-    padding: 10px 20px 60px 20px;
+#wizard-createplan {
+    padding: 10px 20px 40px 20px;
 }
-#wizard-plan .servant-image {
+#wizard-createplan .servant-image {
     max-height: 80px;
     max-width: 80px;
 }
+#wizard-createplan .plan-select {
+    max-width:300px;
+    width:100%;
+    margin:0px auto;
+    border:1px solid rgba(0,0,0,0.2)!important;
+}
+#wizard-createnumber {
+    padding: 10px 20px 40px 20px;
+}
+#wizard-createnumber .servant-image {
+    max-height: 80px;
+    max-width: 80px;
+}
+#wizard-createnumber .plan-select {
+    max-width:300px;
+    width:100%;
+    margin:0px auto;
+    border:1px solid rgba(0,0,0,0.2)!important;
+}
+
 /* Dashboard */
 
 #dashboard-header {
@@ -370,7 +390,7 @@ html, body {
     width: 100%;
     max-width: 450px;
     margin: 0px auto;
-    padding: 0px;
+    padding: 10px;
 }
 #dashboard-page .col-left, #dashboard-page .col-right {
     display: block;

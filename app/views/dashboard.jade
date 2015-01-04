@@ -4,7 +4,7 @@ block content
 	div(id="content")
 		//- Dashboard Header
 		div(id="dashboard-header")
-			p.st-font.st-centered(id="logo", data-ui-sref="dashboard") #{name}
+			p.st-font.st-centered(id="logo", class="st-link", data-ui-sref="dashboard" data-ng-click="view = 'servant'") #{name}
 		//- Dashboard Container
 		div(data-ui-view, id="dashboard-container", data-clientid="#{client_id}", data-environment="#{environment}")
 
