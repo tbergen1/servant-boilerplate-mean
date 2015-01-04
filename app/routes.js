@@ -5,6 +5,7 @@ module.exports = function(app) {
 	var application = require('../app/controllers/application');
 	var servant = require('../app/controllers/servant');
 	var user = require('../app/controllers/user');
+	var methods = require('../app/controllers/methods');
 
 	// Servant
 	app.get('/servant/callback', servant.servantConnectCallback);
@@ -13,8 +14,9 @@ module.exports = function(app) {
 	// User
 	app.get('/logout', middleware.checkSession, user.logout);
 	app.get('/user', middleware.checkSession, user.showUser);
-	app.post('/user/update_card', middleware.checkSession, user.updatePaymentCard);
-	app.put('/user/update_plan', middleware.checkSession, user.updatePlan);
+	
+	// Twilio
+	app.get('/twilio/numbers', methods.searchPhoneNumbers);
 
 	// Application
 	app.get('/', application.index);

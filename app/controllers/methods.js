@@ -1,10 +1,19 @@
 // Module dependencies.
 var mongoose = require('mongoose'),
     User = mongoose.model('User'),
+    TwilioHelper = require('../twilio_helper'),
     Config = require('../../config/config');
 
 
-var getPhoneNumbers = function() {
+var searchPhoneNumbers = function(req, res, next) {
+	console.log("hereehrehr")
+	TwilioHelper.searchPhoneNumbers(function(error, numbers) {
+		if (error) return res.status(500).send(error);
+		return res.send(numbers);
+	});
+};
+
+var searchPhoneNumbers = function() {
 
 };
 
@@ -21,7 +30,5 @@ var textBlast = function(req, res, next) {
 
 
 module.exports = {
-    getPhoneNumbers: getPhoneNumbers,
-    updatePhoneNumber: updatePhoneNumber,
-    textBlast: textBlast
+    searchPhoneNumbers: searchPhoneNumbers
 };
