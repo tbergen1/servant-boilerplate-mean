@@ -1,37 +1,92 @@
-<div id="dashboard-page" class="animated fadeIn" data-ng-controller="DashboardController" data-ng-init="initialize()">
+<div data-ng-controller="DashboardController" data-ng-init="initialize()">
+    <div id="dashboard-page" class="dashboard-page st-animate-zoom-in">
 
-	<!-- Dashboard Header -->
-	<div class="row">
-		<div id="dashboard-header" class="col-md-12">
-			<h1 class="st-centered st-font logo animated fadeIn">
-				Servant Text Messenger
-			</h1>
-		</div>
-	</div>
 
-	<!-- Dashboard Navigation -->
-	<div class="row">
-		<div id="dashboard-navigation" class="col-md-offset-3 col-md-6">
-			<ul class="list-inline pull-right">
-				<li>
-					<a class="pull-right st-font" href="/logout">Sign Out</a>
-				</li>
-			</ul>
-		</div>
-	</div>
+        <div id="wizard-servant" class="wizard-container st-sign-outer st-animate-zoom-in" data-ng-show="view === 'servant'">
+            <div class="st-sign-inner wizard-inner">
+                <h1 class="st-font" style="margin:0px 0px 5px 0px;">Welcome!</h1>
+                <p class="st-font">Which Servant Would You Like To Use?</p>
 
-	<!-- Dashboard Content -->
-	<div class="row">
-		<div id="dashboard-content" class="col-md-offset-3 col-md-6">
-			
-			<div id="welcome-notice" class="st-sign-outer animated bounceInUp">
-				<div class="st-sign-inner">
-					
-					<button class="btn btn-primary" data-ng-click="checkout(9)">Checkout</button>
-				</div>
-			</div>
+                <ul id="servant-list" class="list-unstyled">
+                    <li class="st-font st-link servant" data-ng-repeat="servant in s.servants" data-ng-click="wizardSetServant(servant, $index)">
+                        <img class="servant-image" data-ng-src="https://d2d0226i04jal.cloudfront.net/images/servants/{{ servant.personality.toLowerCase() }}.svg"> {{ servant.master }}
+                    </li>
+                </ul>
+            </div>
+        </div>
 
-		</div>
-	</div>
+        <div id="wizard-menu" class="wizard-container st-sign-outer st-animate-zoom-in" data-ng-show="view === 'menu'">
+            <div class="st-sign-inner wizard-inner">
+                <p class="st-centered">
+                    <img class="servant-image" data-ng-src="https://d2d0226i04jal.cloudfront.net/images/servants/{{ s.servants[servant_index].personality.toLowerCase() }}.svg">
+                </p>
+                <p class="st-centered st-font st-red">{{s.servants[servant_index].master}} </p>
 
+                <hr style="margin: 20px auto 20px auto;width:75%">
+
+                <p class="st-font">What would you like to do?</p>
+
+                <ul id="options-menu" class="list-unstyled">
+                    <li class="st-font st-link">
+                        <i class="fa fa-rocket" style="margin-right:4px;"></i> Send A Text Blast
+                    </li>
+                    <li class="st-font st-link">
+                        <i class="fa fa-phone" style="margin-right:4px;"></i> Change Your Phone Number
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="wizard-plan" class="wizard-container st-sign-outer st-animate-zoom-in" data-ng-show="view === 'plan'">
+            <div class="st-sign-inner wizard-inner">
+                <p class="st-centered">
+                    <img class="servant-image" data-ng-src="https://d2d0226i04jal.cloudfront.net/images/servants/{{ s.servants[servant_index].personality.toLowerCase() }}.svg">
+                </p>
+                <p class="st-centered st-font st-red">{{s.servants[servant_index].master}} </p>
+
+                <p class="st-font" data-ng-show="s.servants[servant_index].servant_pay_subscription_status === 'none'">
+                    This Servant does not have a subscription
+                </p>
+
+                <hr style="margin: 20px auto 20px auto;width:75%">
+
+                <p class="st-font" data-ng-show="s.servants[servant_index].servant_pay_subscription_status === 'none'">
+                    How Many Text Messages Do You Need?
+                </p>
+
+                <p class="st-font" data-ng-show="s.servants[servant_index].servant_pay_subscription_status === 'none'">
+                    Every Subscription Includes:
+                </p>
+
+                <!-- Plan Features -->
+                <ul class="list-unstyled plan-features st-font">
+                    <li>
+                        <i class="fa fa-chevron-right"></i> 1 dedicated phone number (To send texts from)
+                    </li>
+                    <li>
+                        <i class="fa fa-chevron-right"></i> No additional fees
+                    </li>
+                    <li>
+                        <i class="fa fa-chevron-right"></i> Cancel at any time
+                    </li>
+                </ul>
+
+
+            </div>
+        </div>
+
+
+
+    </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+<!-- End -->

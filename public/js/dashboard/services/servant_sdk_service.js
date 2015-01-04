@@ -27,13 +27,21 @@ angular.module('appDashboard').service('ServantAngularService', ['$rootScope', '
         return def.promise;
     }
 
+    this.showServant = function(servantID) {
+        var def = $q.defer();
+        Servant.showServant(servantID, function(response) {
+            def.resolve(response);
+        }, function(error) {
+            def.reject(error);
+        });
+        return def.promise;
+    }
+
     this.setServant = function(servant) {
         var def = $q.defer();
         // Set Servant In SDK
         Servant.setServant(servant);
-        // Set Servant In $rootScope
-        $rootScope.s.d.servant = servant;
-        def.resolve($rootScope.s.d.servant);
+        def.resolve();
         return def.promise;
     }
 
@@ -118,6 +126,56 @@ angular.module('appDashboard').service('ServantAngularService', ['$rootScope', '
     this.archetypesOldest = function(archetype, page) {
         var def = $q.defer();
         Servant.archetypesOldest(archetype, page, function(response) {
+            def.resolve(response);
+        }, function(error) {
+            def.reject(error);
+        });
+        return def.promise;
+    }
+
+    this.servantpayCharge = function(amount, currency) {
+        var def = $q.defer();
+        Servant.servantpayCharge(amount, function(response) {
+            def.resolve(response);
+        }, function(error) {
+            def.reject(error);
+        });
+        return def.promise;
+    }
+
+    this.servantpaySubscriptionCreate = function(plan_id) {
+        var def = $q.defer();
+        Servant.servantpaySubscriptionCreate(plan_id, function(response) {
+            def.resolve(response);
+        }, function(error) {
+            def.reject(error);
+        });
+        return def.promise;
+    }
+
+    this.servantpaySubscriptionUpdate = function(plan_id) {
+        var def = $q.defer();
+        Servant.servantpaySubscriptionUpdate(plan_id, function(response) {
+            def.resolve(response);
+        }, function(error) {
+            def.reject(error);
+        });
+        return def.promise;
+    }
+
+    this.servantpaySubscriptionCancel = function() {
+        var def = $q.defer();
+        Servant.servantpaySubscriptionCancel(function(response) {
+            def.resolve(response);
+        }, function(error) {
+            def.reject(error);
+        });
+        return def.promise;
+    }
+
+    this.servantpayCustomerDelete = function() {
+        var def = $q.defer();
+        Servant.servantpayCustomerDelete(function(response) {
             def.resolve(response);
         }, function(error) {
             def.reject(error);

@@ -1,7 +1,10 @@
 extends layouts/dashboard_layout
 
 block content
-	section(data-ui-view, id="dashboard-container", data-clientid="#{client_id}", data-accesstokenlimited="#{access_token_limited}", data-environment="#{environment}", data-stripesubscription="#{stripe_subscription}")
-			
-
+	div(id="content")
+		//- Dashboard Header
+		div(id="dashboard-header")
+			p.st-font.st-centered(id="logo", data-ui-sref="dashboard") #{name}
+		//- Dashboard Container
+		div(data-ui-view, id="dashboard-container", data-clientid="#{client_id}", data-environment="#{environment}")
 

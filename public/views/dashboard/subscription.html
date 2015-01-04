@@ -1,37 +1,149 @@
-<div id="dashboard-page" class="animated fadeIn" data-ng-controller="SubscriptionController" data-ng-init="initialize()">
+<div id="subscription-page" class="dashboard-page" data-ng-controller="SubscriptionController" data-ng-init="initialize()">
 
-	<!-- Dashboard Header -->
-	<div class="row">
-		<div id="dashboard-header" class="col-md-12">
-			<h1 class="st-centered st-font logo animated fadeIn">
-				Servant Text Messenger
-			</h1>
-		</div>
-	</div>
+	<div id="content" class="st-animated st-zoom-in">
+		
+			<!-- Welcome Notice -->
+			<div data-ng-show="!success && s.user.plan === 'free'">
+				<h2 class="st-centered st-font" style="margin-top:5px;letter-spacing:-3px;">Subscription</h2>
+				
 
-	<!-- Dashboard Navigation -->
-	<div class="row">
-		<div id="dashboard-navigation" class="col-md-offset-3 col-md-6">
-			<ul class="list-inline pull-right">
-				<li>
-					<a class="pull-right st-font" href="/logout">Sign Out</a>
-				</li>
-			</ul>
-		</div>
-	</div>
+				<!--  No Plan Notice -->
+				<p data-ng-show="s.user.plan === 'free'" class="st-centered st-font" style='font-size:12px;margin-top:10px;margin-bottom:20px;'>
+					You currently have no plan.  Select One Below.
+				</p>
+			</div>
 
-	<!-- Dashboard Content -->
-	<div class="row">
-		<div id="dashboard-content" class="col-md-offset-3 col-md-6">
-			
-			<div id="welcome-notice" class="st-sign-outer animated bounceInUp">
-				<div class="st-sign-inner">
-					
-					<button class="btn btn-primary" data-ng-click="checkout(9)">Checkout</button>
+			<!-- Your Subscription Notice -->
+			<div data-ng-show="!success && s.user.plan !== 'free'">
+				<h2 class="st-centered st-font" style="margin-top:5px;letter-spacing:-3px;">Subscription</h2>
+				<p class="st-centered st-font" style='font-size:12px;margin-top:10px;margin-bottom:20px;'>
+					Upgrade Your Plan Here
+				</p>
+			</div>
+
+			<!-- Success Notice -->
+			<div data-ng-show="success && s.user.plan !== 'free'">
+				<h2 class="st-centered st-font" style="margin-top:5px;letter-spacing:-3px;">Success!</h2>
+				<p class="st-centered st-font" style='font-size:12px;margin-top:10px;margin-bottom:20px;'>
+					You have a plan, now go send some text messages!
+				</p>
+				<p class="st-centered">
+					<button class="btn btn-primary btn-lg st-animated st-zoom-in" ui-sref="dashboard">Go To Dashboard</button>
+				</p>
+			</div>
+
+			<!-- Cancellation Notice -->
+			<div data-ng-show="success && s.user.plan === 'free'">
+				<h2 class="st-centered st-font" style="margin-top:5px;letter-spacing:-3px;">Canceled!</h2>
+				<p class="st-centered st-font" style='font-size:12px;margin-top:10px;margin-bottom:20px;'>
+					Come here to start up again at any time
+				</p>
+			</div>
+
+			<p class="st-font st-centered st-red" data-ng-show="newPlan === 'plan1'">
+				Send <span style="font-size:20px;">600</span> text messages a month for $10?
+			</p>
+			<p class="st-font st-centered st-red" data-ng-show="newPlan === 'plan2'">
+				Send <span style="font-size:20px;">1200</span> text messages a month for $20?
+			</p>
+			<p class="st-font st-centered st-red" data-ng-show="newPlan === 'plan3'">
+				Send <span style="font-size:20px;">2400</span> text messages a month for $30?
+			</p>
+			<p class="st-font st-centered st-red" data-ng-show="newPlan === 'plan4'">
+				Send <span style="font-size:20px;">4800</span> text messages a month for $40?
+			</p>
+
+			<!-- SMS Counter -->
+			<!-- <p class="st-centered">
+				<span class=" st-animated st-bounce-in st-font" style="font-size:30px;letter-spacing:-4px;"  data-ng-show="newPlan === 'plan1'">600</span>
+				<span class=" st-animated st-bounce-in st-font" style="font-size:30px;letter-spacing:-4px;"  data-ng-show="newPlan === 'plan2'">1200</span>
+				<span class=" st-animated st-bounce-in st-font" style="font-size:30px;letter-spacing:-4px;"  data-ng-show="newPlan === 'plan3'">2400</span>
+				<span class=" st-animated st-bounce-in st-font" style="font-size:30px;letter-spacing:-4px;"  data-ng-show="newPlan === 'plan4'">4800</span>
+				<span class="st-font" style="opacity:0.5;font-size:10px;" data-ng-show="newPlan !== 'free'">texts</span>
+			</p> -->
+
+			<!-- Subscription Select -->
+			<div class="plan-preview" data-ng-hide="success">
+				<div class="st-centered plan-select-container">
+					<select class="form-control" data-ng-model="newPlan" data-ng-options="plan.subItem.plan as plan.label for plan in plans">
+					</select>
 				</div>
 			</div>
 
-		</div>
+			<!-- Plan Features -->
+			<ul class="list-unstyled plan-features st-font">
+				<li class="st-red">
+					Send <span style="font-size:20px;">600</span> text messages a month for $10?
+				</li>
+				<li>
+					<i class="fa fa-chevron-right"></i>
+					Includes 1 local phone number
+				</li>
+				<li>
+					<i class="fa fa-chevron-right"></i>
+					No additional fees
+				</li>
+				<li>
+					<i class="fa fa-chevron-right"></i>
+					Cancel at any time
+				</li>
+			</ul>
+
+			<!-- Subscription Options -->
+			<div class="subscription-options">
+
+				<p class="st-centered" data-ng-show="s.user.plan !== newPlan && s.user.stripe_card_last4">
+					<button class="btn btn-primary btn-lg st-animated st-zoom-in" data-ng-click="updatePlan()">
+						Subscribe
+					</button>
+				</p>
+
+				<p class="st-centered st-font" style="margin:20px;font-size:9px;" data-ng-show="!success && s.user.plan !=='free'">
+					To cancel your plan, select "none" in the above menu.
+				</p>
+
+				<hr>
+
+				<!-- Change Payment Card Link -->
+				<p data-ng-show="s.user.payment_status !== 'none'" class="st-centered st-font st-red st-link" style="margin: 20px 0px 10px 0px">
+					<i class="fa fa-credit-card" style="margin-right:3px;"></i>
+					Change Payment Card
+				</p>
+
+			</div>
+
+			<!-- Payment Form -->
+			<div data-ng-hide="s.user.stripe_card_last4">
+				<!-- <hr style="border-top:1px solid rgba(0,0,0,0.05);width:60%;margin:25px auto;"> -->
+				<form id="payment-form" data-ng-submit="updateCard(true)">
+				  	<div class="form-row">
+				    	<p class="st-centered st-font st-label">Card Number</p>
+				      	<input class="form-control st-centered st-font" type="text" maxlength="16" data-ng-model="card.number" placeholder="4354123412345432"/>
+				  	</div>
+
+				  	<div class="form-row st-centered" style="display:block;width:200px;height:55px;margin:10px auto 0px auto;">
+				  		<p class="st-centered st-font st-label">Expiration (MM/YYYY)</p>
+				      	<input class="form-control st-font st-centered" type="text" maxlength="2" data-ng-model="card.expMonth" style="float:left;display:block;width:60px;margin-left:20px;" placeholder="11"/>
+				    	<div style="float:left;display:block;width:30px;font-size:25px;"> / </div>
+				    	<input class="form-control st-font st-centered" type="text" maxlength="4" data-ng-model="card.expYear" style="float:left;display:block;width:70px;" placeholder="2016"/>
+				  	</div>
+
+				  	<div class="form-row">
+				    	<p class="st-centered st-font st-label">CVC</p>
+				      	<input class="form-control st-centered st-font" type="text" style="width:70px;margin:0px auto;" data-ng-model="card.cvc" placeholder="123"/>
+				  	</div>
+
+				  	<p class="st-centered st-font st-red" data-ng-show="error" style="margin: 18px auto;font-size:11px;width:80%;">
+				  		{{ error }}
+				  	</p>
+
+				  	<p class="st-centered" style="margin-top:17px;">
+						<input class="btn btn-primary btn-lg" type="submit" value="Subscribe">
+					</p>
+				</form>
+			</div>
+
 	</div>
+
 
 </div>

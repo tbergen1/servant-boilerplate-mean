@@ -2,12 +2,11 @@ script(type='text/javascript', src='https://cdnjs.cloudflare.com/ajax/libs/jquer
 script(type='text/javascript', src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/js/bootstrap.min.js')
 script(type='text/javascript', src='https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.min.js')
 script(type='text/javascript', src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.20/angular-resource.min.js')
-script(type='text/javascript', src='https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.11.0/ui-bootstrap-tpls.min.js')
 script(type='text/javascript', src='https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.11/angular-ui-router.min.js')
 //- Servant SDK
 script(type='text/javascript', src='https://d2d0226i04jal.cloudfront.net/sdk/1/servant.js')
 //- Stripe Checkout
-script(type='text/javascript', src='https://checkout.stripe.com/checkout.js')
+script(type='text/javascript', src='https://js.stripe.com/v2/')
 
 //-  If Site is in Production, use minfied assets
 if (process.env.NODE_ENV === 'production')
@@ -23,6 +22,7 @@ if (process.env.NODE_ENV !== 'production')
 	script(type='text/javascript', src='/js/dashboard/directives.js')
 	script(type='text/javascript', src='/js/dashboard/filters.js')
 	//- Angular Services
+	script(type='text/javascript', src='/js/dashboard/services/application.js')
 	script(type='text/javascript', src='/js/dashboard/services/servant_sdk_service.js')
 	//- Angular Controllers
 	script(type='text/javascript', src='/js/dashboard/controllers/dashboard.js')
