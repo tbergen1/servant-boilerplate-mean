@@ -1,10 +1,11 @@
-angular.module('appDashboard').controller('DashboardController', ['$rootScope', '$scope', '$timeout', '$state', 'ServantAngularService',
-    function($rootScope, $scope, $timeout, $state, ServantAngularService) {
+angular.module('appDashboard').controller('DashboardController', ['$rootScope', '$scope', '$timeout', '$state', 'Application', 'ServantAngularService',
+    function($rootScope, $scope, $timeout, $state, Application, ServantAngularService) {
 
         // Defaults
         $scope.servant_index = 0;
         $rootScope.view = 'servant';
         $scope.newPlan = 'plan1';
+        $scope.number_type = 'local';
         $scope.plans = [{
             label: '500 Text Messages for $10/Month',
             plan_id: 'plan1'
@@ -21,6 +22,8 @@ angular.module('appDashboard').controller('DashboardController', ['$rootScope', 
             label: '2500 Text Messages for $50/Month',
             plan_id: 'plan5'
         }];
+        $scope.country = 'US';
+        $scope.area_code = '424';
         $scope.subscribing;
         $scope.subscribed;
 
@@ -52,9 +55,9 @@ angular.module('appDashboard').controller('DashboardController', ['$rootScope', 
             ServantAngularService.setServant($rootScope.s.servants[$scope.servant_index]);
             // Redirect
             if ($rootScope.s.servants[$scope.servant_index].servant_pay_subscription_status === 'none') {
-            	$rootScope.view = 'createplan';
+                $rootScope.view = 'createplan';
             } else {
-            	$rootScope.view = 'createnumber';
+                $rootScope.view = 'createnumber';
             }
             // ServantAngularService.servantpayCustomerDelete().then(function(resp) {
             // 	console.log(resp)
@@ -70,6 +73,28 @@ angular.module('appDashboard').controller('DashboardController', ['$rootScope', 
             }, function(error) {
                 console.log(error);
             });
+        };
+
+        $scope.searchPhoneNumbers = function() {
+            $scope.searching = true;
+            Application.searchPhoneNumbers({
+                servantID: $rootScope.s.servants[$scope.servant_index]._id
+            }, {
+                number_type: $scope.number_type,
+                country: $scope.country,
+                area_code: $scope.area_code
+            }, function(response) {
+                $scope.phone_numbers = response.available_phone_numbers;
+                $scope.searching = false;
+            }, function(error) {
+                console.log(error);
+                $scope.phone_numbers = [];
+                $scope.searching = false;
+            })
+        };
+
+        $scope.registerPhoneNumber = function(number) {
+            var c = confirm("Is this the number you want: " + number + "?  this number will be yours as long as you have a plan with us.");
         };
 
         $scope.loadTinyTexts = function() {

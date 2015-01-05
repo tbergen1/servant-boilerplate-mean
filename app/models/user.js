@@ -29,7 +29,7 @@ var UserSchema = new Schema({
 	servant_refresh_token: {
 		type: String
 	},
-	phone_numbers: {
+	servants: {
 		type: Schema.Types.Mixed,
 		default: []
 	},

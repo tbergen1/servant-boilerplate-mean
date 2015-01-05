@@ -13,7 +13,7 @@ var gulp = require('gulp'),
 	node;
 
 // Location Arrays – (Note: The Order in Array is important as it reflects the order of loading...)
-var serverjsLocations = ['./app/controllers/*.js', './app/controllers/api/*.js', './app/controllers/api/v1/*.js', './app/lib/*.js', './app/models/*.js', './config/env/*.js', './config/middlewares/*.js', './config/*.js', '*.js'],
+var serverjsLocations = ['./app/**/*.js', './config/env/*.js', './config/*.js', '*.js'],
 	dashboardjsLocations = ['./public/js/dashboard/**/*.js'],
 	homejsLocations = ['./public/js/home/**/*.js'],
 	alljsLocations = serverjsLocations.concat(dashboardjsLocations, homejsLocations),

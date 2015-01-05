@@ -7,16 +7,17 @@ angular.module('appDashboard').factory('Application', function($resource) {
             isArray: false,
             url: '/user'
         },
-        user_update_card: {
+        searchPhoneNumbers: {
             method: 'POST',
             isArray: false,
-            url: '/user/update_card'
+            url: '/servants/:servantID/twilio/phone_numbers/search'
         },
-        user_update_plan: {
-            method: 'PUT',
+        purchasePhoneNumber: {
+            method: 'POST',
             isArray: false,
-            url: '/user/update_plan'
+            url: '/servants/:servantID/twilio/phone_numbers/purchase'
         }
+
 
     });
 });

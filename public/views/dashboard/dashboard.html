@@ -2,7 +2,11 @@
     <div id="dashboard-page" class="dashboard-page st-animate-zoom-in">
 
 
-
+        <p class="st-font" style="text-align:right;">
+            <a class="st-link" href="/logout">
+                <i class="fa fa-power-off" style="margin-right:2px;"></i> Logout
+            </a>
+        </p>
 
         <!-- Servant Wizard Screen -->
         <div id="wizard-servant" class="wizard-container st-sign-outer st-animate-zoom-in" data-ng-show="view === 'servant'">
@@ -58,14 +62,76 @@
                 <p class="st-centered st-font st-red">{{s.servants[servant_index].master}} </p>
 
                 <p class="st-font">
-                    This Servant does not have a number
+                    This Servant does not have a phone number.
+                    <br/> Search for one below:
                 </p>
 
                 <hr style="margin: 20px auto 20px auto;width:75%">
 
-                <p class="st-font" data-ng-show="s.servants[servant_index].servant_pay_subscription_status === 'none'">
-                    How Many Text Messages Do You Need A Month?
+                <div id="number-search-criteria-1">
+                    <p class="st-centered st-label st-font st-red">Search Local Or Toll-Free Numbers</p>
+                    <select class="form-control" data-ng-model="number_type" style="margin:0px auto;width:75%;">
+                        <option value="local">
+                            Local Phone Number
+                        </option>
+                        <option value="tollfree">
+                            Toll-Free Number
+                        </option>
+                    </select>
+                </div>
+
+                <div id="number-search-criteria-2">
+                    <div style="float:left;width:50%;">
+                        <p class="st-label st-font st-red">Country</p>
+                        <select class="form-control number-field" data-ng-model="country">
+                            <option value="US">
+                                United States
+                            </option>
+                            <option value="CAD">
+                                Canada
+                            </option>
+                            <option value="GB">
+                                United Kingdom
+                            </option>
+                        </select>
+                    </div>
+                    <div style="float:left;width:50%;" data-ng-show="number_type === 'local'">
+                        <p class="st-label st-font st-country st-red">Area Code</p>
+                        <input type="text" maxlength="10" class="form-control number-field" placeholder="424" data-ng-model="area_code"></input>
+                    </div>
+                </div>
+                <p class="st-centered" style="margin-top:10px;">
+                    <button class="btn btn-primary btn-lg" data-ng-click="searchPhoneNumbers()" data-ng-show="!searching">
+                        Search
+                    </button>
+                    <button class="btn btn-primary btn-lg disabled" data-ng-click="searchPhoneNumbers()" data-ng-show="searching">
+                        <i class="fa fa-refresh fa-spin"></i> Searching...
+                    </button>
                 </p>
+
+                <hr style="margin: 20px auto 20px auto;width:75%">
+
+                <ul class="list-unstyled">
+                    <li class="phone-number st-link" data-ng-repeat="number in phone_numbers" data-ng-click="registerPhoneNumber(number.friendly_name)">
+                        {{ number.friendly_name }}
+                    </li>
+                </ul>
+
+                <p class="st-font st-centered" style="font-size:10px;margin:20px 0px 0px 0px;" data-ng-show="!phone_numbers">
+                    <span class="st-red">Helpful tip:</span>
+                    <br/> Local numbers have a local area code which increases the open rate if your customers are in the same place. Toll-free numbers are better if your customers are all over the world. Hit search again with the same area code to show different numbers.
+                </p>
+
+                <p class="st-font st-centered" style="font-size:12px;margin:40px 0px 0px 0px;" data-ng-show="phone_numbers.length === 0">
+                    No Phone Numbers Found For This Country And Area Code. Try Another Search...
+                </p>
+
+
+
+
+
+
+
             </div>
         </div>
 

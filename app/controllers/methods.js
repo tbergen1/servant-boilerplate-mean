@@ -4,31 +4,39 @@ var mongoose = require('mongoose'),
     TwilioHelper = require('../twilio_helper'),
     Config = require('../../config/config');
 
-
 var searchPhoneNumbers = function(req, res, next) {
-	console.log("hereehrehr")
-	TwilioHelper.searchPhoneNumbers(function(error, numbers) {
-		if (error) return res.status(500).send(error);
-		return res.send(numbers);
-	});
+    if (req.body.number_type === 'local') {
+        TwilioHelper.searchLocalPhoneNumbers(req.body.country, req.body.area_code, function(error, numbers) {
+            if (error) return res.status(400).json({
+                error: error
+            });
+            return res.json(numbers);
+        });
+    } else if (req.body.number_type === 'tollfree') {
+        TwilioHelper.searchTollFreePhoneNumbers(req.body.country, function(error, numbers) {
+            if (error) return res.status(400).json({
+                error: error
+            });
+            return res.json(numbers);
+        });
+    } else {
+        if (error) return res.status(400).json({
+            error: 'Please include a number_type'
+        });
+    }
 };
 
-var searchPhoneNumbers = function() {
-
+var purchasePhoneNumber = function(req, res, next) {
+    TwilioHelper.purchasePhoneNumber(req.body.country, req.body.area_code, function(error, numbers) {
+        if (error) return res.status(400).json({
+            error: error
+        });
+        return res.json(numbers);
+    });
 };
-
-var updatePhoneNumber = function() {
-
-};
-
-var textBlast = function(req, res, next) {
-
-	// Pull in Tiny Text From Specific Servant
-	// Loop through Contacts and text each one w/ Phone Number
-	
-}
 
 
 module.exports = {
-    searchPhoneNumbers: searchPhoneNumbers
+    searchPhoneNumbers: searchPhoneNumbers,
+    purchasePhoneNumber: purchasePhoneNumber
 };
