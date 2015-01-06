@@ -1,16 +1,17 @@
 // Module dependencies.
 var mongoose = require('mongoose'),
+    async = require('async'),
     User = mongoose.model('User'),
+    ServantMeta = mongoose.model('ServantMeta'),
     request = require('request'),
-    Config = require('../../config/config'),
-    StripeHelper = require('../stripe_helper');
-
+    Config = require('../../config/config');
+    
 // Instantiate SDKs
-if (process.env.NODE_ENV && process.env.NODE_ENV === 'production') var Servant = require('servant-sdk-node')({
+if (process.env.NODE_ENV && process.env.NODE_ENV === 'production') var ServantSDK = require('servant-sdk-node')({
     application_client_id: process.env.SERVANT_CLIENT_ID,
     application_client_secret: process.env.SERVANT_SECRET_KEY
 });
-else var Servant = require('servant-sdk-node')({
+else var ServantSDK = require('servant-sdk-node')({
     application_client_id: Config.servant.client_id,
     application_client_secret: Config.servant.client_secret
 });
@@ -21,24 +22,24 @@ else var Servant = require('servant-sdk-node')({
  * - Handles Initial Authorization
  * - Also used as the "Log in" function
  * - Fetches User Profile From Servant
- * - Saves User To Database
+ * - Copies User and their Seravnts to Database To Save Application Data To Each
  */
 var servantConnectCallback = function(req, res) {
     var self = this;
 
     // Helper method updates user in database each time they connect
-    self._saveUser = function(tokens, newUser, callback) {
+    self._saveUserAndServants = function(tokens, newUser, callback) {
         // Get User & Servants
-        Servant.getUserAndServants(tokens.access_token, function(error, response) {
+        ServantSDK.getUserAndServants(tokens.access_token, function(error, response) {
             if (error) return callback(error, null);
-            // Find Servant User In Database
-            User.findOne({
+            var servant_user = response.user;
+            // Save User to Local Database
+            User.find({
                 servant_user_id: response.user._id
-            }).exec(function(error, user) {
+            }).limit(1).exec(function(error, users) {
                 if (error) return callback(error, null);
-                // Set Properties
-                var servant_user = response.user;
-                if (!user) user = new User();
+                if (!users.length) var user = new User();
+                else var user = users[0];
                 user.full_name = servant_user.full_name;
                 user.nick_name = servant_user.nick_name;
                 user.email = servant_user.email;
@@ -48,41 +49,32 @@ var servantConnectCallback = function(req, res) {
                 user.servant_refresh_token = tokens.refresh_token;
                 user.updated = new Date();
                 user.last_signed_in = new Date();
-
-                var servantIDs = [];
-
-                // Add Each Servant
-                for (i = 0; i < response.servants.length; i++) {
-                    var exists = false;
-                    for (j = 0; j < user.servants.length; j++) {
-                        if (response.servants[i]._id === user.servants[j].servant_id) exists = j;
-                    }
-                    if (exists === false) {
-                        user.servants.push({
-                            servant_id: response.servants[i]._id,
-                            servant_master: response.servants[i].master
-                        });
-                    } else {
-                        user.servants[exists].servant_master = response.servants[i].master;
-                    }
-                }
-                // Save User
-                user.markModified('servants');
                 user.save(function(error, user) {
+                    if (error) return callback(error, null);
+                    if (!response.servants.length) return callback(null, user);
+                    // Save Servants To Local Database (Mongo Unique Index Will Prevent Duplicates)
+                    for (i = 0; i < response.servants.length; i++) {
+                        // Create Servant, if it doesn't exist in local database
+                        var servantmeta = new ServantMeta({
+                            servant_id: response.servants[i]._id,
+                            user: user._id
+                        });
+                        servantmeta.save();
+                    };
                     // Callback
-                    return callback(error, user);
-                });
+                    return callback(null, user);
+                }); // user.save
             });
         }); // Servant.getUserAndServants
-    }; // _saveUser()
+    }; // _saveUserAndServants()
 
     // If AuthorizationCode was included in the parameters, the user hasn't authorized. Exchange AuthCode For Tokens
     if (req.query.code) {
-        Servant.exchangeAuthCode(req.query.code, function(error, servant_tokens) {
+        ServantSDK.exchangeAuthCode(req.query.code, function(error, servant_tokens) {
             if (error) return res.status(500).json({
                 error: error
             });
-            self._saveUser(servant_tokens, true, function(error, user) {
+            self._saveUserAndServants(servant_tokens, true, function(error, user) {
                 if (error) return res.status(500).json({
                     error: error
                 });
@@ -96,7 +88,7 @@ var servantConnectCallback = function(req, res) {
     }
     // If RefreshToken was included in the parameters, the User has already authenticated
     if (req.query.refresh_token) {
-        self._saveUser(req.query, false, function(error, user) {
+        self._saveUserAndServants(req.query, false, function(error, user) {
             if (error) return res.status(500).json({
                 error: error
             });

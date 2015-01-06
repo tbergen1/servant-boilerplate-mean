@@ -8,6 +8,8 @@
             </a>
         </p>
 
+
+
         <!-- Servant Wizard Screen -->
         <div id="wizard-servant" class="wizard-container st-sign-outer st-animate-zoom-in" data-ng-show="view === 'servant'">
             <div class="st-sign-inner wizard-inner">
@@ -15,7 +17,7 @@
                 <p class="st-font">Hi {{s.user.nick_name }}, Which Servant Would You Like To Use?</p>
 
                 <ul id="servant-list" class="list-unstyled" style="margin-top:30px;">
-                    <li class="st-font st-link servant" data-ng-repeat="servant in s.servants" data-ng-click="wizardSetServant(servant._id)">
+                    <li class="st-font st-link servant" data-ng-repeat="servant in s.user.servants" data-ng-click="wizardSetServant(servant._id)">
                         <img class="servant-image" data-ng-src="https://d2d0226i04jal.cloudfront.net/images/servants/{{ servant.personality.toLowerCase() }}.svg"> {{ servant.master }}
                     </li>
                 </ul>
@@ -30,13 +32,13 @@
         <div id="wizard-menu" class="wizard-container st-sign-outer st-animate-zoom-in" data-ng-show="view === 'menu'">
             <div class="st-sign-inner wizard-inner">
                 <p class="st-centered">
-                    <img class="servant-image" data-ng-src="https://d2d0226i04jal.cloudfront.net/images/servants/{{ s.servants[servant_index].personality.toLowerCase() }}.svg">
+                    <img class="servant-image" data-ng-src="https://d2d0226i04jal.cloudfront.net/images/servants/{{ s.user.servants[servant_index].personality.toLowerCase() }}.svg">
                 </p>
-                <p class="st-centered st-font st-red">{{s.servants[servant_index].master}} </p>
+                <p class="st-centered st-font st-red">{{s.user.servants[servant_index].master}} </p>
 
-                <hr style="margin: 20px auto 20px auto;width:75%">
+                <p class="st-font st-centered" style="margin-bottom:0px;">What would you like to do?</p>
 
-                <p class="st-font">What would you like to do?</p>
+                <hr style="margin: 10px auto 20px auto;width:75%">
 
                 <ul id="options-menu" class="list-unstyled">
                     <li class="st-font st-link">
@@ -44,6 +46,9 @@
                     </li>
                     <li class="st-font st-link">
                         <i class="fa fa-phone" style="margin-right:4px;"></i> Change Your Phone Number
+                    </li>
+                    <li class="st-font st-link">
+                        <i class="fa fa-flash" style="margin-right:4px;"></i> Change Your Plan
                     </li>
                 </ul>
             </div>
@@ -57,9 +62,9 @@
         <div id="wizard-createnumber" class="wizard-container st-sign-outer st-animate-zoom-in" data-ng-show="view === 'createnumber'">
             <div class="st-sign-inner wizard-inner">
                 <p class="st-centered">
-                    <img class="servant-image st-animate-bounce-in" data-ng-src="https://d2d0226i04jal.cloudfront.net/images/servants/{{ s.servants[servant_index].personality.toLowerCase() }}.svg">
+                    <img class="servant-image st-animate-bounce-in" data-ng-src="https://d2d0226i04jal.cloudfront.net/images/servants/{{ s.user.servants[servant_index].personality.toLowerCase() }}.svg">
                 </p>
-                <p class="st-centered st-font st-red">{{s.servants[servant_index].master}} </p>
+                <p class="st-centered st-font st-red">{{s.user.servants[servant_index].master}} </p>
 
                 <p class="st-font">
                     This Servant does not have a phone number.
@@ -112,7 +117,7 @@
                 <hr style="margin: 20px auto 20px auto;width:75%">
 
                 <ul class="list-unstyled">
-                    <li class="phone-number st-link" data-ng-repeat="number in phone_numbers" data-ng-click="registerPhoneNumber(number.friendly_name)">
+                    <li class="phone-number st-link" data-ng-repeat="number in phone_numbers" data-ng-click="purchasePhoneNumber(number.friendly_name)">
                         {{ number.friendly_name }}
                     </li>
                 </ul>
@@ -156,17 +161,17 @@
                 </div>
                 <div data-ng-show="!subscribed">
                     <p class="st-centered">
-                        <img class="servant-image st-animate-bounce-in" data-ng-src="https://d2d0226i04jal.cloudfront.net/images/servants/{{ s.servants[servant_index].personality.toLowerCase() }}.svg">
+                        <img class="servant-image st-animate-bounce-in" data-ng-src="https://d2d0226i04jal.cloudfront.net/images/servants/{{ s.user.servants[servant_index].personality.toLowerCase() }}.svg">
                     </p>
-                    <p class="st-centered st-font st-red">{{s.servants[servant_index].master}} </p>
+                    <p class="st-centered st-font st-red">{{s.user.servants[servant_index].master}} </p>
 
-                    <p class="st-font" data-ng-show="s.servants[servant_index].servant_pay_subscription_status === 'none'">
+                    <p class="st-font" data-ng-show="s.user.servants[servant_index].servant_pay_subscription_status === 'none'">
                         This Servant does not have a subscription
                     </p>
 
                     <hr style="margin: 20px auto 20px auto;width:75%">
 
-                    <p class="st-font" data-ng-show="s.servants[servant_index].servant_pay_subscription_status === 'none'">
+                    <p class="st-font" data-ng-show="s.user.servants[servant_index].servant_pay_subscription_status === 'none'">
                         How Many Text Messages Do You Need A Month?
                     </p>
 
@@ -175,7 +180,7 @@
                         </select>
                     </p>
 
-                    <p class="st-font" style="margin-top:30px;" data-ng-show="s.servants[servant_index].servant_pay_subscription_status === 'none'">
+                    <p class="st-font" style="margin-top:30px;" data-ng-show="s.user.servants[servant_index].servant_pay_subscription_status === 'none'">
                         Every Subscription Includes:
                     </p>
 
@@ -206,7 +211,7 @@
                         <span data-ng-show="newPlan === 'plan5'">$50/Month?</span>
                     </p>
 
-                    <p class="st-font" style="margin-top:20px;" data-ng-show="s.servants[servant_index].servant_pay_subscription_status === 'none'">
+                    <p class="st-font" style="margin-top:20px;" data-ng-show="s.user.servants[servant_index].servant_pay_subscription_status === 'none'">
                         <button class="btn btn-primary btn-lg" data-ng-hide="subscribing" data-ng-click="subscribe()">Subscribe</button>
                         <button class="btn btn-primary btn-lg disabled" data-ng-show="subscribing">
                             <i class="fa fa-refresh fa-spin"></i> Subscribing

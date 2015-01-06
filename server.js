@@ -19,23 +19,23 @@ var port = process.env.PORT || config.app.port;
 // Connect to our MongoDB Database 
 mongoose.connect(config.db);
 mongoose.connection.on('error', function(err) {
-	console.log('Mongoose Connection Error: ' + err);
+    console.log('Mongoose Connection Error: ' + err);
 });
 
 // Bootstrap Models
 var models_path = __dirname + '/app/models';
 var walk = function(path) {
-	fs.readdirSync(path).forEach(function(file) {
-		var newPath = path + '/' + file;
-		var stat = fs.statSync(newPath);
-		if (stat.isFile()) {
-			if (/(.*)\.(js|coffee)/.test(file)) {
-				require(newPath);
-			}
-		} else if (stat.isDirectory()) {
-			walk(newPath);
-		}
-	});
+    fs.readdirSync(path).forEach(function(file) {
+        var newPath = path + '/' + file;
+        var stat = fs.statSync(newPath);
+        if (stat.isFile()) {
+            if (/(.*)\.(js|coffee)/.test(file)) {
+                require(newPath);
+            }
+        } else if (stat.isDirectory()) {
+            walk(newPath);
+        }
+    });
 };
 walk(models_path);
 
@@ -47,13 +47,13 @@ app.use(cookieParser());
 
 // Express Cookie-Based Session
 app.use(session({
-	name: 'iekoocNAEMETALPRELIOBTNAVRES',
-	secret: 'NAEMETALPRELIOBTNAVRES',
-	secureProxy: false, // Set to true if you have an SSL Certificate
-	cookie: {
-		secure: false, // Secure is Recommeneded, However it requires an HTTPS enabled website (SSL Certificate)
-		maxAge: 864000000 // 10 Days in miliseconds
-	}
+    name: 'iekoocNAEMETALPRELIOBTNAVRES',
+    secret: 'NAEMETALPRELIOBTNAVRES',
+    secureProxy: false, // Set to true if you have an SSL Certificate
+    cookie: {
+        secure: false, // Secure is Recommeneded, However it requires an HTTPS enabled website (SSL Certificate)
+        maxAge: 864000000 // 10 Days in miliseconds
+    }
 }));
 
 // Favicon
@@ -66,10 +66,10 @@ app.set('view engine', 'jade');
 // Get req.body as JSON when receiving POST requests
 app.use(bodyParser.json()); // parse application/json 
 app.use(bodyParser.json({
-	type: 'application/vnd.api+json'
+    type: 'application/vnd.api+json'
 })); // parse application/vnd.api+json as json
 app.use(bodyParser.urlencoded({
-	extended: true
+    extended: true
 })); // parse application/x-www-form-urlencoded
 
 // override with the X-HTTP-Method-Override header in the request. simulate DELETE/PUT
@@ -82,5 +82,12 @@ require('./app/routes')(app); // pass our application into our routes
 app.listen(port);
 console.log('****** Servant Boilerplate is now running on port ' + port + ' ******'); // shoutout to the user
 exports = module.exports = app; // expose app
+
+// Start TaskRunner Timer
+var TaskRunner = setInterval(function() {
+    var taskRunner = require('./app/task_runner');
+    return taskRunner.run();
+}, 15000);
+
 
 // End

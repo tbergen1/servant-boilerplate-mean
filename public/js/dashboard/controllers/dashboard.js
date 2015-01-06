@@ -24,24 +24,36 @@ angular.module('appDashboard').controller('DashboardController', ['$rootScope', 
         }];
         $scope.country = 'US';
         $scope.area_code = '424';
-        $scope.subscribing;
-        $scope.subscribed;
 
-        // $scope.$watch('servant_index', function(newValue, oldValue) {
-        //     if (!$rootScope.s.servants) return;
-        //     // Set Servant in SDK
-        //     ServantAngularService.setServant($rootScope.s.servants[$scope.servant_index]);
-        //     // Load TinyTexts
-        //     $scope.loadTinyTexts();
-        //     // Set Plan
-        //     if ($rootScope.s.servants[$scope.servant_index].servant_pay_subscription_plan_id) $scope.newPlan = $rootScope.s.servants[$scope.servant_index].servant_pay_subscription_plan_id;
-        // });
+        $rootScope.$watch('view', function(newValue, oldValue) {
+            if (newValue === 'menu') {
+                if ($rootScope.s.user.servants[$scope.servant_index].servant_pay_subscription_status === 'none') $rootScope.view = 'createplan';
+                if (!$rootScope.s.user.servants[$scope.servant_index].twilio_phone_number) $rootScope.view = 'createnumber';
+            }
+        });
 
         $scope.initialize = function() {
             // Fetch User Data
+            $scope.getServants();
+        };
+
+        $scope.getServants = function() {
             ServantAngularService.getUserAndServants().then(function(response) {
                 console.log("User and Servants Fetched:", response);
                 $rootScope.s.servants = response.servants;
+                // Combine Servants and ServantMeta
+                for (i = 0; i < $rootScope.s.user.servants.length; i++) {
+                    for (j = 0; j < $rootScope.s.servants.length; j++) {
+                        if ($rootScope.s.user.servants[i].servant_id === $rootScope.s.servants[j]._id) {
+                            $rootScope.s.user.servants[i].master = $rootScope.s.servants[j].master;
+                            $rootScope.s.user.servants[i].master_biography = $rootScope.s.servants[j].master_biography;
+                            $rootScope.s.user.servants[i].personality = $rootScope.s.servants[j].personality;
+                            $rootScope.s.user.servants[i].servant_pay_subscription_status = $rootScope.s.servants[j].servant_pay_subscription_status;
+                            $rootScope.s.user.servants[i].servant_pay_subscription_plan_canceled = $rootScope.s.servants[j].servant_pay_subscription_plan_canceled;
+                        }
+                    };
+                };
+                console.log("User: ", $rootScope.s.user)
             }, function(error) {
                 console.log(error);
             });
@@ -50,25 +62,14 @@ angular.module('appDashboard').controller('DashboardController', ['$rootScope', 
         $scope.wizardSetServant = function(servantID) {
             // Set Servant
             for (i = 0; i < $rootScope.s.servants.length; i++) {
-                if ($rootScope.s.servants[i]._id.toString() === servantID.toString()) $scope.servant_index = i;
+                if ($rootScope.s.user.servants[i]._id.toString() === servantID.toString()) $scope.servant_index = i;
             }
-            ServantAngularService.setServant($rootScope.s.servants[$scope.servant_index]);
-            // Redirect
-            if ($rootScope.s.servants[$scope.servant_index].servant_pay_subscription_status === 'none') {
-                $rootScope.view = 'createplan';
-            } else {
-                $rootScope.view = 'createnumber';
-            }
-            // ServantAngularService.servantpayCustomerDelete().then(function(resp) {
-            // 	console.log(resp)
-            // }, function(error) {
-            // 	console.log(error)
-            // });
+            ServantAngularService.setServant($rootScope.s.user.servants[$scope.servant_index]);
+            $rootScope.view = 'menu';
         };
 
         $scope.showServant = function(servantID) {
             ServantAngularService.showServant(servantID).then(function(response) {
-                $rootScope.s.servants[$scope.servant_index] = response;
                 console.log(response)
             }, function(error) {
                 console.log(error);
@@ -90,11 +91,25 @@ angular.module('appDashboard').controller('DashboardController', ['$rootScope', 
                 console.log(error);
                 $scope.phone_numbers = [];
                 $scope.searching = false;
-            })
+            });
         };
 
-        $scope.registerPhoneNumber = function(number) {
+        $scope.registering = true;
+        $scope.purchasePhoneNumber = function(number) {
             var c = confirm("Is this the number you want: " + number + "?  this number will be yours as long as you have a plan with us.");
+            if (c) {
+                $scope.registering = true;
+                Application.purchasePhoneNumber({
+                    servantID: $rootScope.s.servants[$scope.servant_index]._id
+                }, {
+                    phone_number: number
+                }, function(response) {
+                    $scope.registering = false;
+                    $rootScope.s.servants[$scope.servant_index] = response;
+                }, function(error) {
+                    console.log(error);
+                });
+            }
         };
 
         $scope.loadTinyTexts = function() {
