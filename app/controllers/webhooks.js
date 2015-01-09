@@ -13,9 +13,7 @@ var ServantSDK = require('servant-sdk-node')({
 
 
 var checkTagExists = function(servantmeta, callback) {
-	console.log("here1: ");
     if (servantmeta.default_tag_id) return callback(null);
-    console.log("here2: ");
 
     // See If Tag Exists On Servant
     var criteria = {
@@ -26,7 +24,6 @@ var checkTagExists = function(servantmeta, callback) {
         page: 1
     };
     ServantSDK.queryArchetypes(servantmeta.user.servant_access_token, servantmeta.servant_id, 'tag', criteria, function(error, response) {
-        console.log("here3: ", error, response);
         if (error) return console.log("Tag Creation Error: ", error);
         if (response.records.length) {
             // Add Tag To ServantMeta
@@ -35,12 +32,10 @@ var checkTagExists = function(servantmeta, callback) {
                 return callback(response);
             });
         } else {
-        	console.log("here4");
             // Create Tag
             ServantSDK.saveArchetype(servantmeta.user.servant_access_token, servantmeta.servant_id, 'tag', {
                 tag: 'text-marketing-list'
             }, function(error, tag) {
-                console.log("Tag Created On Servant: ", error, tag);
                 if (error) return console.log("Tag Creation Error: ", error);
                 // Add Tag To ServantMeta
                 servantmeta.default_tag_id = tag._id;
@@ -55,7 +50,7 @@ var checkTagExists = function(servantmeta, callback) {
 };
 
 var twilioIncomingSMS = function(req, res, next) {
-    console.log("WEBHOOK FROM TWILIO: ", req.body, req.query, req.params);
+    console.log("WEBHOOK FROM TWILIO: ", req.body.Body, req.body.From, req.body.To);
 
     ServantMeta.find({
         twilio_phone_number: req.body.To
@@ -93,8 +88,7 @@ var twilioIncomingSMS = function(req, res, next) {
                             tags: [servantmeta.default_tag_id]
                         }
                         ServantSDK.saveArchetype(servantmeta.user.servant_access_token, servantmeta.servant_id, 'contact', newContact, function(error, contact) {
-                            if (error) console.log(error);
-                            console.log(contact);
+                            if (error) console.log("Contact Creation Error: ", error);
                         });
                     });
                 }
