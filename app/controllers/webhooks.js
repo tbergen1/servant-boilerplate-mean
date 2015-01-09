@@ -38,14 +38,15 @@ var twilioIncomingSMS = function(req, res, next) {
             };
 
             ServantSDK.queryArchetypes(servantmeta.user.servant_access_token, servantmeta.servant_id, 'contact', criteria, function(error, response) {
+            	console.log(error, response)
                 if (error) console.log(error);
-                if (!response.records.length) {
-                    // Create Contact
-                    ServantSDK.saveArchetype(servantmeta.user.servant_access_token, servantmeta.servant_id, 'contact', newContact, function(error, contact) {
-                    	if (error) console.log(error);
-                    	console.log(contact);
-                    });
-                }
+                // if (!response.records.length) {
+                //     // Create Contact
+                //     ServantSDK.saveArchetype(servantmeta.user.servant_access_token, servantmeta.servant_id, 'contact', newContact, function(error, contact) {
+                //         if (error) console.log(error);
+                //         console.log(contact);
+                //     });
+                // }
             });
         }
     });
