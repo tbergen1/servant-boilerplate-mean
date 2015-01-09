@@ -47,6 +47,21 @@ var handleStartEvent = function(req, res, next) {
             ServantSDK.queryArchetypes(servantmeta.user.servant_access_token, servantmeta.servant_id, 'contact', criteria, function(error, response) {
                 if (error) return console.log(error);
                 if (response.records.length) {
+                    // Contact Exists, Update Their Tags
+                    var contact = response.records[0];
+                    // Iterate Through Tags.  Remove Relevant Tags.  Add Single Active Tag.
+                    for (i = 0; i < contact.tags.length; i++) {
+                        // Remove All Inactive Tags
+                        if (contact.tags[i]._id.toString() === servantmeta.inactive_tag_id) contact.tags.splice(i, 1);
+                        // Remove All Active Tags
+                        if (contact.tags[i]._id.toString() === servantmeta.active_tag_id) contact.tags.splice(i, 1);
+                        // Add Single Active Tag
+                        contact.tags.push(servantmeta.active_tag_id);
+                    }
+                    // Save Contact
+                    ServantSDK.saveArchetype(servantmeta.user.servant_access_token, servantmeta.servant_id, 'contact', contact, function(error, contact) {
+                        if (error) return console.log("Servant Error – Adding Contact Active Tag Failed! ", error);
+                    });
                     // Respond With New Subscriber Message
                     TwilioHelper.createTwiml(function(twiml) {
                         // Increment SMS Sent Number
@@ -112,19 +127,18 @@ var handleStopEvent = function(req, res, next) {
                 if (error) return console.log(error);
                 if (response.records.length) {
                     var contact = response.records[0];
-                    // Iterate Through Tags.  Remove Default Tag
+                    // Iterate Through Tags.  Remove Relevant Tags.  Add Single Inactive Tag.
                     for (i = 0; i < contact.tags.length; i++) {
-                        console.log(contact.tags[i]._id.toString(), servantmeta.active_tag_id)
-                            // Remove Active Tag
-                        if (contact.tags[i]._id.toString() === servantmeta.active_tag_id) {
-                            contact.tags.splice(i, 1);
-                            // Add Inactive Tag
-                            contact.tags.push(servantmeta.inactive_tag_id);
-                        }
+                        // Remove All Inactive Tags
+                        if (contact.tags[i]._id.toString() === servantmeta.inactive_tag_id) contact.tags.splice(i, 1);
+                        // Remove All Active Tags
+                        if (contact.tags[i]._id.toString() === servantmeta.active_tag_id) contact.tags.splice(i, 1);
+                        // Add Single Active Tag
+                        contact.tags.push(servantmeta.inactive_tag_id);
                     }
                     // Save Contact
                     ServantSDK.saveArchetype(servantmeta.user.servant_access_token, servantmeta.servant_id, 'contact', contact, function(error, contact) {
-                        console.log("Contact Updated! ", error, contact);
+                        if (error) return console.log("Servant Error – Removing Contact Inactive Tag Failed! ", error);
                     });
                 } else {
                     // Contact Not Found
