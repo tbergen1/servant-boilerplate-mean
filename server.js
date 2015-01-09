@@ -89,7 +89,7 @@ require('./app/routes')(app); // pass our application into our routes
 
 // start app ===============================================
 app.listen(port);
-console.log('****** Servant Boilerplate is now running on port ' + port + ' ******'); // shoutout to the user
+console.log('****** Servant Boilerplate ' + env + ' is now running on port ' + port + '  ******'); // shoutout to the user
 exports = module.exports = app; // expose app
 
 // Start TaskRunner Timer

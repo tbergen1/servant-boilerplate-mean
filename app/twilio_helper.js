@@ -5,9 +5,10 @@ var mongoose = require('mongoose'),
     ServantMeta = mongoose.model('ServantMeta'),
     Config = require('../config/config');
 
+// Instantiate  Twilio w/ Master Account
+var twilio = require('twilio')(process.env.TWILIO_SID, process.env.TWILIO_AUTH_TOKEN);
+
 var createSubaccount = function(servantID, callback) {
-    // Instantiate  Twilio w/ Master Account
-    var twilio = require('twilio')(process.env.TWILIO_SID, process.env.TWILIO_AUTH_TOKEN);
     // Create Subaccount
     twilio.accounts.create({
         friendlyName: servantID
@@ -19,8 +20,6 @@ var createSubaccount = function(servantID, callback) {
 };
 
 var closeSubaccount = function(accountSID, callback) {
-    // Instantiate  Twilio w/ Master Account
-    var twilio = require('twilio')(process.env.TWILIO_SID, process.env.TWILIO_AUTH_TOKEN);
     // Close Subaccount
     twilio.accounts(accountSID).update({
         status: "closed"
@@ -30,8 +29,6 @@ var closeSubaccount = function(accountSID, callback) {
 };
 
 var closeAllInactiveSubaccounts = function() {
-    //Instantiate  Twilio w/ Master Account
-    var twilio = require('twilio')(process.env.TWILIO_SID, process.env.TWILIO_AUTH_TOKEN);
     // List All Active Subaccounts
     twilio.accounts.get({
         Status: 'active'
@@ -62,8 +59,6 @@ var closeAllInactiveSubaccounts = function() {
 };
 
 var searchLocalPhoneNumbers = function(country, area_code, callback) {
-    // Instantiate  Twilio w/ Master Account
-    var twilio = require('twilio')(process.env.TWILIO_SID, process.env.TWILIO_AUTH_TOKEN);
     if (!country) country = 'US';
     if (!area_code) area_code = '418';
     area_code = area_code.toString();
@@ -78,8 +73,6 @@ var searchLocalPhoneNumbers = function(country, area_code, callback) {
 };
 
 var searchTollFreePhoneNumbers = function(country, callback) {
-    // Instantiate  Twilio w/ Master Account
-    var twilio = require('twilio')(process.env.TWILIO_SID, process.env.TWILIO_AUTH_TOKEN);
     // Close Subaccount
     if (!country) country = 'US';
     twilio.availablePhoneNumbers(country).tollFree.get().then(function(numbers) {
@@ -90,9 +83,6 @@ var searchTollFreePhoneNumbers = function(country, callback) {
 };
 
 var purchasePhoneNumber = function(servantmeta, number, callback) {
-    // Instantiate  Twilio w/ Master Account
-    var twilio = require('twilio')(process.env.TWILIO_SID, process.env.TWILIO_AUTH_TOKEN);
-
     twilio.incomingPhoneNumbers.create({
         smsUrl: "http://texter.servant.co/webhooks/twilio/sms/incoming",
         smsMethod: "POST",
@@ -107,9 +97,6 @@ var purchasePhoneNumber = function(servantmeta, number, callback) {
 };
 
 var releasePhoneNumber = function(servantmeta, callback) {
-    // Instantiate  Twilio w/ Master Account
-    var twilio = require('twilio')(process.env.TWILIO_SID, process.env.TWILIO_AUTH_TOKEN);
-
     twilio.incomingPhoneNumbers(servantmeta.twilio_phone_number_sid).delete(function(error, response) {
         if (error) {
             return callback(error, null);
@@ -120,9 +107,6 @@ var releasePhoneNumber = function(servantmeta, callback) {
 };
 
 var textBlast = function(toNumber, fromNumber, body, callback) {
-    // Instantiate  Twilio w/ Master Account
-    var twilio = require('twilio')(process.env.TWILIO_SID, process.env.TWILIO_AUTH_TOKEN);
-
     // Send Text
     twilio.messages.create({
         body: body,
