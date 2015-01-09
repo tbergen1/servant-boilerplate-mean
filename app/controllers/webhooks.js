@@ -34,7 +34,7 @@ var twilioIncomingSMS = function(req, res, next) {
                 sort: {},
                 page: 1
             };
-            console.log(criteria);
+            console.log(criteria.query['phone_numbers.phone_number']['$in']);
             ServantSDK.queryArchetypes(servantmeta.user.servant_access_token, servantmeta.servant_id, 'contact', criteria, function(error, response) {
                 console.log(error, response);
                 if (error) return console.log(error);
