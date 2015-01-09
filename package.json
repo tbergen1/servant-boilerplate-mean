@@ -6,7 +6,7 @@
   },
   "engines": {
     "node": "0.10.x",
-    "npm": "1.2.x"
+    "npm": "2.1.x"
   },
   "main": "server.js",
   "dependencies": {

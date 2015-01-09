@@ -1,11 +1,5 @@
 {
     "db": "mongodb://localhost/servant-boilerplate-mean-dev",
-    "app": {
-        "name": "Servant Texter",
-        "description" : "Rapidly build Servant applications by starting with this boilerplate application",
-        "keywords": "servant, content, cloud, cms, data, blog, products, events",
-        "port": 8080
-    },
     "servant": {
         "client_id": "hOphQRk34e8Ryd3l",
         "client_secret": "WWSoF7aV0lFIJBJvlZXFXBtpJK2MJRWg",

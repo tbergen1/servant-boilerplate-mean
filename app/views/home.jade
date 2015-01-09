@@ -7,12 +7,12 @@ block content
 				h1.logo.st-font #{name}
 				p.tagline.st-font 
 					i.fa.fa-chevron-right 
-					span A boilerplate framework to help you rapidly build your own Servant application!
+					span Text Message Tools For Your Servant
 					i.fa.fa-chevron-left
 		.row
-			.col-md-12.animated.bounceInUp(id="info-container")
-				a.btn-primary.btn-lg.connect-btn(href="#{connect_url}", data-ng-click="connect()", data-ng-hide="connecting") Connect Servant
-				a.btn-primary.btn-lg.connect-btn(href="#{connect_url}", data-ng-show="connecting") 
+			.col-md-12.st-animate-bounce-in-up(id="info-container")
+				a.st-btn-red.st-btn-lg(href="#{connect_url}", data-ng-click="connect()", data-ng-hide="connecting") Connect Servant
+				a.st-btn-red.st-btn-lg(href="#{connect_url}", data-ng-show="connecting") 
 					i.fa.fa-spinner.fa-spin(style="margin-right:12px;margin-left:5px;opacity:0.6") 
 					span Connecting...
 

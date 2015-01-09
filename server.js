@@ -24,8 +24,9 @@ var config = require('./config/config');
 // Set Port
 var port = process.env.PORT || config.app.port;
 
-// Connect to our MongoDB Database 
-mongoose.connect(config.db);
+// Connect MongoDB Database 
+if (env === 'development') mongoose.connect(config.db);
+if (env === 'production') mongoose.connect(process.env.MONGOLAB_URI);
 mongoose.connection.on('error', function(err) {
     console.log('Mongoose Connection Error: ' + err);
 });

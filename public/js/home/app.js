@@ -1,2 +1,2 @@
-angular.module('appHome', ['ngResource', 'ui.bootstrap', 'LocalStorageModule']);
+angular.module('appHome', ['ngResource']);
 

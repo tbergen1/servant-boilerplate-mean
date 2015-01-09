@@ -1,4 +1,4 @@
-angular.module('appHome').controller('HomeController', ['$scope', '$timeout', '$modal', 'localStorageService', function ($scope, $timeout, $modal, localStorageService) {
+angular.module('appHome').controller('HomeController', ['$scope', '$timeout', function ($scope, $timeout) {
     
     $scope.initialize = function() {
         // Defaults
