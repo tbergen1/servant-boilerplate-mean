@@ -116,6 +116,12 @@ var textBlast = function(toNumber, fromNumber, body, callback) {
     if (callback) return callback(null);
 };
 
+var createTwiml = function(callback) {
+    // Create Twiml Instance
+    var twiml = new twilio.TwimlResponse();
+    if (callback) return callback(twiml);
+};
+
 
 module.exports = {
     createSubaccount: createSubaccount,
@@ -124,7 +130,8 @@ module.exports = {
     searchTollFreePhoneNumbers: searchTollFreePhoneNumbers,
     purchasePhoneNumber: purchasePhoneNumber,
     releasePhoneNumber: releasePhoneNumber,
-    textBlast: textBlast
+    textBlast: textBlast,
+    createTwiml: createTwiml
 };
 
 

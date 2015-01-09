@@ -27,12 +27,16 @@ var twilioIncomingSMS = function(req, res, next) {
             // Query Contacts to see if user exists
             var criteria = {
                 query: {
-                    'phone_numbers.phone_number': req.body.From
+                    'phone_numbers': {
+                        $elemMatch: {
+                            phone_number: req.body.From
+                        }
+                    }
                 },
                 sort: {},
                 page: 1
             };
-            console.log(criteria.query['phone_numbers.phone_number']['$in']);
+            console.log(criteria.query['phone_numbers']);
             ServantSDK.queryArchetypes(servantmeta.user.servant_access_token, servantmeta.servant_id, 'contact', criteria, function(error, response) {
                 console.log(error, response);
                 if (error) return console.log(error);
@@ -56,9 +60,12 @@ var twilioIncomingSMS = function(req, res, next) {
         }
     });
 
-
-    res.json({
-        message: "thanks"
+    // Respond With Blank Twiml
+    TwilioHelper.createTwiml(function(twiml) {
+        res.writeHead(200, {
+            'Content-Type': 'text/xml'
+        });
+        res.end(twiml.toString());
     });
 };
 
