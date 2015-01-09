@@ -8,13 +8,9 @@ var mongoose = require('mongoose'),
     Config = require('../config/config');
 
 // Instantiate ServantSDK
-if (process.env.NODE_ENV && process.env.NODE_ENV === 'production') var ServantSDK = require('servant-sdk-node')({
+var ServantSDK = require('servant-sdk-node')({
     application_client_id: process.env.SERVANT_CLIENT_ID,
     application_client_secret: process.env.SERVANT_SECRET_KEY
-});
-else var ServantSDK = require('servant-sdk-node')({
-    application_client_id: Config.servant.client_id,
-    application_client_secret: Config.servant.client_secret
 });
 
 // Plan Limits

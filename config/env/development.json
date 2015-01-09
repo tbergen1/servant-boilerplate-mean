@@ -1,8 +1,6 @@
 {
     "db": "mongodb://localhost/servant-boilerplate-mean-dev",
     "servant": {
-        "client_id": "hOphQRk34e8Ryd3l",
-        "client_secret": "WWSoF7aV0lFIJBJvlZXFXBtpJK2MJRWg",
         "connect_url": "https://www.servant.co/connect/oauth2/authorize?response_type=code&client_id=hOphQRk34e8Ryd3l"
     }
 }
