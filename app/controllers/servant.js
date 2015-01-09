@@ -33,6 +33,7 @@ var servantConnectCallback = function(req, res) {
             User.find({
                 servant_user_id: response.user._id
             }).limit(1).exec(function(error, users) {
+                console.log("here1", error, users)
                 if (error) return callback(error, null);
                 if (!users.length) var user = new User();
                 else var user = users[0];
@@ -46,6 +47,7 @@ var servantConnectCallback = function(req, res) {
                 user.updated = new Date();
                 user.last_signed_in = new Date();
                 user.save(function(error, user) {
+                    console.log("here2", error, user);
                     if (error) return callback(error, null);
                     if (!response.servants.length) return callback(null, user);
                     // Save Servants To Local Database (Mongo Unique Index Will Prevent Duplicates)
