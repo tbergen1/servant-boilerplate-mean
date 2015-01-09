@@ -22,7 +22,7 @@ module.exports = function(app) {
     app.post('/servants/:servantID/twilio/phone_numbers/purchase', middleware.checkSession, middleware.authorizeServant, middleware.checkTwilioSubaccount, application.purchasePhoneNumber);
 
     // Webhooks
-    app.get('/webhooks/twilio/sms/incoming', webhooks.twilioIncomingSMS);
+    app.post('/webhooks/twilio/sms/incoming', webhooks.twilioIncomingSMS);
 
     // Application
     app.get('/', application.index);

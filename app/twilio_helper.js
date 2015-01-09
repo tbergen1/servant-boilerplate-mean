@@ -96,7 +96,7 @@ var purchasePhoneNumber = function(number, callback) {
     else var twilio = require('twilio')(process.env.TWILIO_SID, process.env.TWILIO_AUTH_TOKEN);
 
     twilio.incomingPhoneNumbers.create({
-        smsUrl: "https://texter.servant.co/webhooks/twilio/sms/incoming",
+        smsUrl: "http://texter.servant.co/webhooks/twilio/sms/incoming",
         smsMethod: "POST",
         phoneNumber: number
     }).then(function(number) {
