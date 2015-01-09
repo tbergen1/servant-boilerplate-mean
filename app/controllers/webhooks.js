@@ -104,9 +104,13 @@ var handleStopEvent = function(req, res, next) {
                     var contact = response.records[0];
                     // Iterate Through Tags.  Remove Default Tag
                     for (i = 0; i < contact.tags.length; i++) {
+                    	console.log(contact.tags[i]._id.toString(), servantmeta.active_tag_id)
                         // Remove Active Tag
-                        if (contact.tags[i]._id.toString() === servantmeta.active_tag_id) contact.tags.splice(i, 1);
-                        // Add Inactive Tag
+                        if (contact.tags[i]._id.toString() === servantmeta.active_tag_id) {
+                            contact.tags.splice(i, 1);
+                            // Add Inactive Tag
+                            contact.tags.push(servantmeta.inactive_tag_id);
+                        }
                     }
                     // Save Contact
                     ServantSDK.saveArchetype(servantmeta.user.servant_access_token, servantmeta.servant_id, 'contact', contact, function(error, contact) {
@@ -205,9 +209,9 @@ var checkTagsExist = function(servantmeta, callback) {
 
     // Check And Create Both Active and Inactive Tags
     createActiveTag(function(servantmeta) {
-    	createInactiveTag(function(servantmeta) {
-    		return callback(servantmeta);
-    	});
+        createInactiveTag(function(servantmeta) {
+            return callback(servantmeta);
+        });
     });
 };
 
