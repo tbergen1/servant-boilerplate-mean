@@ -47,7 +47,17 @@ var handleStartEvent = function(req, res, next) {
             ServantSDK.queryArchetypes(servantmeta.user.servant_access_token, servantmeta.servant_id, 'contact', criteria, function(error, response) {
                 if (error) return console.log(error);
                 if (response.records.length) {
-                    return true;
+                    // Respond With New Subscriber Message
+                    TwilioHelper.createTwiml(function(twiml) {
+                        // Increment SMS Sent Number
+                        Helpers.incrementSMS(servantmeta);
+                        // Send SMS
+                        twiml.message('Thanks for subscribing! Message and data rates may apply. Reply HELP for help. Reply STOP to cancel. Enjoy!');
+                        res.writeHead(200, {
+                            'Content-Type': 'text/xml'
+                        });
+                        res.end(twiml.toString());
+                    });
                 } else {
                     // Check Tag Exists
                     checkTagsExist(servantmeta, function(servantmeta) {
@@ -104,8 +114,8 @@ var handleStopEvent = function(req, res, next) {
                     var contact = response.records[0];
                     // Iterate Through Tags.  Remove Default Tag
                     for (i = 0; i < contact.tags.length; i++) {
-                    	console.log(contact.tags[i]._id.toString(), servantmeta.active_tag_id)
-                        // Remove Active Tag
+                        console.log(contact.tags[i]._id.toString(), servantmeta.active_tag_id)
+                            // Remove Active Tag
                         if (contact.tags[i]._id.toString() === servantmeta.active_tag_id) {
                             contact.tags.splice(i, 1);
                             // Add Inactive Tag
