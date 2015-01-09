@@ -4,6 +4,7 @@ var mongoose = require('mongoose'),
     async = require('async'),
     ServantMeta = mongoose.model('ServantMeta'),
     ScheduledTask = mongoose.model('ScheduledTask'),
+    Helpers = require('./helpers'),
     TwilioHelper = require('./twilio_helper'),
     Config = require('../config/config');
 
@@ -25,7 +26,10 @@ var plan_limits = {
 
 // Blast Contacts
 var blastContacts = function(plan, servantmeta, tinytextBody, access_token, servantID, page, callback) {
-    // Fetch 10 Contacts
+    // Query 10 Contacts
+        
+    var criteria = {};
+
     ServantSDK.archetypesRecent(access_token, servantID, 'contact', page, function(error, response) {
         try {
             if (error) {
@@ -39,17 +43,7 @@ var blastContacts = function(plan, servantmeta, tinytextBody, access_token, serv
                     // Perform Text Blast
                     TwilioHelper.textBlast(response.records[i].phone_numbers[0].phone_number, servantmeta.twilio_phone_number, tinytextBody);
                     // Increment SMS Sent Number
-                    ServantMeta.update({
-                        _id: servantmeta._id
-                    }, {
-                        $inc: {
-                            sms_sent: 1
-                        }
-                    }, {
-                        multi: false
-                    }, function(error, response) {
-                        // console.log(error);
-                    });
+                    Helpers.incrementSMS();
                 };
                 // Recurse, If More Pages Of Contacts
                 return blastContacts(plan, servantmeta, tinytextBody, access_token, servantID, page + 1, callback);
