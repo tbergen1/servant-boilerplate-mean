@@ -108,13 +108,6 @@ var twilioIncomingSMS = function(req, res, next) {
         }
     });
 
-    // Respond With Blank Twiml
-    TwilioHelper.createTwiml(function(twiml) {
-        res.writeHead(200, {
-            'Content-Type': 'text/xml'
-        });
-        res.end(twiml.toString());
-    });
 };
 
 module.exports = {
