@@ -89,6 +89,18 @@ var twilioIncomingSMS = function(req, res, next) {
                         }
                         ServantSDK.saveArchetype(servantmeta.user.servant_access_token, servantmeta.servant_id, 'contact', newContact, function(error, contact) {
                             if (error) console.log("Contact Creation Error: ", error);
+
+                            // Respond With Blank Twiml
+                            TwilioHelper.createTwiml(function(twiml) {
+                            	twiml.message('Thanks for subscribing! Message and data rates may apply. Reply HELP for help. Reply STOP to cancel. Enjoy!');
+                                res.writeHead(200, {
+                                    'Content-Type': 'text/xml'
+                                });
+                                res.end(twiml.toString());
+                            });
+
+
+                            'Message and data rates may apply. {Message frequency}. Text HELP to ##### for help. Text STOP to ##### to cancel.'
                         });
                     });
                 }
@@ -108,4 +120,3 @@ var twilioIncomingSMS = function(req, res, next) {
 module.exports = {
     twilioIncomingSMS: twilioIncomingSMS
 };
-
