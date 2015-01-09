@@ -27,10 +27,8 @@ var twilioIncomingSMS = function(req, res, next) {
             // Query Contacts to see if user exists
             var criteria = {
                 query: {
-                    find: {
-                        'phone_numbers.phone_number': {
-                            $in: [req.body.From, req.body.From.replace('+1', '')]
-                        }
+                    'phone_numbers.phone_number': {
+                        $in: [req.body.From, req.body.From.replace('+1', '')]
                     }
                 },
                 sort: {},
