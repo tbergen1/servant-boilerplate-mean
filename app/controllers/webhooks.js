@@ -52,12 +52,12 @@ var handleStartEvent = function(req, res, next) {
                     // Iterate Through Tags.  Remove Relevant Tags.  Add Single Active Tag.
                     for (i = 0; i < contact.tags.length; i++) {
                         // Remove All Inactive Tags
-                        if (contact.tags[i]._id.toString() === servantmeta.inactive_tag_id) contact.tags.splice(i, 1);
+                        if (contact.tags[i] && contact.tags[i]._id.toString() === servantmeta.inactive_tag_id) contact.tags.splice(i, 1);
                         // Remove All Active Tags
-                        if (contact.tags[i]._id.toString() === servantmeta.active_tag_id) contact.tags.splice(i, 1);
-                        // Add Single Active Tag
-                        contact.tags.push(servantmeta.active_tag_id);
+                        if (contact.tags[i] && contact.tags[i]._id.toString() === servantmeta.active_tag_id) contact.tags.splice(i, 1);
                     }
+                    // Add Single Active Tag
+                    contact.tags.push(servantmeta.active_tag_id);
                     // Save Contact
                     ServantSDK.saveArchetype(servantmeta.user.servant_access_token, servantmeta.servant_id, 'contact', contact, function(error, contact) {
                         if (error) return console.log("Servant Error – Adding Contact Active Tag Failed! ", error);
@@ -130,12 +130,12 @@ var handleStopEvent = function(req, res, next) {
                     // Iterate Through Tags.  Remove Relevant Tags.  Add Single Inactive Tag.
                     for (i = 0; i < contact.tags.length; i++) {
                         // Remove All Inactive Tags
-                        if (contact.tags[i]._id.toString() === servantmeta.inactive_tag_id) contact.tags.splice(i, 1);
+                        if (contact.tags[i] && contact.tags[i]._id.toString() === servantmeta.inactive_tag_id) contact.tags.splice(i, 1);
                         // Remove All Active Tags
-                        if (contact.tags[i]._id.toString() === servantmeta.active_tag_id) contact.tags.splice(i, 1);
-                        // Add Single Active Tag
-                        contact.tags.push(servantmeta.inactive_tag_id);
+                        if (contact.tags[i] && contact.tags[i]._id.toString() === servantmeta.active_tag_id) contact.tags.splice(i, 1);
                     }
+                    // Add Single Inactive Tag
+                    contact.tags.push(servantmeta.inactive_tag_id);
                     // Save Contact
                     ServantSDK.saveArchetype(servantmeta.user.servant_access_token, servantmeta.servant_id, 'contact', contact, function(error, contact) {
                         if (error) return console.log("Servant Error – Removing Contact Inactive Tag Failed! ", error);
