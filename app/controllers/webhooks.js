@@ -27,9 +27,7 @@ var twilioIncomingSMS = function(req, res, next) {
             // Query Contacts to see if user exists
             var criteria = {
                 query: {
-                    'phone_numbers.phone_number': {
-                        $in: [req.body.From, req.body.From.replace('+1', '')]
-                    }
+                    'phone_numbers.phone_number': req.body.From
                 },
                 sort: {},
                 page: 1
@@ -46,7 +44,7 @@ var twilioIncomingSMS = function(req, res, next) {
                     var newContact = {
                         phone_numbers: [{
                             phone_number_name: "Mobile",
-                            phone_number: req.body.From
+                            phone_number: req.body.From.replace('+1', '')
                         }]
                     }
                     ServantSDK.saveArchetype(servantmeta.user.servant_access_token, servantmeta.servant_id, 'contact', newContact, function(error, contact) {
@@ -59,7 +57,7 @@ var twilioIncomingSMS = function(req, res, next) {
     });
 
 
-    res.send({
+    res.json({
         message: "thanks"
     });
 };
