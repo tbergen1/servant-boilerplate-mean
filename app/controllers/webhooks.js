@@ -12,9 +12,10 @@ var ServantSDK = require('servant-sdk-node')({
 });
 
 
-var checkTag = function(servantmeta, callback) {
-
+var checkTagExists = function(servantmeta, callback) {
+	console.log("here1: ");
     if (servantmeta.default_tag_id) return callback(null);
+    console.log("here2: ");
 
     // See If Tag Exists On Servant
     var criteria = {
@@ -25,6 +26,7 @@ var checkTag = function(servantmeta, callback) {
         page: 1
     };
     ServantSDK.queryArchetypes(servantmeta.user.servant_access_token, servantmeta.servant_id, 'tag', criteria, function(error, response) {
+        console.log("here3: ", error, response);
         if (error) return console.log("Tag Creation Error: ", error);
         if (response.records.length) {
             // Add Tag To ServantMeta
@@ -33,6 +35,7 @@ var checkTag = function(servantmeta, callback) {
                 return callback(response);
             });
         } else {
+        	console.log("here4");
             // Create Tag
             ServantSDK.saveArchetype(servantmeta.user.servant_access_token, servantmeta.servant_id, 'tag', {
                 tag: 'text-marketing-list'
@@ -79,7 +82,7 @@ var twilioIncomingSMS = function(req, res, next) {
                 } else {
 
                     // Check Tag Exists
-                    checkTag(servantmeta, function(servantmeta) {
+                    checkTagExists(servantmeta, function(servantmeta) {
 
                         // Create Contact
                         var newContact = {
