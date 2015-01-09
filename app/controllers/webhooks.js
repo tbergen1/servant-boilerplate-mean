@@ -50,7 +50,7 @@ var handleStartEvent = function(req, res, next) {
                     return true;
                 } else {
                     // Check Tag Exists
-                    checkTagExists(servantmeta, function(servantmeta) {
+                    checkTagsExist(servantmeta, function(servantmeta) {
                         // Create Contact
                         var newContact = {
                             phone_numbers: [{
