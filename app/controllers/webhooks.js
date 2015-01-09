@@ -50,7 +50,7 @@ var checkTagExists = function(servantmeta, callback) {
 };
 
 var twilioIncomingSMS = function(req, res, next) {
-    console.log("WEBHOOK FROM TWILIO: ", req.body.Body, req.body.From, req.body.To);
+    console.log("WEBHOOK – Twilio: ", req.body.Body, req.body.From, req.body.To);
 
     ServantMeta.find({
         twilio_phone_number: req.body.To
@@ -108,3 +108,4 @@ var twilioIncomingSMS = function(req, res, next) {
 module.exports = {
     twilioIncomingSMS: twilioIncomingSMS
 };
+
