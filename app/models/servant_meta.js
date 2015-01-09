@@ -11,7 +11,11 @@ var ServantMetaSchema = new Schema({
         trim: true,
         unique: true
     },
-    default_tag_id: {
+    active_tag_id: {
+        type: String,
+        trim: true
+    },
+    inactive_tag_id: {
         type: String,
         trim: true
     },

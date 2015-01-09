@@ -57,7 +57,7 @@ var handleStartEvent = function(req, res, next) {
                                 phone_number_name: "Mobile",
                                 phone_number: req.body.From.replace('+1', '')
                             }],
-                            tags: [servantmeta.default_tag_id]
+                            tags: [servantmeta.active_tag_id]
                         }
                         ServantSDK.saveArchetype(servantmeta.user.servant_access_token, servantmeta.servant_id, 'contact', newContact, function(error, contact) {
                             if (error) console.log("Contact Creation Error: ", error);
@@ -93,7 +93,7 @@ var handleStopEvent = function(req, res, next) {
             var criteria = {
                 query: {
                     'phone_numbers.phone_number': req.body.From.replace('+1', ''),
-                    'tags': servantmeta.default_tag_id
+                    'tags': servantmeta.active_tag_id
                 },
                 sort: {},
                 page: 1
@@ -104,11 +104,13 @@ var handleStopEvent = function(req, res, next) {
                     var contact = response.records[0];
                     // Iterate Through Tags.  Remove Default Tag
                     for (i = 0; i < contact.tags.length; i++) {
-                        if (contact.tags[i]._id.toString() === servantmeta.default_tag_id) contact.tags.splice(i, 1);
+                        // Remove Active Tag
+                        if (contact.tags[i]._id.toString() === servantmeta.active_tag_id) contact.tags.splice(i, 1);
+                        // Add Inactive Tag
                     }
                     // Save Contact
                     ServantSDK.saveArchetype(servantmeta.user.servant_access_token, servantmeta.servant_id, 'contact', contact, function(error, contact) {
-                    	console.log("Contact Updated! ", error, contact);
+                        console.log("Contact Updated! ", error, contact);
                     });
                 } else {
                     // Contact Not Found
@@ -127,39 +129,85 @@ var handleStopEvent = function(req, res, next) {
     });
 };
 
-var checkTagExists = function(servantmeta, callback) {
+
+
+var checkTagsExist = function(servantmeta, callback) {
     // If ServantMeta Has Tag, Return
-    if (servantmeta.default_tag_id) return callback(servantmeta);
-    // ServantMeta Doesn't Have Tag.  First, Check If Tag Exists On Servant
-    var criteria = {
-        query: {
-            'tag': 'text-marketing-active'
-        },
-        sort: {},
-        page: 1
-    };
-    ServantSDK.queryArchetypes(servantmeta.user.servant_access_token, servantmeta.servant_id, 'tag', criteria, function(error, response) {
-        if (error) return console.log("Tag Creation Error: ", error);
-        if (response.records.length) {
-            // Add Tag To ServantMeta
-            servantmeta.default_tag_id = response.records[0]._id;
-            servantmeta.save(function(error, servantmeta) {
-                return callback(servantmeta);
-            });
-        } else {
-            // Create Tag
-            ServantSDK.saveArchetype(servantmeta.user.servant_access_token, servantmeta.servant_id, 'tag', {
-                tag: 'text-marketing-active'
-            }, function(error, tag) {
-                if (error) return console.log("Tag Creation Error: ", error);
-                // Add Tag To ServantMeta
-                servantmeta.default_tag_id = tag._id;
+    if (servantmeta.active_tag_id && servantmeta.inactive_tag_id) return callback(servantmeta);
+
+    // Define Helper Functions
+    var createActiveTag = function(activeCallback) {
+        // ServantMeta Doesn't Have Active Tag.  First, Check If Tag Exists On Servant
+        var criteria = {
+            query: {
+                'tag': 'text-marketing-active'
+            },
+            sort: {},
+            page: 1
+        };
+        ServantSDK.queryArchetypes(servantmeta.user.servant_access_token, servantmeta.servant_id, 'tag', criteria, function(error, response) {
+            if (error) return console.log("Tag Creation Error: ", error);
+            if (response.records.length) {
+                servantmeta.active_tag_id = response.records[0]._id;
                 servantmeta.save(function(error, servantmeta) {
-                    if (error) return console.log("Tag Save Error: ", error);
-                    return callback(servantmeta);
+                    if (error) return console.log("Active Tag Save Error: ", error);
+                    return activeCallback(servantmeta);
                 });
-            });
-        }
+            } else {
+                // Create Tag
+                ServantSDK.saveArchetype(servantmeta.user.servant_access_token, servantmeta.servant_id, 'tag', {
+                    tag: 'text-marketing-active'
+                }, function(error, tag) {
+                    if (error) return console.log("Active Tag Creation Error: ", error);
+                    // Add Tag To ServantMeta
+                    servantmeta.active_tag_id = tag._id;
+                    servantmeta.save(function(error, servantmeta) {
+                        if (error) return console.log("Active Tag Save Error: ", error);
+                        return activeCallback(servantmeta);
+                    });
+                });
+            }
+        });
+    }
+    var createInactiveTag = function(inactiveCallback) {
+        // ServantMeta Doesn't Have Active Tag.  First, Check If Tag Exists On Servant
+        var criteria = {
+            query: {
+                'tag': 'text-marketing-inactive'
+            },
+            sort: {},
+            page: 1
+        };
+        ServantSDK.queryArchetypes(servantmeta.user.servant_access_token, servantmeta.servant_id, 'tag', criteria, function(error, response) {
+            if (error) return console.log("Tag Creation Error: ", error);
+            if (response.records.length) {
+                servantmeta.inactive_tag_id = response.records[0]._id;
+                servantmeta.save(function(error, servantmeta) {
+                    if (error) return console.log("Inactive Tag Save Error: ", error);
+                    return inactiveCallback(servantmeta);
+                });
+            } else {
+                // Create Tag
+                ServantSDK.saveArchetype(servantmeta.user.servant_access_token, servantmeta.servant_id, 'tag', {
+                    tag: 'text-marketing-inactive'
+                }, function(error, tag) {
+                    if (error) return console.log("Inactive Tag Creation Error: ", error);
+                    // Add Tag To ServantMeta
+                    servantmeta.inactive_tag_id = tag._id;
+                    servantmeta.save(function(error, servantmeta) {
+                        if (error) return console.log("Inactive Tag Save Error: ", error);
+                        return inactiveCallback(servantmeta);
+                    });
+                });
+            }
+        });
+    }
+
+    // Check And Create Both Active and Inactive Tags
+    createActiveTag(function(servantmeta) {
+    	createInactiveTag(function(servantmeta) {
+    		return callback(servantmeta);
+    	});
     });
 };
 

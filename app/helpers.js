@@ -16,7 +16,7 @@ var incrementSMS = function(servantmeta) {
     }, {
         multi: false
     }, function(error, response) {
-        console.log("Increment SMS Error: ",error);
+        if (error) console.log("Increment SMS Error: ", error);
     });
 };
 
