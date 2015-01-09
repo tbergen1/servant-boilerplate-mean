@@ -21,17 +21,18 @@ var twilioIncomingSMS = function(req, res, next) {
         if (error) console.log("Webhook Error (Twilio) - Finding ServantMeta: ", error);
         var servantmeta = servantmetas[0];
         if (servantmeta) {
+
+        	// Make Sure Tag Exists
+
+
+
             // Process Keyword
 
 
             // Query Contacts to see if user exists
             var criteria = {
                 query: {
-                    'phone_numbers': {
-                        $elemMatch: {
-                            phone_number: req.body.From.replace('+1', '')
-                        }
-                    }
+                    'phone_numbers.phone_number': req.body.From.replace('+1', '')
                 },
                 sort: {},
                 page: 1
@@ -56,18 +57,6 @@ var twilioIncomingSMS = function(req, res, next) {
                         console.log(contact);
                     });
                 }
-            });
-
-            // Temp
-            var criteria2 = {
-                query: {
-                    'phone_numbers.phone_number': req.body.From.replace('+1', '')
-                },
-                sort: {},
-                page: 1
-            };
-            ServantSDK.queryArchetypes(servantmeta.user.servant_access_token, servantmeta.servant_id, 'contact', criteria2, function(error, response) {
-                console.log("Query2: ", error, response);
             });
 
         }

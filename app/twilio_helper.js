@@ -117,11 +117,13 @@ var textBlast = function(toNumber, fromNumber, body, callback) {
 };
 
 var createTwiml = function(callback) {
+    // Create New Twilio w/o credentials since TwimlResponse doesn't work w/ them - (wtf Twilio?)
+    var twilio = require('twilio');
     // Create Twiml Instance
     var twiml = new twilio.TwimlResponse();
+    console.log(twiml)
     if (callback) return callback(twiml);
 };
-
 
 module.exports = {
     createSubaccount: createSubaccount,
