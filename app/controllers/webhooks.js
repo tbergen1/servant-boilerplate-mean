@@ -14,7 +14,7 @@ var ServantSDK = require('servant-sdk-node')({
 
 var checkTag = function(servantmeta, callback) {
 
-    if (servantmeta.default_tag_id) return callback();
+    if (servantmeta.default_tag_id) return callback(null);
 
     // See If Tag Exists On Servant
     var criteria = {
@@ -30,7 +30,7 @@ var checkTag = function(servantmeta, callback) {
             // Add Tag To ServantMeta
             servantmeta.default_tag_id = response.records[0]._id;
             servantmeta.save(function(error, response) {
-                return callback();
+                return callback(response);
             });
         } else {
             // Create Tag
@@ -43,7 +43,7 @@ var checkTag = function(servantmeta, callback) {
                 servantmeta.default_tag_id = tag._id;
                 servantmeta.save(function(error, response) {
                     if (error) return console.log("Tag Save Error: ", error);
-                    return callback();
+                    return callback(response);
                 });
             });
         }
@@ -79,14 +79,15 @@ var twilioIncomingSMS = function(req, res, next) {
                 } else {
 
                     // Check Tag Exists
-                    checkTag(servantmeta, function() {
+                    checkTag(servantmeta, function(servantmeta) {
 
                         // Create Contact
                         var newContact = {
                             phone_numbers: [{
                                 phone_number_name: "Mobile",
                                 phone_number: req.body.From.replace('+1', '')
-                            }]
+                            }],
+                            tags: [servantmeta.default_tag_id]
                         }
                         ServantSDK.saveArchetype(servantmeta.user.servant_access_token, servantmeta.servant_id, 'contact', newContact, function(error, contact) {
                             if (error) console.log(error);
