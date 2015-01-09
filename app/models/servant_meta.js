@@ -11,6 +11,10 @@ var ServantMetaSchema = new Schema({
         trim: true,
         unique: true
     },
+    default_tag_id: {
+        type: String,
+        trim: true
+    },
     user: {
         type: Schema.ObjectId,
         required: true,
