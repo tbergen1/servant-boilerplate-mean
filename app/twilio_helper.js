@@ -1,7 +1,6 @@
 // Module dependencies.
 var mongoose = require('mongoose'),
     async = require('async'),
-    request = require('request'),
     User = mongoose.model('User'),
     ServantMeta = mongoose.model('ServantMeta'),
     Config = require('../config/config');
