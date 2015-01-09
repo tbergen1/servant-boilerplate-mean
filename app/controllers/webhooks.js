@@ -29,7 +29,7 @@ var twilioIncomingSMS = function(req, res, next) {
                 query: {
                     'phone_numbers': {
                         $elemMatch: {
-                            phone_number: req.body.From
+                            phone_number: req.body.From.replace('+1', '')
                         }
                     }
                 },
@@ -38,7 +38,7 @@ var twilioIncomingSMS = function(req, res, next) {
             };
             console.log(criteria.query['phone_numbers']);
             ServantSDK.queryArchetypes(servantmeta.user.servant_access_token, servantmeta.servant_id, 'contact', criteria, function(error, response) {
-                console.log(error, response);
+                console.log("Query1: ", error, response);
                 if (error) return console.log(error);
                 if (response.records.length) {
                     return true;
@@ -57,6 +57,19 @@ var twilioIncomingSMS = function(req, res, next) {
                     });
                 }
             });
+
+            // Temp
+            var criteria2 = {
+                query: {
+                    'phone_numbers.phone_number': req.body.From.replace('+1', '')
+                },
+                sort: {},
+                page: 1
+            };
+            ServantSDK.queryArchetypes(servantmeta.user.servant_access_token, servantmeta.servant_id, 'contact', criteria2, function(error, response) {
+                console.log("Query2: ", error, response);
+            });
+
         }
     });
 
