@@ -19,6 +19,9 @@ angular.module('appDashboard').controller('PlanController', ['$rootScope', '$sco
         }, {
             label: '2500 Text Messages for $60/Month',
             plan_id: 'plan5'
+        }, {
+            label: 'test',
+            plan_id: 'test'
         }];
 
         $scope.initialize = function() {
