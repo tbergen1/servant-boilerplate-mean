@@ -1,17 +1,5 @@
 {
   "name": "Servant-Boilerplate-Mean",
   "version": "1.0.0",
-  "dependencies": {
-    "bootstrap": "3.2.0",
-    "angular": "1.2.20",
-    "angular-resource": "latest",
-    "angular-cookies": "latest",
-    "angular-ui-router": "latest",
-    "angular-local-storage": "~0.0.5",
-    "animate.css": "~3.2.0",
-    "font-awesome": "4.1.0",
-    "jquery": "1.11.1",
-    "angular-bootstrap": "~0.11.0",
-    "servant-sdk-javascript": "git@github.com:servant-cmes/servant-sdk-javascript.git"
-  }
+  "dependencies": {}
 }

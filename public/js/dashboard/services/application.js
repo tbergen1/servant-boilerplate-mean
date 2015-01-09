@@ -16,6 +16,11 @@ angular.module('appDashboard').factory('Application', function($resource) {
             method: 'POST',
             isArray: false,
             url: '/servants/:servantID/twilio/phone_numbers/purchase'
+        },
+        scheduleTask: {
+            method: 'POST',
+            isArray: false,
+            url: '/servants/:servantID/schedule/task'
         }
 
 

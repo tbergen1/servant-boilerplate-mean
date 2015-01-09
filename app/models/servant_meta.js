@@ -1,5 +1,6 @@
 // Module dependencies.
 var mongoose = require('mongoose'),
+    moment = require('moment'),
     Schema = mongoose.Schema;
 
 // ServantMeta Schema
@@ -14,6 +15,14 @@ var ServantMetaSchema = new Schema({
         type: Schema.ObjectId,
         required: true,
         ref: 'User'
+    },
+    month: {
+        type: String,
+        default: moment().format('MM-YYYY'),
+        trim: true
+    },
+    sms_sent: {
+        type: Number
     },
     twilio_owner_account_id: {
         type: String,

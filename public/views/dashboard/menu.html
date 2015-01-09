@@ -1,0 +1,46 @@
+<div id="menu-page" data-ng-controller="DashboardController" data-ng-init="initialize()">
+
+    <p id="menu-bar" class="st-font">
+        <a data-ui-sref="servants">
+            Servants
+        </a>
+        <a class="active">
+            Menu
+        </a>
+        <a data-ui-sref="number({ servantID: s.user.servants[servant_index].servant_id })">
+            Number
+        </a>
+        <a data-ui-sref="plan({ servantID: s.user.servants[servant_index].servant_id })">
+            Plan
+        </a>
+        <a href="/logout">
+            Logout
+        </a>
+    </p>
+
+    <div class="page-container st-animate-zoom-in">
+        <i class="fa fa-question-circle help-icon st-red st-animate-blink"></i>
+        <p class="st-centered">
+            <img class="servant-image st-animate-bounce-in" data-ng-src="https://d2d0226i04jal.cloudfront.net/images/servants/{{ s.user.servants[servant_index].personality.toLowerCase() }}.svg">
+        </p>
+        <p class="st-centered st-font st-red">{{s.user.servants[servant_index].master}} </p>
+
+        <p class="st-font st-centered" style="margin-bottom:0px;">What would you like to do?</p>
+
+        <hr style="margin: 10px auto 20px auto;width:75%">
+
+        <ul id="options-menu" class="list-unstyled">
+            <li data-ng-click="changeView('blast')">
+                <a class="st-font st-link" data-ui-sref="blast({ servantID: s.user.servants[servant_index].servant_id })">
+                    <i class="fa fa-rocket" style="margin-right:4px;"></i> Text Blast Your Servant's Contacts
+                </a>
+            </li>
+            <li class="st-font st-link">
+                <i class="fa fa-phone" style="margin-right:4px;"></i> Change Your Phone Number
+            </li>
+            <li class="st-font st-link">
+                <i class="fa fa-flash" style="margin-right:4px;"></i> Change Your Plan
+            </li>
+        </ul>
+    </div>
+</div>

@@ -2,8 +2,6 @@ angular.module('appDashboard').controller('DashboardController', ['$rootScope', 
     function($rootScope, $scope, $timeout, $state, Application, ServantAngularService) {
 
         // Defaults
-        $scope.servant_index = 0;
-        $rootScope.view = 'servant';
         $scope.newPlan = 'plan1';
         $scope.number_type = 'local';
         $scope.plans = [{
@@ -25,21 +23,12 @@ angular.module('appDashboard').controller('DashboardController', ['$rootScope', 
         $scope.country = 'US';
         $scope.area_code = '424';
 
-        $rootScope.$watch('view', function(newValue, oldValue) {
-            if (newValue === 'menu') {
-                if ($rootScope.s.user.servants[$scope.servant_index].servant_pay_subscription_status === 'none') $rootScope.view = 'createplan';
-                if (!$rootScope.s.user.servants[$scope.servant_index].twilio_phone_number) $rootScope.view = 'createnumber';
-            }
-        });
-
         $scope.initialize = function() {
-            // Fetch User Data
             $scope.getServants();
         };
 
-        $scope.getServants = function() {
+        $scope.getServants = function(callback) {
             ServantAngularService.getUserAndServants().then(function(response) {
-                console.log("User and Servants Fetched:", response);
                 $rootScope.s.servants = response.servants;
                 // Combine Servants and ServantMeta
                 for (i = 0; i < $rootScope.s.user.servants.length; i++) {
@@ -53,19 +42,10 @@ angular.module('appDashboard').controller('DashboardController', ['$rootScope', 
                         }
                     };
                 };
-                console.log("User: ", $rootScope.s.user)
+                if (callback) return callback();
             }, function(error) {
                 console.log(error);
             });
-        };
-
-        $scope.wizardSetServant = function(servantID) {
-            // Set Servant
-            for (i = 0; i < $rootScope.s.servants.length; i++) {
-                if ($rootScope.s.user.servants[i]._id.toString() === servantID.toString()) $scope.servant_index = i;
-            }
-            ServantAngularService.setServant($rootScope.s.user.servants[$scope.servant_index]);
-            $rootScope.view = 'menu';
         };
 
         $scope.showServant = function(servantID) {
@@ -79,7 +59,7 @@ angular.module('appDashboard').controller('DashboardController', ['$rootScope', 
         $scope.searchPhoneNumbers = function() {
             $scope.searching = true;
             Application.searchPhoneNumbers({
-                servantID: $rootScope.s.servants[$scope.servant_index]._id
+                servantID: $rootScope.s.servants[$rootScope.servant_index]._id
             }, {
                 number_type: $scope.number_type,
                 country: $scope.country,
@@ -94,22 +74,40 @@ angular.module('appDashboard').controller('DashboardController', ['$rootScope', 
             });
         };
 
-        $scope.registering = true;
         $scope.purchasePhoneNumber = function(number) {
             var c = confirm("Is this the number you want: " + number + "?  this number will be yours as long as you have a plan with us.");
             if (c) {
                 $scope.registering = true;
                 Application.purchasePhoneNumber({
-                    servantID: $rootScope.s.servants[$scope.servant_index]._id
+                    servantID: $rootScope.s.servants[$rootScope.servant_index]._id
                 }, {
                     phone_number: number
                 }, function(response) {
+                    $rootScope.s.user.servants[$rootScope.servant_index].twilio_phone_number = response.twilio_phone_number;
                     $scope.registering = false;
-                    $rootScope.s.servants[$scope.servant_index] = response;
+                    $scope.registered = true;
+                    $timeout(function() {
+                        $rootScope.view = 'menu';
+                        $scope.registering = false;
+                        $scope.registered = false;
+                    }, 4000);
                 }, function(error) {
                     console.log(error);
                 });
             }
+        };
+
+        $scope.scheduleTask = function(datetime) {
+            Application.scheduleTask({
+                servantID: $rootScope.s.servants[$rootScope.servant_index]._id
+            }, {
+                time: datetime
+            }, function(response) {
+                $scope.registering = false;
+                $rootScope.s.servants[$rootScope.servant_index] = response;
+            }, function(error) {
+                console.log(error);
+            });
         };
 
         $scope.loadTinyTexts = function() {
@@ -120,6 +118,72 @@ angular.module('appDashboard').controller('DashboardController', ['$rootScope', 
             }, function(error) {
                 console.log(error);
             });
+        };
+
+        $scope.subscribe = function() {
+            $scope.subscribing = true;
+            // Check Subscription Status
+            if ($rootScope.s.servants[$rootScope.servant_index].servant_pay_subscription_status === 'active') {
+                if ($scope.newPlan) {
+                    // Update
+                    ServantAngularService.servantpaySubscriptionUpdate($scope.newPlan).then(function(response) {
+                        console.log(response);
+                        $scope.subscribing = false;
+                        $scope.subscribed = true;
+                        $timeout(function() {
+                            $scope.subscribed = false;
+                            $rootScope.view = 'menu';
+                        }, 3000);
+                        return $scope.showServant($rootScope.s.servants[$rootScope.servant_index]._id);
+                    }, function(error) {
+                        console.log(error)
+                    });
+                } else {
+                    // Cancel
+                    ServantAngularService.servantpaySubscriptionCancel().then(function(response) {
+                        console.log(response);
+                        $scope.subscribing = false;
+                        $scope.subscribed = true;
+                        $timeout(function() {
+                            $scope.subscribed = false;
+                            $rootScope.view = 'menu';
+                        }, 3000);
+                        return $scope.showServant($rootScope.s.servants[$rootScope.servant_index]._id);
+                    }, function(error) {
+                        console.log(error)
+                    });
+                }
+            } else {
+                // Create
+                ServantAngularService.servantpaySubscriptionCreate($scope.newPlan).then(function(response) {
+                    console.log(response);
+                    $scope.subscribing = false;
+                    $scope.subscribed = true;
+                    $timeout(function() {
+                        $scope.subscribed = false;
+                        $rootScope.view = 'menu';
+                    }, 3000);
+                    return $scope.showServant($rootScope.s.servants[$rootScope.servant_index]._id);
+                }, function(error) {
+                    console.log(error)
+                });
+            }
+        };
+
+        $scope.adjustDate = function(increment, direction) {
+            // Default
+            var currentDatetime = moment(new Date());
+            var maxDays = 30;
+            console.log(increment, direction);
+            // Show Modal Overlay & Box
+            if (direction === 'up') $scope.blast_date.add(1, increment);
+            if (direction === 'down') $scope.blast_date.subtract(1, increment);
+            // Validate
+            if ($scope.blast_date.diff(currentDatetime, 'hours') < 1) {
+                $scope.blast_date = moment(new Date());
+                $scope.blast_date.add(1, 'hours').startOf('hour');
+            }
+            if ($scope.blast_date.diff(currentDatetime, 'days') > 30) $scope.blast_date.subtract(1, 'days');
         };
 
         $scope.showModal = function(view) {
@@ -135,60 +199,8 @@ angular.module('appDashboard').controller('DashboardController', ['$rootScope', 
             document.getElementById("modal-overlay").style.display = 'none';
             document.getElementById("modal-box").style.display = 'none';
             // Change View Back
-            $scope.view = 'dashboard';
+            $rootScope.view = 'dashboard';
         };
-
-        $scope.subscribe = function() {
-            $scope.subscribing = true;
-            // Check Subscription Status
-            if ($rootScope.s.servants[$scope.servant_index].servant_pay_subscription_status === 'active') {
-                if ($scope.newPlan) {
-                    // Update
-                    ServantAngularService.servantpaySubscriptionUpdate($scope.newPlan).then(function(response) {
-                        console.log(response);
-                        $scope.subscribing = false;
-                        $scope.subscribed = true;
-                        $timeout(function() {
-                            $scope.subscribed = false;
-                            $rootScope.view = 'menu';
-                        }, 3000);
-                        return $scope.showServant($rootScope.s.servants[$scope.servant_index]._id);
-                    }, function(error) {
-                        console.log(error)
-                    });
-                } else {
-                    // Cancel
-                    ServantAngularService.servantpaySubscriptionCancel().then(function(response) {
-                        console.log(response);
-                        $scope.subscribing = false;
-                        $scope.subscribed = true;
-                        $timeout(function() {
-                            $scope.subscribed = false;
-                            $rootScope.view = 'menu';
-                        }, 3000);
-                        return $scope.showServant($rootScope.s.servants[$scope.servant_index]._id);
-                    }, function(error) {
-                        console.log(error)
-                    });
-                }
-            } else {
-                // Create
-                ServantAngularService.servantpaySubscriptionCreate($scope.newPlan).then(function(response) {
-                    console.log(response);
-                    $scope.subscribing = false;
-                    $scope.subscribed = true;
-                    $timeout(function() {
-                        $scope.subscribed = false;
-                        $rootScope.view = 'menu';
-                    }, 3000);
-                    return $scope.showServant($rootScope.s.servants[$scope.servant_index]._id);
-                }, function(error) {
-                    console.log(error)
-                });
-            }
-        };
-
-
 
     }
 ]);

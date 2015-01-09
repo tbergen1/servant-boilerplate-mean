@@ -11,21 +11,32 @@ var ScheduledTaskSchema = new Schema({
     task: {
         type: String
     },
+    campaign: {
+        type: String
+    },
     servant_id: {
         type: String,
         required: true
+    },
+    tinytext_id: {
+        type: String,
+        required: true
+    },
+    status: {
+        type: String,
+        default: 'queued'
     },
     page: {
         type: Number,
         default: 1
     },
-    index: {
-        type: Number,
-        default: 0
+    error: {
+        type: String
     },
-    initiated: {
-        type: Boolean,
-        default: false
+    user: {
+        type: Schema.ObjectId,
+        required: true,
+        ref: 'User'
     },
     created: {
         type: Date,

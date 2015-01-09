@@ -9,7 +9,6 @@ var mongoose = require('mongoose'),
 
 var index = function(req, res) {
     // Render Either Home Page or Dashboard Page Depending On User Session
-
     var variables = {
         connect_url: Config.servant.connect_url,
         client_id: Config.servant.client_id,
@@ -67,12 +66,14 @@ var searchPhoneNumbers = function(req, res, next) {
 
 var purchasePhoneNumber = function(req, res, next) {
     TwilioHelper.purchasePhoneNumber(req.body.phone_number, function(error, number) {
+        console.log(error, number);
         if (error) return res.status(400).json({
             error: error
         });
-        req.servant.twilio_phone_number_sid = number.sid;
-        req.servant.twilio_phone_number = number.phone_number;
-        req.servant.save(function(error, servant) {
+        req.servantmeta.twilio_phone_number_sid = number.sid;
+        req.servantmeta.twilio_phone_number = number.phone_number;
+        req.servantmeta.save(function(error, servant) {
+            console.log(error, servant);
             if (error) return res.status(500).json({
                 error: error
             });
@@ -81,20 +82,20 @@ var purchasePhoneNumber = function(req, res, next) {
     });
 };
 
-var scheduleSMSBlast = function(req, res, next) {
-    // var task = new ScheduledTask({
-    //     scheduled_time: ,
-    //     task: 'sms_blast',
-    //     servant_id: req.servant._id
-    // });
-    // task.save(function(error, task) {
-    //     if (error) return res.status(500).json({
-    //         error: error
-    //     });
-    //     return res.json({
-    //         message: 'SMS Blast Scheduled'
-    //     })
-    // });
+var scheduleTask = function(req, res, next) {
+    var task = new ScheduledTask({
+        scheduled_time: req.body.scheduled_time,
+        task: req.body.task,
+        servant_id: req.servantmeta.servant_id,
+        tinytext_id: req.body.tinytextID,
+        user: req.user._id
+    });
+    task.save(function(error, task) {
+        if (error) return res.status(500).json({
+            error: error
+        });
+        return res.json(task);
+    });
 };
 
 
@@ -104,5 +105,5 @@ module.exports = {
     showUser: showUser,
     searchPhoneNumbers: searchPhoneNumbers,
     purchasePhoneNumber: purchasePhoneNumber,
-    scheduleSMSBlast: scheduleSMSBlast
+    scheduleTask: scheduleTask
 };

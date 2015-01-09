@@ -11,6 +11,14 @@ var methodOverride = require('method-override');
 
 // Set Environment from ENV variable or default to development
 var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+
+// Load Local Environment Variables
+if (env === 'development') {
+    var dotenv = require('dotenv');
+    dotenv.load();
+}
+
+// Load Config
 var config = require('./config/config');
 
 // Set Port
@@ -87,7 +95,7 @@ exports = module.exports = app; // expose app
 var TaskRunner = setInterval(function() {
     var taskRunner = require('./app/task_runner');
     return taskRunner.run();
-}, 15000);
+}, 180000);
 
 
 // End
