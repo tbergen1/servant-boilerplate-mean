@@ -2,51 +2,11 @@ angular.module('appDashboard').controller('DashboardController', ['$rootScope', 
     function($rootScope, $scope, $timeout, $state, Application, ServantAngularService) {
 
         // Defaults
-        $scope.newPlan = 'plan1';
         $scope.number_type = 'local';
-        $scope.plans = [{
-            label: '500 Text Messages for $10/Month',
-            plan_id: 'plan1'
-        }, {
-            label: '1000 Text Messages for $20/Month',
-            plan_id: 'plan2'
-        }, {
-            label: '1500 Text Messages for $30/Month',
-            plan_id: 'plan3'
-        }, {
-            label: '2000 Text Messages for $40/Month',
-            plan_id: 'plan4'
-        }, {
-            label: '2500 Text Messages for $50/Month',
-            plan_id: 'plan5'
-        }];
         $scope.country = 'US';
         $scope.area_code = '424';
 
-        $scope.initialize = function() {
-            $scope.getServants();
-        };
-
-        $scope.getServants = function(callback) {
-            ServantAngularService.getUserAndServants().then(function(response) {
-                $rootScope.s.servants = response.servants;
-                // Combine Servants and ServantMeta
-                for (i = 0; i < $rootScope.s.user.servants.length; i++) {
-                    for (j = 0; j < $rootScope.s.servants.length; j++) {
-                        if ($rootScope.s.user.servants[i].servant_id === $rootScope.s.servants[j]._id) {
-                            $rootScope.s.user.servants[i].master = $rootScope.s.servants[j].master;
-                            $rootScope.s.user.servants[i].master_biography = $rootScope.s.servants[j].master_biography;
-                            $rootScope.s.user.servants[i].personality = $rootScope.s.servants[j].personality;
-                            $rootScope.s.user.servants[i].servant_pay_subscription_status = $rootScope.s.servants[j].servant_pay_subscription_status;
-                            $rootScope.s.user.servants[i].servant_pay_subscription_plan_canceled = $rootScope.s.servants[j].servant_pay_subscription_plan_canceled;
-                        }
-                    };
-                };
-                if (callback) return callback();
-            }, function(error) {
-                console.log(error);
-            });
-        };
+        $scope.initialize = function() {};
 
         $scope.showServant = function(servantID) {
             ServantAngularService.showServant(servantID).then(function(response) {
@@ -59,7 +19,7 @@ angular.module('appDashboard').controller('DashboardController', ['$rootScope', 
         $scope.searchPhoneNumbers = function() {
             $scope.searching = true;
             Application.searchPhoneNumbers({
-                servantID: $rootScope.s.servants[$rootScope.servant_index]._id
+                servantID: $rootScope.s.user.servants[$rootScope.servant_index].servant_id
             }, {
                 number_type: $scope.number_type,
                 country: $scope.country,
@@ -79,7 +39,7 @@ angular.module('appDashboard').controller('DashboardController', ['$rootScope', 
             if (c) {
                 $scope.registering = true;
                 Application.purchasePhoneNumber({
-                    servantID: $rootScope.s.servants[$rootScope.servant_index]._id
+                    servantID: $rootScope.s.user.servants[$rootScope.servant_index].servant_id
                 }, {
                     phone_number: number
                 }, function(response) {
@@ -99,12 +59,12 @@ angular.module('appDashboard').controller('DashboardController', ['$rootScope', 
 
         $scope.scheduleTask = function(datetime) {
             Application.scheduleTask({
-                servantID: $rootScope.s.servants[$rootScope.servant_index]._id
+                servantID: $rootScope.s.user.servants[$rootScope.servant_index].servant_id
             }, {
                 time: datetime
             }, function(response) {
                 $scope.registering = false;
-                $rootScope.s.servants[$rootScope.servant_index] = response;
+                $rootScope.s.user.servants[$rootScope.servant_index] = response;
             }, function(error) {
                 console.log(error);
             });
@@ -118,56 +78,6 @@ angular.module('appDashboard').controller('DashboardController', ['$rootScope', 
             }, function(error) {
                 console.log(error);
             });
-        };
-
-        $scope.subscribe = function() {
-            $scope.subscribing = true;
-            // Check Subscription Status
-            if ($rootScope.s.servants[$rootScope.servant_index].servant_pay_subscription_status === 'active') {
-                if ($scope.newPlan) {
-                    // Update
-                    ServantAngularService.servantpaySubscriptionUpdate($scope.newPlan).then(function(response) {
-                        console.log(response);
-                        $scope.subscribing = false;
-                        $scope.subscribed = true;
-                        $timeout(function() {
-                            $scope.subscribed = false;
-                            $rootScope.view = 'menu';
-                        }, 3000);
-                        return $scope.showServant($rootScope.s.servants[$rootScope.servant_index]._id);
-                    }, function(error) {
-                        console.log(error)
-                    });
-                } else {
-                    // Cancel
-                    ServantAngularService.servantpaySubscriptionCancel().then(function(response) {
-                        console.log(response);
-                        $scope.subscribing = false;
-                        $scope.subscribed = true;
-                        $timeout(function() {
-                            $scope.subscribed = false;
-                            $rootScope.view = 'menu';
-                        }, 3000);
-                        return $scope.showServant($rootScope.s.servants[$rootScope.servant_index]._id);
-                    }, function(error) {
-                        console.log(error)
-                    });
-                }
-            } else {
-                // Create
-                ServantAngularService.servantpaySubscriptionCreate($scope.newPlan).then(function(response) {
-                    console.log(response);
-                    $scope.subscribing = false;
-                    $scope.subscribed = true;
-                    $timeout(function() {
-                        $scope.subscribed = false;
-                        $rootScope.view = 'menu';
-                    }, 3000);
-                    return $scope.showServant($rootScope.s.servants[$rootScope.servant_index]._id);
-                }, function(error) {
-                    console.log(error)
-                });
-            }
         };
 
         $scope.adjustDate = function(increment, direction) {

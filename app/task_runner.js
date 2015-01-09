@@ -19,7 +19,8 @@ var plan_limits = {
     plan2: 1000,
     plan3: 1500,
     plan4: 2000,
-    plan5: 2500
+    plan5: 2500,
+    test: 1000000
 };
 
 // Blast Contacts
