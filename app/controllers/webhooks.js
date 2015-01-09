@@ -64,7 +64,7 @@ var handleStartEvent = function(req, res, next) {
                             // Respond With New Subscriber Message
                             TwilioHelper.createTwiml(function(twiml) {
                                 // Increment SMS Sent Number
-                                Helpers.incrementSMS();
+                                Helpers.incrementSMS(servantmeta);
                                 // Send SMS
                                 twiml.message('Thanks for subscribing! Message and data rates may apply. Reply HELP for help. Reply STOP to cancel. Enjoy!');
                                 res.writeHead(200, {

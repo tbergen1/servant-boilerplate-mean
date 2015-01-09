@@ -75,8 +75,6 @@ var run = function() {
         }
     }).populate(populateQuery).exec(function(error, tasks) {
 
-        console.log(error, tasks)
-
         // Execute Each Scheduled Task Synchronisely 
         async.eachSeries(tasks, function(task, taskCallback) {
 
