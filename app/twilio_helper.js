@@ -121,7 +121,6 @@ var createTwiml = function(callback) {
     var twilio = require('twilio');
     // Create Twiml Instance
     var twiml = new twilio.TwimlResponse();
-    console.log(twiml)
     if (callback) return callback(twiml);
 };
 
