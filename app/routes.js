@@ -18,8 +18,9 @@ module.exports = function(app) {
     app.post('/servants/:servantID/schedule/task', middleware.checkSession, middleware.authorizeServant, middleware.checkTwilioSubaccount, application.scheduleTask);
 
     // Twilio
-    app.post('/servants/:servantID/twilio/phone_numbers/search', middleware.checkSession, middleware.authorizeServant, middleware.checkTwilioSubaccount, application.searchPhoneNumbers);
-    app.post('/servants/:servantID/twilio/phone_numbers/purchase', middleware.checkSession, middleware.authorizeServant, middleware.checkTwilioSubaccount, application.purchasePhoneNumber);
+    app.post('/servants/:servantID/twilio/phone_numbers/search', middleware.checkSession, middleware.authorizeServant, application.searchPhoneNumbers);
+    app.post('/servants/:servantID/twilio/phone_numbers/purchase', middleware.checkSession, middleware.authorizeServant, application.purchasePhoneNumber);
+    app.get('/servants/:servantID/twilio/phone_numbers/release', middleware.checkSession, middleware.authorizeServant, application.releasePhoneNumber);
 
     // Webhooks
     app.post('/webhooks/twilio/sms/incoming', webhooks.twilioIncomingSMS);

@@ -9,6 +9,9 @@ html, body {
     margin: 0px auto;
     padding: 0px 10px 40px 10px;
 }
+p {
+    line-height: 18px;
+}
 /* Home Page */
 
 #logo-container {
@@ -142,31 +145,31 @@ html, body {
 .tiny-text {
     display: block;
     margin: 0px 0px 10px 0px;
-    padding:10px 0px 15px 0px;
-    font-size:14px;
+    padding: 10px 0px 15px 0px;
+    font-size: 14px;
     background: #ffffff;
     -webkit-box-shadow: 0 2px 0px 0px rgba(0, 0, 0, 0.15);
     box-shadow: 0 2px 0px 0px rgba(0, 0, 0, 0.15);
     -webkit-border-radius: 3px;
     border-radius: 3px;
-/*    border-top: 1px solid rgba(0,0,0,0.15);
+    /*    border-top: 1px solid rgba(0,0,0,0.15);
     border-left: 1px solid rgba(0,0,0,0.15);
     border-right: 1px solid rgba(0,0,0,0.15);*/
 }
 .tiny-text p {
     text-align: center;
-    padding:10px 20px;
+    padding: 10px 20px;
 }
 .tiny-text .tiny-text-options {
     text-align: center;
 }
 .tiny-text-preview {
     text-align: center;
-    padding:20px 20px;
-    width:80%;
-    margin:25px auto;
+    padding: 20px 20px;
+    width: 80%;
+    margin: 25px auto;
     font-size: 14px;
-    border:1px dashed #f5aaa6;
+    border: 1px dashed #f5aaa6;
     -webkit-border-radius: 3px;
     border-radius: 3px;
 }

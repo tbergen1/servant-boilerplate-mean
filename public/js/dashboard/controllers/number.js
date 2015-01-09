@@ -1,33 +1,74 @@
-angular.module('appDashboard').controller('NumberController', ['$rootScope', '$scope', '$timeout', '$modal', '$state', 'ServantAngularService',
-	function($rootScope, $scope, $timeout, $modal, $state, ServantAngularService) {
+angular.module('appDashboard').controller('NumberController', ['$rootScope', '$scope', '$timeout', '$state', 'Application', 'ServantAngularService',
+    function($rootScope, $scope, $timeout, $state, Application, ServantAngularService) {
 
-		// Defaults
-		$scope.view = 'loading';
+        // Defaults
+        $scope.number_type = 'local';
+        $scope.country = 'US';
+        $scope.area_code = '424';
 
-		$scope.initialize = function() {
-			// Check Subscription
-			// if ($rootScope.s.user.plan === 'free') return $state.go('subscription');
-			
-		};
+        $scope.initialize = function() {
 
-		$scope.loadTinyTexts = function() {
-			ServantAngularService.archetypesRecent('tinytext', 1).then(function(response){
-				$rootScope.s.tinytexts = response.records;
-				console.log("Tiny Texts Fetched: ", $rootScope.s.tinytexts);
-			},function(error){
-				console.log(error);
-			});
-		};
+        };
 
-		$scope.checkout = function(amount) {
-			// Open Checkout with further options
-		    $scope.stripeCheckout.open({
-		      	name: 'Servant Text Messenger',
-		      	description: '350 Text Messages/month for $' + amount + '.00',
-		      	amount: amount,
-		      	panelLabel: 'Subscribe {{ amount }}',
-		      	amount: 2000
-		    });
-		};
-	}
+        $scope.searchPhoneNumbers = function() {
+            $scope.searching = true;
+            Application.searchPhoneNumbers({
+                servantID: $rootScope.s.user.servants[$rootScope.servant_index].servant_id
+            }, {
+                number_type: $scope.number_type,
+                country: $scope.country,
+                area_code: $scope.area_code
+            }, function(response) {
+                $scope.phone_numbers = response.available_phone_numbers;
+                $scope.searching = false;
+            }, function(error) {
+                console.log(error);
+                $scope.phone_numbers = [];
+                $scope.searching = false;
+            });
+        };
+
+        $scope.purchasePhoneNumber = function(number) {
+            var c = confirm("Is this the number you want: " + number + "?  this number will be yours as long as you have a plan with us.");
+            if (c) {
+                $scope.registering = true;
+                Application.purchasePhoneNumber({
+                    servantID: $rootScope.s.user.servants[$rootScope.servant_index].servant_id
+                }, {
+                    phone_number: number
+                }, function(response) {
+                    $rootScope.s.reloadUserAndServantData(function() {
+                        $scope.registering = false;
+                        $scope.registered = true;
+                        $timeout(function() {
+                            $scope.registered = false;
+                            return $state.go('menu', {
+                                servantID: $rootScope.s.user.servants[$rootScope.servant_index].servant_id
+                            });
+                        }, 3000);
+                    });
+                }, function(error) {
+                    console.log(error);
+                });
+            }
+        };
+
+        $scope.releasePhoneNumber = function() {
+            var c = confirm("WARNING: If you release your phone number you will NEVER be able to recover it.  Are you sure you want to release this phone number?");
+            if (c) {
+                $scope.releasing = true;
+                Application.releasePhoneNumber({
+                    servantID: $rootScope.s.user.servants[$rootScope.servant_index].servant_id
+                }, {}, function(response) {
+                    $rootScope.s.reloadUserAndServantData(function() {
+                        $scope.releasing = false;
+                    });
+                }, function(error) {
+                    console.log(error);
+                    return false
+                });
+            }
+        };
+
+    }
 ]);

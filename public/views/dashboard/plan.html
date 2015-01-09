@@ -100,8 +100,12 @@
                     Clicking Subscribe will automatically charge the card you have on file with Servant
                 </p>
 
-                <p class="st-centered st-font st-link" style="margin-top:30px;" data-ng-hide="subscribing" data-ng-show="s.user.servants[servant_index].servant_pay_subscription_status === 'active'" data-ng-click="cancelPlan()">
+                <p class="st-centered st-font st-link" style="margin-top:30px;" data-ng-show="s.user.servants[servant_index].servant_pay_subscription_status === 'active' && !canceling" data-ng-click="cancelPlan()">
                     Cancel Your Plan
+                </p>
+
+                <p class="st-centered st-font st-link" style="margin-top:30px;" data-ng-show="canceling">
+                    Canceling...
                 </p>
 
             </div>

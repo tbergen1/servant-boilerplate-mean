@@ -29,7 +29,7 @@ var logOut = function(req, res, next) {
 };
 
 var showUser = function(req, res, next) {
-    // Add Servants To User
+    // Add Servants To User Before Showing
     ServantMeta.find({
         user: req.user._id
     }).exec(function(error, servantmetas) {
@@ -65,19 +65,19 @@ var searchPhoneNumbers = function(req, res, next) {
 };
 
 var purchasePhoneNumber = function(req, res, next) {
-    TwilioHelper.purchasePhoneNumber(req.body.phone_number, function(error, number) {
+    TwilioHelper.purchasePhoneNumber(req.servantmeta, req.body.phone_number, function(error, number) {
         console.log(error, number);
         if (error) return res.status(400).json({
             error: error
         });
         req.servantmeta.twilio_phone_number_sid = number.sid;
         req.servantmeta.twilio_phone_number = number.phone_number;
-        req.servantmeta.save(function(error, servant) {
-            console.log(error, servant);
+        req.servantmeta.save(function(error, servantmeta) {
+            console.log(error, servantmeta);
             if (error) return res.status(500).json({
                 error: error
             });
-            return res.json(servant);
+            return res.json(servantmeta);
         });
     });
 };
@@ -98,6 +98,26 @@ var scheduleTask = function(req, res, next) {
     });
 };
 
+var releasePhoneNumber = function(req, res, next) {
+    // Close Twilio Subaccount
+    TwilioHelper.releasePhoneNumber(req.servantmeta, function(error, account) {
+        if (error) {
+            return res.status(500).json({
+                error: error
+            });
+        }
+        // Update ServantMeta
+        req.servantmeta.twilio_phone_number_sid = null;
+        req.servantmeta.twilio_phone_number = null;
+        req.servantmeta.save(function(error, servantmeta) {
+            if (error) return res.status(500).json({
+                error: error
+            });
+            return res.json(servantmeta);
+        });
+    });
+};
+
 
 module.exports = {
     index: index,
@@ -105,5 +125,6 @@ module.exports = {
     showUser: showUser,
     searchPhoneNumbers: searchPhoneNumbers,
     purchasePhoneNumber: purchasePhoneNumber,
+    releasePhoneNumber: releasePhoneNumber,
     scheduleTask: scheduleTask
 };

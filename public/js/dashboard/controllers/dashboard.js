@@ -16,46 +16,6 @@ angular.module('appDashboard').controller('DashboardController', ['$rootScope', 
             });
         };
 
-        $scope.searchPhoneNumbers = function() {
-            $scope.searching = true;
-            Application.searchPhoneNumbers({
-                servantID: $rootScope.s.user.servants[$rootScope.servant_index].servant_id
-            }, {
-                number_type: $scope.number_type,
-                country: $scope.country,
-                area_code: $scope.area_code
-            }, function(response) {
-                $scope.phone_numbers = response.available_phone_numbers;
-                $scope.searching = false;
-            }, function(error) {
-                console.log(error);
-                $scope.phone_numbers = [];
-                $scope.searching = false;
-            });
-        };
-
-        $scope.purchasePhoneNumber = function(number) {
-            var c = confirm("Is this the number you want: " + number + "?  this number will be yours as long as you have a plan with us.");
-            if (c) {
-                $scope.registering = true;
-                Application.purchasePhoneNumber({
-                    servantID: $rootScope.s.user.servants[$rootScope.servant_index].servant_id
-                }, {
-                    phone_number: number
-                }, function(response) {
-                    $rootScope.s.user.servants[$rootScope.servant_index].twilio_phone_number = response.twilio_phone_number;
-                    $scope.registering = false;
-                    $scope.registered = true;
-                    $timeout(function() {
-                        $rootScope.view = 'menu';
-                        $scope.registering = false;
-                        $scope.registered = false;
-                    }, 4000);
-                }, function(error) {
-                    console.log(error);
-                });
-            }
-        };
 
         $scope.scheduleTask = function(datetime) {
             Application.scheduleTask({
