@@ -13,7 +13,7 @@ var ServantSDK = require('servant-sdk-node')({
 
 
 var checkTagExists = function(servantmeta, callback) {
-    if (servantmeta.default_tag_id) return callback(null);
+    if (servantmeta.default_tag_id) return callback(servantmeta);
 
     // See If Tag Exists On Servant
     var criteria = {
@@ -28,8 +28,8 @@ var checkTagExists = function(servantmeta, callback) {
         if (response.records.length) {
             // Add Tag To ServantMeta
             servantmeta.default_tag_id = response.records[0]._id;
-            servantmeta.save(function(error, response) {
-                return callback(response);
+            servantmeta.save(function(error, servantmeta) {
+                return callback(servantmeta);
             });
         } else {
             // Create Tag
@@ -39,9 +39,9 @@ var checkTagExists = function(servantmeta, callback) {
                 if (error) return console.log("Tag Creation Error: ", error);
                 // Add Tag To ServantMeta
                 servantmeta.default_tag_id = tag._id;
-                servantmeta.save(function(error, response) {
+                servantmeta.save(function(error, servantmeta) {
                     if (error) return console.log("Tag Save Error: ", error);
-                    return callback(response);
+                    return callback(servantmeta);
                 });
             });
         }
