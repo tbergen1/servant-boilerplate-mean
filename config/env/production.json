@@ -1,5 +1,5 @@
 {
-	"db": "mongodb://localhost/servant-boilerplate-mean-dev",
+	"db": "",
 	"app": {
 		"name": "Servant Texter",
 		"description" : "Rapidly build Servant applications by starting with this boilerplate application",

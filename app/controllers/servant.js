@@ -3,7 +3,6 @@ var mongoose = require('mongoose'),
     async = require('async'),
     User = mongoose.model('User'),
     ServantMeta = mongoose.model('ServantMeta'),
-    request = require('request'),
     Config = require('../../config/config');
     
 // Instantiate SDKs
