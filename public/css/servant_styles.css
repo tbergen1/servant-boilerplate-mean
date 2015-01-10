@@ -74,8 +74,8 @@ a:hover, .st-link:hover {
     background: #ff6d65!important;
 }
 .st-btn-lg {
-    padding: 10px 18px;
-    font-size: 14px;
+    padding: 12px 20px;
+    font-size: 16px;
 }
 .st-btn-disabled {
     opacity: 0.5!important;
