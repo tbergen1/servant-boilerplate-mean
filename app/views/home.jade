@@ -1,13 +1,63 @@
 extends layouts/home_layout
 
 block content
-	section.container-fluid(id="home-page", data-ng-controller="HomeController", data-ng-init="initialize()")
+	section(id="home-page", data-ng-controller="HomeController", data-ng-init="initialize()")
 		div.st-font.st-centered(id="logo") 
-			img.st-animate-zoom-in(src="/img/servant_texter_logo.jpg", alt="servant texter, servant text message, sms", draggable="false")
+			img.st-animate-bounce-in(src="/img/servant_texter_logo.jpg", alt="servant texter, servant text message, sms", draggable="false")
 		p.tagline.st-font.st-centered #{description}
 		div(id="connect-container")
-			a.st-btn-red.st-btn-lg.st-animate-bounce-in-up(href="#{connect_url}", data-ng-click="connect()", data-ng-hide="connecting") Connect Servant
+			a.st-btn-red.st-btn-lg(href="#{connect_url}", data-ng-click="connect()", data-ng-hide="connecting") Connect Servant
 			a.st-btn-red.st-btn-lg(href="#{connect_url}", data-ng-show="connecting") 
 				i.fa.fa-spinner.fa-spin(style="margin-right:12px;margin-left:5px;opacity:0.6") 
 				span Connecting...
+
+		div.clearfix(id="features-list")
+			table.table
+				tr
+					td.icon
+						i.fa.fa-bolt
+					td.feature
+						span.st-font Send Text Blasts To Contacts Stored On Your Servant
+				tr
+					td.icon
+						i.fa.fa-bolt
+					td.feature
+						span.st-font Schedule Text Blasts For Any Time In The Future
+				tr
+					td.icon
+						i.fa.fa-bolt
+					td.feature
+						span.st-font Each Servant Gets A Dedicated Local Or Toll-Free Phone Number To Use For Its Text Message Marketing Campaigns
+				tr
+					td.icon
+						i.fa.fa-bolt
+					td.feature
+						span.st-font When Someone Texts A Keyword To Your Servant's Number They Are Added As A Contact On That Servant
+				tr
+					td.icon
+						i.fa.fa-bolt
+					td.feature
+						span.st-font $12/Month For 500 Text Messages and 1 Phone Number
+				tr
+					td.icon
+						i.fa.fa-bolt
+					td.feature
+						span.st-font $24/Month For 1000 Text Messages and 1 Phone Number
+				tr
+					td.icon
+						i.fa.fa-bolt
+					td.feature
+						span.st-font $36/Month For 1500 Text Messages and 1 Phone Number
+				tr
+					td.icon
+						i.fa.fa-bolt
+					td.feature
+						span.st-font $48/Month For 2000 Text Messages and 1 Phone Number
+				tr
+					td.icon
+						i.fa.fa-bolt
+					td.feature
+						span.st-font $60/Month For 2500 Text Messages and 1 Phone Number
+
+
 

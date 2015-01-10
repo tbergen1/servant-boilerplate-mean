@@ -1,5 +1,7 @@
-html, body {
-    min-height: 100%;
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
+}
+body {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 11px;
     background: #e4e4e4;
@@ -15,12 +17,12 @@ p {
 /* Home Page */
 
 #home-page #logo {
-    padding-top: 50px;
+    padding-top: 30px;
     text-align: center;
 }
 #home-page #logo img {
-    width:100%;
-    height:auto;
+    width: 100%;
+    height: auto;
 }
 #home-page .tagline {
     color: #555555;
@@ -36,7 +38,22 @@ p {
 }
 #connect-container {
     padding-top: 20px;
+    padding-bottom: 10px;
     text-align: center;
+}
+#features-list {
+    margin-top: 30px;
+    padding-top: 30px;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    font-size: 12px;
+}
+#features-list td {
+    border-top: none!important;
+}
+#features-list .icon {
+    vertical-align: middle;
+    opacity: 0.3;
+    padding-right: 10px;
 }
 /* Loading Container */
 
@@ -61,11 +78,11 @@ p {
     padding-top: 0px;
     font-size: 14px;
     letter-spacing: -1px;
-    margin:0px;
+    margin: 0px;
 }
 #dashboard-header #logo img {
-    max-width:225px;
-    max-height:100px;
+    max-width: 225px;
+    max-height: 100px;
 }
 #menu-bar {
     margin: 5px 0px;
