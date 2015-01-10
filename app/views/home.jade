@@ -4,7 +4,8 @@ block content
 	section.container-fluid(id="home-page", data-ng-controller="HomeController", data-ng-init="initialize()")
 		.row
 			.col-md-12.animated.fadeIn(id="logo-container")
-				h1.logo.st-font #{name}
+				p.st-font.st-centered(id="logo") 
+					img.st-animate-zoom-in(src="/img/servant_texter_logo.jpg", alt="servant texter, servant text message, sms", draggable="false")
 				p.tagline.st-font 
 					i.fa.fa-chevron-right 
 					span Text Message Tools For Your Servant
