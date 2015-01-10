@@ -38,12 +38,12 @@ var blastContacts = function(plan, servantmeta, tinytextBody, access_token, serv
     };
 
     ServantSDK.queryArchetypes(access_token, servantID, 'contact', criteria, function(error, response) {
-        if (error) return callback('servant_api_error', page);
+        if (error) return callback('Unable to fetch your servant contact records.  Make sure your servant allows permission to this application.', page);
         if (response.records.length) {
             try {
                 // Check Plan
                 console.log(servantmeta.sms_sent, plan_limits[servantmeta.plan]);
-                if (servantmeta.sms_sent > plan_limits[servantmeta.plan]) return callback('hit_sms_limit', page + 1);
+                if (servantmeta.sms_sent > plan_limits[servantmeta.plan]) return callback('You hit your sms limit.  Please upgrade your plan.', page + 1);
                 // Text Each Contact
                 for (i = 0; i < response.records.length; i++) {
                     if (!response.records[i].phone_numbers.length) continue;
@@ -58,7 +58,7 @@ var blastContacts = function(plan, servantmeta, tinytextBody, access_token, serv
                 return blastContacts(plan, servantmeta, tinytextBody, access_token, servantID, page + 1, plan, callback);
             } catch (e) {
                 console.log("Text Blast Error:", e);
-                return callback('unknownerror_blastcontacts', page);
+                return callback('An unknown error occurred and we are looking into it.  Sorry!', page);
             }
         } else {
             // Finished
