@@ -38,6 +38,7 @@ var blastContacts = function(plan, servantmeta, tinytextBody, access_token, serv
     };
 
     ServantSDK.queryArchetypes(access_token, servantID, 'contact', criteria, function(error, response) {
+        console.log(error);
         if (error) return callback('servant_api_error', page);
         if (response.records.length) {
             try {
