@@ -26,15 +26,21 @@ var plan_limits = {
 
 // Blast Contacts
 var blastContacts = function(plan, servantmeta, tinytextBody, access_token, servantID, page, callback) {
-    // Query 10 Contacts
-        
-    var criteria = {};
+    // Query 10 Contacts At A Time w/ Active Tag
+    var criteria = {
+        query: {
+            'tags': servantmeta.active_tag_id
+        },
+        sort: {
+            created: -1
+        },
+        page: page
+    };
 
-    ServantSDK.archetypesRecent(access_token, servantID, 'contact', page, function(error, response) {
-        try {
-            if (error) {
-                return callback('servant_api_error', page);
-            } else if (response.records.length) {
+    ServantSDK.queryArchetypes(access_token, servantID, 'contact', criteria, function(error, response) {
+        if (error) return callback('servant_api_error', page);
+        if (response.records.length) {
+            try {
                 // Check Plan
                 if (servantmeta.sms_sent > plan_limits[servantmeta.plan]) return callback('hit_sms_limit', page + 1);
                 // Text Each Contact
@@ -47,13 +53,13 @@ var blastContacts = function(plan, servantmeta, tinytextBody, access_token, serv
                 };
                 // Recurse, If More Pages Of Contacts
                 return blastContacts(plan, servantmeta, tinytextBody, access_token, servantID, page + 1, callback);
-            } else {
-                // Finished
-                return callback(null);
+            } catch (e) {
+                console.log("Text Blast Error:", e);
+                return callback('unknownerror_blastcontacts', page);
             }
-        } catch (e) {
-            console.log("Text Blast Error:", e);
-            return callback('unknownerror_blastcontacts', page);
+        } else {
+            // Finished
+            return callback(null);
         }
     });
 };

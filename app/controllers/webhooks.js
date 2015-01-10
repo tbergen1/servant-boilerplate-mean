@@ -140,9 +140,6 @@ var handleStopEvent = function(req, res, next) {
                     ServantSDK.saveArchetype(servantmeta.user.servant_access_token, servantmeta.servant_id, 'contact', contact, function(error, contact) {
                         if (error) return console.log("Servant Error – Removing Contact Inactive Tag Failed! ", error);
                     });
-                } else {
-                    // Contact Not Found
-                    return console.log("Servant Error – Can't Find Contact Who Requested Stop.  Criteria: ", criteria.query);
                 }
             });
         }
