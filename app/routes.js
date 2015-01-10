@@ -15,7 +15,7 @@ module.exports = function(app) {
     app.get('/user', middleware.checkSession, application.showUser);
 
     // Operations
-    app.post('/servants/:servantID/schedule/task', middleware.checkSession, middleware.authorizeServant, middleware.checkTwilioSubaccount, application.scheduleTask);
+    app.post('/servants/:servantID/schedule/task', middleware.checkSession, middleware.authorizeServant, application.scheduleTask);
 
     // Twilio
     app.post('/servants/:servantID/twilio/phone_numbers/search', middleware.checkSession, middleware.authorizeServant, application.searchPhoneNumbers);
