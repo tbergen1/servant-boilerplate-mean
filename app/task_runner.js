@@ -49,7 +49,7 @@ var blastContacts = function(plan, servantmeta, tinytextBody, access_token, serv
                     // Perform Text Blast
                     TwilioHelper.textBlast(response.records[i].phone_numbers[0].phone_number, servantmeta.twilio_phone_number, tinytextBody);
                     // Increment SMS Sent Number
-                    Helpers.incrementSMS();
+                    Helpers.incrementSMS(servantmeta);
                 };
                 // Recurse, If More Pages Of Contacts
                 return blastContacts(plan, servantmeta, tinytextBody, access_token, servantID, page + 1, callback);
