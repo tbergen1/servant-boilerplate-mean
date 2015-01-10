@@ -4,7 +4,7 @@ module.exports = function(app) {
     var middleware = require('../app/controllers/middleware');
     var application = require('../app/controllers/application');
     var servant = require('../app/controllers/servant');
-    var webhooks = require('../app/controllers/webhooks');
+    var webhooks_twilio = require('../app/controllers/webhooks_twilio');
 
     // Servant
     app.get('/servant/callback', servant.servantConnectCallback);
@@ -23,7 +23,7 @@ module.exports = function(app) {
     app.get('/servants/:servantID/twilio/phone_numbers/release', middleware.checkSession, middleware.authorizeServant, application.releasePhoneNumber);
 
     // Webhooks
-    app.post('/webhooks/twilio/sms/incoming', webhooks.twilioIncomingSMS);
+    app.post('/webhooks/twilio/sms/incoming', webhooks_twilio.incomingSMS);
 
     // Application
     app.get('/', application.index);

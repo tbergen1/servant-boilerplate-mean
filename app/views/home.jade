@@ -4,10 +4,7 @@ block content
 	section.container-fluid(id="home-page", data-ng-controller="HomeController", data-ng-init="initialize()")
 		div.st-font.st-centered(id="logo") 
 			img.st-animate-zoom-in(src="/img/servant_texter_logo.jpg", alt="servant texter, servant text message, sms", draggable="false")
-		p.tagline.st-font.st-centered
-			i.fa.fa-chevron-right 
-			span Text Message Tools For Your Servant
-			i.fa.fa-chevron-left
+		p.tagline.st-font.st-centered #{description}
 		div(id="connect-container")
 			a.st-btn-red.st-btn-lg.st-animate-bounce-in-up(href="#{connect_url}", data-ng-click="connect()", data-ng-hide="connecting") Connect Servant
 			a.st-btn-red.st-btn-lg(href="#{connect_url}", data-ng-show="connecting") 

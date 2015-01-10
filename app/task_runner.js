@@ -114,9 +114,19 @@ var run = function() {
                         task.save();
                         return taskCallback();
                     }
+
+                    // Check Servant Has An Active Subscription
+                    if (servant.servant_pay_subscription_status === 'none') {
+                        task.status = 'error';
+                        task.error = 'Servant did not have an active subscription at time of blast.  Make sure your payment information is correct on Servant and make sure you have a plan with Servant Texter.';
+                        task.save();
+                        return taskCallback();
+                    }
+
                     // Fetch Selected Tiny Text Record
                     ServantSDK.showArchetype(task.user.servant_access_token, task.servant_id, 'tinytext', task.tinytext_id, function(error, tinytext) {
-                        // Fetch Contacts
+                        
+                        // Send Text Blast To All Contacts
                         blastContacts(servant.servant_pay_subscription_plan_id, servantmeta, tinytext.body, task.user.servant_access_token, task.servant_id, task.page, servant.servant_pay_subscription_plan_id, function(error, error_page) {
                             if (error && error_page) {
                                 task.status = 'error';
@@ -130,6 +140,7 @@ var run = function() {
                                 return taskCallback();
                             }
                         });
+
                     });
                 });
             });

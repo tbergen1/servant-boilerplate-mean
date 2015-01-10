@@ -7,7 +7,12 @@ angular.module('appDashboard').controller('NumberController', ['$rootScope', '$s
         $scope.area_code = '424';
 
         $scope.initialize = function() {
-
+            // Check If Servant Has Plan
+            if ($rootScope.s.user.servants[$rootScope.servant_index].servant_pay_subscription_status === 'none') {
+                return $state.go('plan', {
+                    servantID: $rootScope.s.user.servants[$rootScope.servant_index].servant_id
+                });
+            }
         };
 
         $scope.searchPhoneNumbers = function() {

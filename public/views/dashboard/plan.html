@@ -1,114 +1,114 @@
-<div id="plan-page" data-ng-controller="DashboardController" data-ng-init="initialize()">
-    <div data-ng-controller="PlanController" data-ng-init="initialize()">
+<div id="plan-page" data-ng-controller="PlanController" data-ng-init="initialize()">
 
-        <p id="menu-bar" class="st-font">
-            <a data-ui-sref="servants">
+    <p id="menu-bar" class="st-font">
+        <a data-ui-sref="servants">
             Servants
         </a>
-            <a data-ui-sref="menu({ servantID: s.user.servants[servant_index].servant_id })">
+        <a data-ui-sref="menu({ servantID: s.user.servants[servant_index].servant_id })">
             Menu
         </a>
-            <a data-ui-sref="number({ servantID: s.user.servants[servant_index].servant_id })">
+        <a data-ui-sref="number({ servantID: s.user.servants[servant_index].servant_id })">
             Number
         </a>
-            <a class="active">
+        <a class="active">
             Plan
         </a>
-            <a href="/logout">
+        <a href="/logout">
             Logout
         </a>
-        </p>
+    </p>
 
-        <div class="page-container st-animate-zoom-in">
-            <div data-ng-show="subscribed">
-                <h3 class="st-font st-centered">
+    <div class="page-container st-animate-zoom-in">
+        <div data-ng-show="subscribed">
+            <h3 class="st-font st-centered">
                 Congratulations!
             </h3>
-                <p class="st-font st-centered" style="margin-top:30px;">
-                    Your Subscription Was Successfully Created!
-                </p>
-                <p class="st-font st-centered st-animate-blink" style="margin-top:30px;">
-                    Redirecting You...
-                </p>
-            </div>
-            <div data-ng-show="!subscribed">
-                <p class="st-centered">
-                    <img class="servant-image st-animate-bounce-in" data-ng-src="https://d2d0226i04jal.cloudfront.net/images/servants/{{ s.user.servants[servant_index].personality.toLowerCase() }}.svg">
-                </p>
-                <p class="st-centered st-font st-red">{{s.user.servants[servant_index].master}} </p>
+            <p class="st-font st-centered" style="margin-top:30px;">
+                Your Subscription Was Successfully Created!
+            </p>
+            <p class="st-font st-centered st-animate-blink" style="margin-top:30px;">
+                Redirecting You...
+            </p>
+        </div>
+        <div data-ng-show="!subscribed">
+            <p class="st-centered">
+                <img class="servant-image st-animate-bounce-in" data-ng-src="https://d2d0226i04jal.cloudfront.net/images/servants/{{ s.user.servants[servant_index].personality.toLowerCase() }}.svg">
+            </p>
+            <p class="st-centered st-font st-red">{{s.user.servants[servant_index].master}} </p>
 
-                <p class="st-font st-centered" data-ng-show="s.user.servants[servant_index].servant_pay_subscription_status === 'none'">
-                    This Servant does not have a subscription
-                </p>
-                <p class="st-font st-centered" data-ng-show="s.user.servants[servant_index].servant_pay_subscription_status === 'active'">
-                    Modify Your Subscription
-                </p>
+            <p class="st-font st-centered" data-ng-show="s.user.servants[servant_index].servant_pay_subscription_status === 'none'">
+                This Servant does not have a subscription
+            </p>
+            <p class="st-font st-centered" data-ng-show="s.user.servants[servant_index].servant_pay_subscription_status === 'active'">
+                Below is this Servant's subscription
+            </p>
 
-                <hr style="margin: 20px auto 20px auto;width:75%">
+            <hr style="margin: 20px auto 20px auto;width:75%">
 
-                <p class="st-font st-centered" data-ng-show="s.user.servants[servant_index].servant_pay_subscription_status === 'none'">
-                    How Many Text Messages Do You Need A Month?
-                </p>
+            <p class="st-font st-centered" data-ng-show="s.user.servants[servant_index].servant_pay_subscription_status === 'none'">
+                How Many Text Messages Do You Need Each Month?
+            </p>
 
-                <p class="st-centered" style="margin-top:20px;">
-                    <select class="form-control input-lg plan-select" data-ng-model="newPlan" data-ng-options="plan.plan_id as plan.label for plan in plans">
-                    </select>
-                </p>
+            <p class="st-centered" style="margin-top:20px;">
+                <select class="form-control input-lg plan-select" data-ng-model="newPlan" data-ng-options="plan.plan_id as plan.label for plan in plans">
+                </select>
+            </p>
 
-                <!-- Plan Features -->
-                <ul class="list-unstyled plan-features st-font">
-                    <li>
-                        <i class="fa fa-chevron-right"></i> 1 dedicated phone number (To send texts from)
-                    </li>
-                    <li>
-                        <i class="fa fa-chevron-right"></i> Change/Cancel at any time
-                    </li>
-                    <li>
-                        <i class="fa fa-chevron-right"></i> No additional fees
-                    </li>
-                </ul>
+            <!-- Plan Features -->
+            <ul class="list-unstyled plan-features st-font">
+                <li>
+                    <i class="fa fa-chevron-right"></i> Includes 1 dedicated phone number
+                </li>
+                <li>
+                    <i class="fa fa-chevron-right"></i> Change/Cancel at any time
+                </li>
+                <li>
+                    <i class="fa fa-chevron-right"></i> No additional fees
+                </li>
+            </ul>
 
-                <p class="st-font st-centered" style="margin-top:30px;" data-ng-hide="newPlan === s.user.servants[servant_index].servant_pay_subscription_plan_id">
-                    Subscribe To
-                    <span data-ng-show="newPlan === 'test'">500</span>
-                    <span data-ng-show="newPlan === 'plan1'">500</span>
-                    <span data-ng-show="newPlan === 'plan2'">1000</span>
-                    <span data-ng-show="newPlan === 'plan3'">1500</span>
-                    <span data-ng-show="newPlan === 'plan4'">2000</span>
-                    <span data-ng-show="newPlan === 'plan5'">2500</span> Texts For
-                    <span data-ng-show="newPlan === 'test'">test</span>
-                    <span data-ng-show="newPlan === 'plan1'">$12/Month?</span>
-                    <span data-ng-show="newPlan === 'plan2'">$24/Month?</span>
-                    <span data-ng-show="newPlan === 'plan3'">$36/Month?</span>
-                    <span data-ng-show="newPlan === 'plan4'">$48/Month?</span>
-                    <span data-ng-show="newPlan === 'plan5'">$60/Month?</span>
-                </p>
+            <hr style="margin: 25px auto 20px auto;width:75%">
 
-                <p class="st-font st-centered" style="margin-top:20px;">
-                    <button class="st-btn-red st-btn-lg" data-ng-hide="subscribing || s.user.servants[servant_index].servant_pay_subscription_status === 'active'" data-ng-click="subscribe()">Subscribe</button>
+            <p class="st-font st-centered" style="margin-top:30px;" data-ng-hide="newPlan === s.user.servants[servant_index].servant_pay_subscription_plan_id">
+                Subscribe To
+                <span data-ng-show="newPlan === 'test'">500</span>
+                <span data-ng-show="newPlan === 'plan1'">500</span>
+                <span data-ng-show="newPlan === 'plan2'">1000</span>
+                <span data-ng-show="newPlan === 'plan3'">1500</span>
+                <span data-ng-show="newPlan === 'plan4'">2000</span>
+                <span data-ng-show="newPlan === 'plan5'">2500</span> Texts For
+                <span data-ng-show="newPlan === 'test'">test</span>
+                <span data-ng-show="newPlan === 'plan1'">$12/Month?</span>
+                <span data-ng-show="newPlan === 'plan2'">$24/Month?</span>
+                <span data-ng-show="newPlan === 'plan3'">$36/Month?</span>
+                <span data-ng-show="newPlan === 'plan4'">$48/Month?</span>
+                <span data-ng-show="newPlan === 'plan5'">$60/Month?</span>
+            </p>
 
-                    <span class="st-centered st-font st-red" data-ng-show="newPlan === s.user.servants[servant_index].servant_pay_subscription_plan_id">Select A New Plan To Change Your Subscription</span>
+            <p class="st-font st-centered" style="margin-top:20px;">
+                <button class="st-btn-red st-btn-lg" data-ng-hide="subscribing || s.user.servants[servant_index].servant_pay_subscription_status === 'active'" data-ng-click="subscribe()">Subscribe</button>
 
-                    <button class="st-btn-red st-btn-lg st-animate-bounce-in" data-ng-hide="subscribing || s.user.servants[servant_index].servant_pay_subscription_status === 'none' || newPlan === s.user.servants[servant_index].servant_pay_subscription_plan_id" data-ng-click="subscribe()">Change Plan</button>
+                <span class="st-centered st-font st-red" data-ng-show="newPlan === s.user.servants[servant_index].servant_pay_subscription_plan_id">Select A New Plan To Change Your Subscription</span>
 
-                    <button class="st-btn-red st-btn-lg disabled" data-ng-show="subscribing">
-                        <i class="fa fa-refresh fa-spin"></i> Subscribing
-                    </button>
-                </p>
+                <button class="st-btn-red st-btn-lg st-animate-bounce-in" data-ng-hide="subscribing || s.user.servants[servant_index].servant_pay_subscription_status === 'none' || newPlan === s.user.servants[servant_index].servant_pay_subscription_plan_id" data-ng-click="subscribe()">Change Plan</button>
 
-                <p class="st-font st-centered" style="opacity:0.7;font-size:10px;margin:20px auto 0px auto;width:75%;">
-                    Clicking Subscribe will automatically charge the card you have on file with Servant
-                </p>
+                <button class="st-btn-red st-btn-lg disabled" data-ng-show="subscribing">
+                    <i class="fa fa-refresh fa-spin"></i> Subscribing
+                </button>
+            </p>
 
-                <p class="st-centered st-font st-link" style="margin-top:30px;" data-ng-show="s.user.servants[servant_index].servant_pay_subscription_status === 'active' && !canceling" data-ng-click="cancelPlan()">
-                    Cancel Your Plan
-                </p>
+            <p class="st-font st-centered" style="opacity:0.7;font-size:10px;margin:20px auto 0px auto;width:75%;">
+                Clicking Subscribe will automatically charge the card you have on file with Servant
+            </p>
 
-                <p class="st-centered st-font st-link" style="margin-top:30px;" data-ng-show="canceling">
-                    Canceling...
-                </p>
+            <p class="st-centered st-font st-link" style="margin-top:30px;" data-ng-show="s.user.servants[servant_index].servant_pay_subscription_status === 'active' && !canceling" data-ng-click="cancelPlan()">
+                Cancel Your Plan
+            </p>
 
-            </div>
+            <p class="st-centered st-font st-link" style="margin-top:30px;" data-ng-show="canceling">
+                Canceling...
+            </p>
+
         </div>
     </div>
 </div>

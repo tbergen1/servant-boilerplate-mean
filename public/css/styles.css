@@ -55,7 +55,7 @@ p {
 #dashboard-header {
     display: block;
     width: 100%;
-    height: 110px;
+    height: 90px;
 }
 #dashboard-header #logo {
     padding-top: 0px;
@@ -64,7 +64,7 @@ p {
     margin:0px;
 }
 #dashboard-header #logo img {
-    max-width:250px;
+    max-width:225px;
     max-height:100px;
 }
 #menu-bar {
@@ -89,7 +89,7 @@ p {
     height: auto;
     width: 100%;
     background: #fff;
-    padding: 40px 15px 60px 15px;
+    padding: 30px 15px 40px 15px;
     margin: 0px auto;
     -webkit-border-radius: 3px;
     border-radius: 3px;
@@ -123,8 +123,8 @@ p {
 /* Menu Page */
 
 #menu-page .servant-image {
-    max-height: 80px;
-    max-width: 80px;
+    max-height: 70px;
+    max-width: 70px;
 }
 #menu-page #options-menu li {
     padding: 10px;
@@ -134,8 +134,8 @@ p {
 /* Blast Page */
 
 #blast-page .servant-image {
-    max-height: 80px;
-    max-width: 80px;
+    max-height: 70px;
+    max-width: 70px;
 }
 #tiny-text-container {
     padding: 20px;
@@ -182,19 +182,19 @@ p {
 /* Plan Page */
 
 #plan-page .servant-image {
-    max-height: 80px;
-    max-width: 80px;
+    max-height: 70px;
+    max-width: 70px;
 }
 #plan-page .plan-select {
     max-width: 300px;
-    font-size: 15px!important;
+    font-size: 14px!important;
     margin: 0px auto;
 }
 /* Number Page */
 
 #number-page .servant-image {
-    max-height: 80px;
-    max-width: 80px;
+    max-height: 70px;
+    max-width: 70px;
 }
 #number-page #number-search-criteria-1 {
     max-width: 300px;

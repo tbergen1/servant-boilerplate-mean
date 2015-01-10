@@ -66,14 +66,12 @@ var searchPhoneNumbers = function(req, res, next) {
 
 var purchasePhoneNumber = function(req, res, next) {
     TwilioHelper.purchasePhoneNumber(req.servantmeta, req.body.phone_number, function(error, number) {
-        console.log(error, number);
         if (error) return res.status(400).json({
             error: error
         });
         req.servantmeta.twilio_phone_number_sid = number.sid;
         req.servantmeta.twilio_phone_number = number.phone_number;
         req.servantmeta.save(function(error, servantmeta) {
-            console.log(error, servantmeta);
             if (error) return res.status(500).json({
                 error: error
             });

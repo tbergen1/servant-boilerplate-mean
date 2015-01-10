@@ -16,7 +16,7 @@ angular.module('appDashboard').controller('BlastController', ['$rootScope', '$sc
             }, 60000);
             // Fetch tinyTexts
             $scope.loadTinyTexts();
-            // Scroll Listener
+            // Scroll Listener For Tiny Texts
             $('#tiny-text-container').scroll(function() {
                 var difference = $('#tiny-text-container')[0].scrollHeight - ($('#tiny-text-container').scrollTop() + $('#tiny-text-container').height());
                 if ($('#tiny-text-container').scrollTop() > 100 && difference < 100 && $scope.more_results && !$scope.loading_infinitescroll) {
@@ -75,7 +75,7 @@ angular.module('appDashboard').controller('BlastController', ['$rootScope', '$sc
             if (direction === 'down') $scope.blast_date.subtract(1, increment);
             // Validate
             if ($scope.blast_date.diff(moment(), 'minutes') < 0) $scope.blast_date = moment();
-            if ($scope.blast_date.diff(moment(), 'days') > 61) $scope.blast_date = moment().add(60, 'days');
+            if ($scope.blast_date.diff(moment(), 'days') > 59) $scope.blast_date = moment().add(60, 'days');
         };
 
     }

@@ -30,7 +30,8 @@ var ServantMetaSchema = new Schema({
         trim: true
     },
     sms_sent: {
-        type: Number
+        type: Number,
+        default: 0
     },
     twilio_owner_account_id: {
         type: String,
