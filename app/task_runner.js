@@ -67,7 +67,7 @@ var blastContacts = function(plan, servantmeta, tinytextBody, access_token, serv
 
 var run = function() {
     // Log Time
-    var taskrunner_time = moment().format("h:mma MM-DD-YYYY Z");
+    var taskrunner_time = moment().format("h:mm:ss a MM-DD-YYYY Z");
     console.log("TaskRunner Started: ", taskrunner_time);
     // Find Tasks
     var populateQuery = [{
@@ -131,7 +131,7 @@ var run = function() {
                 });
             });
         }, function() {
-            console.log("TaskRunner Finished: " + taskrunner_time + " – " + moment().format("h:mma MM-DD-YYYY Z"));
+            console.log("TaskRunner Finished: " + taskrunner_time + " – " + moment().format("h:mm:ss a MM-DD-YYYY Z"));
         });
     });
 };
