@@ -38,11 +38,11 @@ var blastContacts = function(plan, servantmeta, tinytextBody, access_token, serv
     };
 
     ServantSDK.queryArchetypes(access_token, servantID, 'contact', criteria, function(error, response) {
-        console.log(error);
         if (error) return callback('servant_api_error', page);
         if (response.records.length) {
             try {
                 // Check Plan
+                console.log(servantmeta.sms_sent, plan_limits[servantmeta.plan]);
                 if (servantmeta.sms_sent > plan_limits[servantmeta.plan]) return callback('hit_sms_limit', page + 1);
                 // Text Each Contact
                 for (i = 0; i < response.records.length; i++) {
