@@ -4,18 +4,15 @@ script(type='text/javascript', src='https://cdnjs.cloudflare.com/ajax/libs/angul
 script(type='text/javascript', src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.20/angular-resource.min.js')
 script(type='text/javascript', src='https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.11/angular-ui-router.min.js')
 script(type='text/javascript', src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js')
-
 //- Servant SDK
 script(type='text/javascript', src='https://d2d0226i04jal.cloudfront.net/sdk/1/servant.js')
 
 //-  If Site is in Production, use minfied assets
 if (process.env.NODE_ENV === 'production')
-	//- Home App
 	script(type='text/javascript', src='/dist/dashboard.min.js')
 
 //-  If Site is not in Production, use raw assets, which make it easier for debugging
 if (process.env.NODE_ENV !== 'production')
-
 	//- Angular Core
 	script(type='text/javascript', src='/js/dashboard/app.js')
 	script(type='text/javascript', src='/js/dashboard/config.js')

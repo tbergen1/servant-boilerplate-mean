@@ -7,16 +7,12 @@ script(type='text/javascript', src='https://cdnjs.cloudflare.com/ajax/libs/momen
 
 //-  If Site is in Production, use minified asset
 if (process.env.NODE_ENV === 'production')
-	//- Home App
 	script(type='text/javascript', src='/dist/home.min.js')
 
 //-  If Site is not in Production, use raw assets, which make it easier for debugging
 if (process.env.NODE_ENV !== 'production')
-	//- Application Files
+	//- Angular Core
 	script(type='text/javascript', src='/js/home/app.js')
-
-	//- Application Services
-
-	//- Application Controllers
+	//- Angular Controllers
 	script(type='text/javascript', src='/js/home/controllers/home.js')
 	
