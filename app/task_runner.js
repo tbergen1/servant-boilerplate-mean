@@ -21,7 +21,7 @@ var plan_limits = {
     plan3: 1500,
     plan4: 2000,
     plan5: 2500,
-    test: 1000000
+    test: 400
 };
 
 // Blast Contacts
@@ -50,6 +50,8 @@ var blastContacts = function(plan, servantmeta, tinytextBody, access_token, serv
                     TwilioHelper.textBlast(response.records[i].phone_numbers[0].phone_number, servantmeta.twilio_phone_number, tinytextBody);
                     // Increment SMS Sent Number
                     Helpers.incrementSMS(servantmeta);
+                    // Manually Increment SMS Number
+                    servantmeta.sms_sent = servantmeta.sms_sent + 1;
                 };
                 // Recurse, If More Pages Of Contacts
                 return blastContacts(plan, servantmeta, tinytextBody, access_token, servantID, page + 1, callback);
