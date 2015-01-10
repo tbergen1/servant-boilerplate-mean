@@ -97,13 +97,13 @@
                 </button>
             </p>
 
-            <p class="st-font st-centered" style="opacity:0.7;font-size:10px;margin:20px auto 0px auto;width:75%;">
+            <p class="st-font st-centered" data-ng-hide="newPlan === s.user.servants[servant_index].servant_pay_subscription_plan_id" style="opacity:0.7;font-size:10px;margin:20px auto 0px auto;width:75%;">
                 Clicking Subscribe will automatically charge the card you have on file with Servant
             </p>
 
             <hr style="margin: 25px auto 20px auto;width:75%">
 
-            <p class="st-font st-centered" style="margin:30px auto;max-width:300px;">
+            <p class="st-font st-centered" style="margin:30px auto;max-width:300px;" data-ng-show="s.user.servants[servant_index].servant_pay_subscription_status === 'active'">
                 Warning: Canceling your plan means you lose your phone number and you will never be able to retrieve it. Anywhere you have posted the phone number publicly will lead people to an incorrect phone number...
             </p>
 

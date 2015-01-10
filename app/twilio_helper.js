@@ -88,7 +88,6 @@ var purchasePhoneNumber = function(servantmeta, number, callback) {
         smsMethod: "POST",
         phoneNumber: number
     }).then(function(number) {
-        console.log(number)
         return callback(null, number);
     }, function(error) {
         console.log(error)

@@ -60,7 +60,6 @@ var setupView = ['$q', '$rootScope', '$state', '$stateParams', 'Application', 'S
                         if ($stateParams.servantID) {
                             $rootScope.s.setServant($stateParams.servantID, function() {
                                 $rootScope.s.authorizeView(function(error) {
-                                    console.log(error)
                                     if (error) return deferView.reject(error);
                                     $rootScope.s.loading = false;
                                     return deferView.resolve();

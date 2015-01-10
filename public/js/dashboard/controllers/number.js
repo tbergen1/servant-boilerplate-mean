@@ -1,5 +1,5 @@
-angular.module('appDashboard').controller('NumberController', ['$rootScope', '$scope', '$timeout', '$state', 'Application', 'ServantAngularService',
-    function($rootScope, $scope, $timeout, $state, Application, ServantAngularService) {
+angular.module('appDashboard').controller('NumberController', ['$rootScope', '$scope', '$timeout', '$state', '$stateParams', 'Application', 'ServantAngularService',
+    function($rootScope, $scope, $timeout, $state, $stateParams, Application, ServantAngularService) {
 
         // Defaults
         $scope.number_type = 'local';
@@ -43,14 +43,17 @@ angular.module('appDashboard').controller('NumberController', ['$rootScope', '$s
                     phone_number: number
                 }, function(response) {
                     $rootScope.s.reloadUserAndServantData(function() {
-                        $scope.registering = false;
-                        $scope.registered = true;
-                        $timeout(function() {
-                            $scope.registered = false;
-                            return $state.go('menu', {
-                                servantID: $rootScope.s.user.servants[$rootScope.servant_index].servant_id
-                            });
-                        }, 3000);
+                        // Set Servant Again To Make Sure servant_index points to the right Servant
+                        $rootScope.s.setServant($stateParams.servantID, function() {
+                            $scope.registering = false;
+                            $scope.registered = true;
+                            $timeout(function() {
+                                $scope.registered = false;
+                                return $state.go('menu', {
+                                    servantID: $rootScope.s.user.servants[$rootScope.servant_index].servant_id
+                                });
+                            }, 3000);
+                        });
                     });
                 }, function(error) {
                     console.log(error);
@@ -66,7 +69,10 @@ angular.module('appDashboard').controller('NumberController', ['$rootScope', '$s
                     servantID: $rootScope.s.user.servants[$rootScope.servant_index].servant_id
                 }, {}, function(response) {
                     $rootScope.s.reloadUserAndServantData(function() {
-                        $scope.releasing = false;
+                        // Set Servant Again To Make Sure servant_index points to the right Servant
+                        $rootScope.s.setServant($stateParams.servantID, function() {
+                            $scope.releasing = false;
+                        });
                     });
                 }, function(error) {
                     console.log(error);

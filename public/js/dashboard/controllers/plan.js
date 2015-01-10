@@ -1,5 +1,5 @@
-angular.module('appDashboard').controller('PlanController', ['$rootScope', '$scope', '$timeout', '$state', 'Application', 'ServantAngularService',
-    function($rootScope, $scope, $timeout, $state, Application, ServantAngularService) {
+angular.module('appDashboard').controller('PlanController', ['$rootScope', '$scope', '$timeout', '$state', '$stateParams', 'Application', 'ServantAngularService',
+    function($rootScope, $scope, $timeout, $state, $stateParams, Application, ServantAngularService) {
 
         // Defaults
         $scope.newPlan = 'plan1';
@@ -36,30 +36,38 @@ angular.module('appDashboard').controller('PlanController', ['$rootScope', '$sco
                 if ($scope.newPlan === $rootScope.s.user.servants[$rootScope.servant_index].servant_pay_subscription_plan_id) return false;
                 // Update
                 ServantAngularService.servantpaySubscriptionUpdate($scope.newPlan).then(function(response) {
-                    $scope.subscribing = false;
-                    $scope.subscribed = true;
-                    $timeout(function() {
-                        $scope.subscribed = false;
-                        return $state.go('menu', {
-                            servantID: $rootScope.s.user.servants[$rootScope.servant_index].servant_id
+                    $rootScope.s.reloadUserAndServantData(function() {
+                        // Set Servant Again To Make Sure servant_index points to the right Servant
+                        $rootScope.s.setServant($stateParams.servantID, function() {
+                            $scope.subscribing = false;
+                            $scope.subscribed = true;
+                            $timeout(function() {
+                                $scope.subscribed = false;
+                                return $state.go('menu', {
+                                    servantID: $rootScope.s.user.servants[$rootScope.servant_index].servant_id
+                                });
+                            }, 3000);
                         });
-                    }, 3000);
-                    return $rootScope.s.reloadUserAndServantData();
+                    });
                 }, function(error) {
                     console.log(error)
                 });
             } else {
                 // Create
                 ServantAngularService.servantpaySubscriptionCreate($scope.newPlan).then(function(response) {
-                    $scope.subscribing = false;
-                    $scope.subscribed = true;
-                    $timeout(function() {
-                        $scope.subscribed = false;
-                        return $state.go('menu', {
-                            servantID: $rootScope.s.user.servants[$rootScope.servant_index].servant_id
+                    $rootScope.s.reloadUserAndServantData(function() {
+                        // Set Servant Again To Make Sure servant_index points to the right Servant
+                        $rootScope.s.setServant($stateParams.servantID, function() {
+                            $scope.subscribing = false;
+                            $scope.subscribed = true;
+                            $timeout(function() {
+                                $scope.subscribed = false;
+                                return $state.go('menu', {
+                                    servantID: $rootScope.s.user.servants[$rootScope.servant_index].servant_id
+                                });
+                            }, 3000);
                         });
-                    }, 3000);
-                    return $rootScope.s.reloadUserAndServantData();
+                    });
                 }, function(error) {
                     console.log(error)
                 });
@@ -85,7 +93,10 @@ angular.module('appDashboard').controller('PlanController', ['$rootScope', '$sco
                         });
                     } else {
                         $rootScope.s.reloadUserAndServantData(function() {
-                            $scope.canceling = false;
+                            // Set Servant Again To Make Sure servant_index points to the right Servant
+                            $rootScope.s.setServant($stateParams.servantID, function() {
+                                $scope.canceling = false;
+                            });
                         });
                     }
                 }, function(error) {
