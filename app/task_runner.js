@@ -114,7 +114,7 @@ var run = function() {
                         task.save();
                         return taskCallback();
                     }
-
+                    console.log(error, servant);
                     // Fetch Selected Tiny Text Record
                     ServantSDK.showArchetype(task.user.servant_access_token, task.servant_id, 'tinytext', task.tinytext_id, function(error, tinytext) {
                         // Fetch Contacts
