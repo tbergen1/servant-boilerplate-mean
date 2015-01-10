@@ -14,27 +14,27 @@ p {
 }
 /* Home Page */
 
-#logo-container {
+#home-page #logo {
     padding-top: 50px;
     text-align: center;
 }
-#logo-container #logo img {
-    max-width:400px;
-    max-height:200px;
+#home-page #logo img {
+    width:100%;
+    height:auto;
 }
-#logo-container .tagline {
+#home-page .tagline {
     color: #555555;
     font-size: 12px;
     letter-spacing: -0.5px;
     padding-top: 10px;
 }
-#logo-container .tagline span {
-    margin: 0px 5px;
+.tagline span {
+    margin: 0px 10px;
 }
-#logo-container .tagline i {
+.tagline i {
     opacity: 0.2;
 }
-#info-container {
+#connect-container {
     padding-top: 20px;
     text-align: center;
 }

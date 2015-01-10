@@ -10,7 +10,7 @@ var mongoose = require('mongoose'),
 var index = function(req, res) {
     // Render Either Home Page or Dashboard Page Depending On User Session
     var variables = {
-        connect_url: Config.servant.connect_url,
+        connect_url: Config.app.servant_connect_url,
         client_id: process.env.SERVANT_CLIENT_ID,
         name: Config.app.name,
         description: Config.app.description,

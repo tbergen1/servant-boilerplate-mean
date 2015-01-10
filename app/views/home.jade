@@ -2,18 +2,15 @@ extends layouts/home_layout
 
 block content
 	section.container-fluid(id="home-page", data-ng-controller="HomeController", data-ng-init="initialize()")
-		.row
-			.col-md-12.animated.fadeIn(id="logo-container")
-				p.st-font.st-centered(id="logo") 
-					img.st-animate-zoom-in(src="/img/servant_texter_logo.jpg", alt="servant texter, servant text message, sms", draggable="false")
-				p.tagline.st-font 
-					i.fa.fa-chevron-right 
-					span Text Message Tools For Your Servant
-					i.fa.fa-chevron-left
-		.row
-			.col-md-12.st-animate-bounce-in-up(id="info-container")
-				a.st-btn-red.st-btn-lg(href="#{connect_url}", data-ng-click="connect()", data-ng-hide="connecting") Connect Servant
-				a.st-btn-red.st-btn-lg(href="#{connect_url}", data-ng-show="connecting") 
-					i.fa.fa-spinner.fa-spin(style="margin-right:12px;margin-left:5px;opacity:0.6") 
-					span Connecting...
+		div.st-font.st-centered(id="logo") 
+			img.st-animate-zoom-in(src="/img/servant_texter_logo.jpg", alt="servant texter, servant text message, sms", draggable="false")
+		p.tagline.st-font.st-centered
+			i.fa.fa-chevron-right 
+			span Text Message Tools For Your Servant
+			i.fa.fa-chevron-left
+		div(id="connect-container")
+			a.st-btn-red.st-btn-lg.st-animate-bounce-in-up(href="#{connect_url}", data-ng-click="connect()", data-ng-hide="connecting") Connect Servant
+			a.st-btn-red.st-btn-lg(href="#{connect_url}", data-ng-show="connecting") 
+				i.fa.fa-spinner.fa-spin(style="margin-right:12px;margin-left:5px;opacity:0.6") 
+				span Connecting...
 
