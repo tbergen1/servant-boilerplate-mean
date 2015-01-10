@@ -25,7 +25,7 @@ var plan_limits = {
 };
 
 // Blast Contacts
-var blastContacts = function(plan, servantmeta, tinytextBody, access_token, servantID, page, callback) {
+var blastContacts = function(plan, servantmeta, tinytextBody, access_token, servantID, page, plan, callback) {
     // Query 10 Contacts At A Time w/ Active Tag
     var criteria = {
         query: {
@@ -55,7 +55,7 @@ var blastContacts = function(plan, servantmeta, tinytextBody, access_token, serv
                     servantmeta.sms_sent = servantmeta.sms_sent + 1;
                 };
                 // Recurse, If More Pages Of Contacts
-                return blastContacts(plan, servantmeta, tinytextBody, access_token, servantID, page + 1, callback);
+                return blastContacts(plan, servantmeta, tinytextBody, access_token, servantID, page + 1, plan, callback);
             } catch (e) {
                 console.log("Text Blast Error:", e);
                 return callback('unknownerror_blastcontacts', page);
@@ -93,7 +93,7 @@ var run = function() {
             }).limit(1).exec(function(error, servantmetas) {
                 if (error) {
                     task.status = 'error';
-                    task.error = 'servantmeta_missing';
+                    task.error = 'Your Servant Was Not Found In This Application (ServantMeta Missing)';
                     task.save();
                     return taskCallback();
                 }
@@ -110,14 +110,15 @@ var run = function() {
                 ServantSDK.showServant(task.user.servant_access_token, task.servant_id, function(error, servant) {
                     if (error) {
                         task.status = 'error';
-                        task.error = 'error_fetching_servant';
+                        task.error = 'Unable to fetch Servant at time of blast.  Make sure your servant permissions allow this application.';
                         task.save();
                         return taskCallback();
                     }
+
                     // Fetch Selected Tiny Text Record
                     ServantSDK.showArchetype(task.user.servant_access_token, task.servant_id, 'tinytext', task.tinytext_id, function(error, tinytext) {
                         // Fetch Contacts
-                        blastContacts(servant.servant_pay_subscription_plan_id, servantmeta, tinytext.body, task.user.servant_access_token, task.servant_id, task.page, function(error, error_page) {
+                        blastContacts(servant.servant_pay_subscription_plan_id, servantmeta, tinytext.body, task.user.servant_access_token, task.servant_id, task.page, servant.servant_pay_subscription_plan_id, function(error, error_page) {
                             if (error && error_page) {
                                 task.status = 'error';
                                 task.error = error;
