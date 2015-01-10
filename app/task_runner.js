@@ -131,7 +131,7 @@ var run = function() {
                 });
             });
         }, function() {
-            console.log("TaskRunner Finished: ", taskrunner_time);
+            console.log("TaskRunner Finished: " + taskrunner_time + " – " + moment().format("h:mma MM-DD-YYYY Z"));
         });
     });
 };
