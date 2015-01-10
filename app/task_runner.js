@@ -42,7 +42,6 @@ var blastContacts = function(plan, servantmeta, tinytextBody, access_token, serv
         if (response.records.length) {
             try {
                 // Check Plan
-                console.log("Plan Limit: ", servantmeta.sms_sent, plan_limits[plan]);
                 if (servantmeta.sms_sent > plan_limits[plan]) return callback('You hit your sms limit.  Please upgrade your plan.', page + 1);
                 // Text Each Contact
                 for (i = 0; i < response.records.length; i++) {

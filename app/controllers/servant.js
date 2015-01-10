@@ -48,9 +48,8 @@ var servantConnectCallback = function(req, res) {
                 user.save(function(error, user) {
                     if (error) return callback(error, null);
                     if (!response.servants.length) return callback(null, user);
-                    // Save Servants To Local Database (Mongo Unique Index Will Prevent Duplicates)
+                    // Save Servants To Local Database (Mongo Unique Index on 'servant_id' Will Prevent Duplicates)
                     for (i = 0; i < response.servants.length; i++) {
-                        // Create Servant, if it doesn't exist in local database
                         var servantmeta = new ServantMeta({
                             servant_id: response.servants[i]._id,
                             user: user._id
@@ -74,7 +73,7 @@ var servantConnectCallback = function(req, res) {
                 if (error) return res.status(500).json({
                     error: error
                 });
-                // Save Session
+                // Save Session & Redirect
                 req.session = {
                     user: user
                 };
@@ -88,7 +87,7 @@ var servantConnectCallback = function(req, res) {
             if (error) return res.status(500).json({
                 error: error
             });
-            // Save Session
+            // Save Session & Redirect
             req.session = {
                 user: user
             };

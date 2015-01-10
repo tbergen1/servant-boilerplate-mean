@@ -36,7 +36,6 @@ angular.module('appDashboard').controller('PlanController', ['$rootScope', '$sco
                 if ($scope.newPlan === $rootScope.s.user.servants[$rootScope.servant_index].servant_pay_subscription_plan_id) return false;
                 // Update
                 ServantAngularService.servantpaySubscriptionUpdate($scope.newPlan).then(function(response) {
-                    console.log(response);
                     $scope.subscribing = false;
                     $scope.subscribed = true;
                     $timeout(function() {
@@ -52,7 +51,6 @@ angular.module('appDashboard').controller('PlanController', ['$rootScope', '$sco
             } else {
                 // Create
                 ServantAngularService.servantpaySubscriptionCreate($scope.newPlan).then(function(response) {
-                    console.log(response);
                     $scope.subscribing = false;
                     $scope.subscribed = true;
                     $timeout(function() {

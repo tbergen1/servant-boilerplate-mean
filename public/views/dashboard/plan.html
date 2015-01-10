@@ -101,7 +101,13 @@
                 Clicking Subscribe will automatically charge the card you have on file with Servant
             </p>
 
-            <p class="st-centered st-font st-link" style="margin-top:30px;" data-ng-show="s.user.servants[servant_index].servant_pay_subscription_status === 'active' && !canceling" data-ng-click="cancelPlan()">
+            <hr style="margin: 25px auto 20px auto;width:75%">
+
+            <p class="st-font st-centered" style="margin:30px auto;max-width:300px;">
+                Warning: Canceling your plan means you lose your phone number and you will never be able to retrieve it. Anywhere you have posted the phone number publicly will lead people to an incorrect phone number...
+            </p>
+
+            <p class="st-centered st-font st-link" style="margin-top:20px;" data-ng-show="s.user.servants[servant_index].servant_pay_subscription_status === 'active' && !canceling" data-ng-click="cancelPlan()">
                 Cancel Your Plan
             </p>
 

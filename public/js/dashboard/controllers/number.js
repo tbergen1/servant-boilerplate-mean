@@ -34,7 +34,7 @@ angular.module('appDashboard').controller('NumberController', ['$rootScope', '$s
         };
 
         $scope.purchasePhoneNumber = function(number) {
-            var c = confirm("Is this the number you want: " + number + "?  this number will be yours as long as you have a plan with us.");
+            var c = confirm("Is this the number you want: " + number + "?  This number will be yours as long as you have a plan with us.  If you cancel your plan, this number will be lost forever, so be careful!");
             if (c) {
                 $scope.registering = true;
                 Application.purchasePhoneNumber({
