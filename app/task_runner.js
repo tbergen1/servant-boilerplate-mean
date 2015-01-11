@@ -24,8 +24,11 @@ var plan_limits = {
     test: 400
 };
 
+// SMS Count
+var sms_count = 0;
+
 // Blast Contacts
-var blastContacts = function(plan, servantmeta, tinytextBody, access_token, servantID, page, plan, callback) {
+var blastContacts = function(servantmeta, tinytextBody, access_token, servantID, page, plan, callback) {
     // Query 10 Contacts At A Time w/ Active Tag
     var criteria = {
         query: {
@@ -50,11 +53,13 @@ var blastContacts = function(plan, servantmeta, tinytextBody, access_token, serv
                     TwilioHelper.textBlast(response.records[i].phone_numbers[0].phone_number, servantmeta.twilio_phone_number, tinytextBody);
                     // Increment SMS Sent Number
                     Helpers.incrementSMS(servantmeta);
+                    // Increment Task SMS Count
+                    sms_count = sms_count + 1;
                     // Manually Increment SMS Number
                     servantmeta.sms_sent = servantmeta.sms_sent + 1;
                 };
                 // Recurse, If More Pages Of Contacts
-                return blastContacts(plan, servantmeta, tinytextBody, access_token, servantID, page + 1, plan, callback);
+                return blastContacts(servantmeta, tinytextBody, access_token, servantID, page + 1, plan, callback);
             } catch (e) {
                 console.log("Text Blast Error:", e);
                 return callback('An unknown error occurred and we are looking into it.  Sorry!', page);
@@ -68,9 +73,11 @@ var blastContacts = function(plan, servantmeta, tinytextBody, access_token, serv
 
 
 var run = function() {
+    // Reset SMS Count
+    sms_count = 0;
     // Log Time
     var taskrunner_time = moment().format("h:mm:ss a MM-DD-YYYY Z");
-    console.log("TaskRunner Started: ", taskrunner_time);
+    console.log("TaskRunner Started: " + taskrunner_time + ' SMS Count: ' + sms_count);
     // Find Tasks
     var populateQuery = [{
         path: 'user',
@@ -126,7 +133,7 @@ var run = function() {
                     ServantSDK.showArchetype(task.user.servant_access_token, task.servant_id, 'tinytext', task.tinytext_id, function(error, tinytext) {
                         
                         // Send Text Blast To All Contacts
-                        blastContacts(servant.servant_pay_subscription_plan_id, servantmeta, tinytext.body, task.user.servant_access_token, task.servant_id, task.page, servant.servant_pay_subscription_plan_id, function(error, error_page) {
+                        blastContacts(servantmeta, tinytext.body, task.user.servant_access_token, task.servant_id, task.page, servant.servant_pay_subscription_plan_id, function(error, error_page) {
                             if (error && error_page) {
                                 task.status = 'error';
                                 task.error = error;
@@ -144,7 +151,7 @@ var run = function() {
                 });
             });
         }, function() {
-            console.log("TaskRunner Finished: " + taskrunner_time + " – " + moment().format("h:mm:ss a MM-DD-YYYY Z"));
+            console.log("TaskRunner Finished: " + taskrunner_time + " – " + moment().format("h:mm:ss a MM-DD-YYYY Z") + " SMS Count: " + sms_count);
         });
     });
 };
