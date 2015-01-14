@@ -61,26 +61,29 @@ var handleStartEvent = function(req, res, next) {
             }
             // Update Existing Contact, Or Create New One
             if (response.records.length) {
-                // Update Existing Contact – Update Contact's Tags To Active
-                var contact = response.records[0];
-                // Iterate Through Tags.  Remove Relevant Tags.  Add Single Active Tag.
-                for (i = 0; i < contact.tags.length; i++) {
-                    // Remove All Inactive Tags
-                    if (contact.tags[i] && contact.tags[i]._id.toString() === servantmeta.inactive_tag_id) contact.tags.splice(i, 1);
-                    // Remove All Active Tags
-                    if (contact.tags[i] && contact.tags[i]._id.toString() === servantmeta.active_tag_id) contact.tags.splice(i, 1);
-                }
-                // Add Single Active Tag
-                contact.tags.push(servantmeta.active_tag_id);
-                // Save Contact
-                ServantSDK.saveArchetype(servantmeta.user.servant_access_token, servantmeta.servant_id, 'contact', contact, function(error, contact) {
-                    if (error) console.log("Webhook Error (Twilio) - Adding Contact Active Tag Failed: ", error, contact);
+                // Update Existing Contact – First, Check Tags Exist
+                checkTagsExist(servantmeta, function(servantmeta) {
+                    // Update Contact's Tags To Active
+                    var contact = response.records[0];
+                    // Iterate Through Tags.  Remove Relevant Tags.  Add Single Active Tag.
+                    for (i = 0; i < contact.tags.length; i++) {
+                        // Remove All Inactive Tags
+                        if (contact.tags[i] && contact.tags[i]._id.toString() === servantmeta.inactive_tag_id) contact.tags.splice(i, 1);
+                        // Remove All Active Tags
+                        if (contact.tags[i] && contact.tags[i]._id.toString() === servantmeta.active_tag_id) contact.tags.splice(i, 1);
+                    }
+                    // Add Single Active Tag
+                    contact.tags.push(servantmeta.active_tag_id);
+                    // Save Contact
+                    ServantSDK.saveArchetype(servantmeta.user.servant_access_token, servantmeta.servant_id, 'contact', contact, function(error, contact) {
+                        if (error) console.log("Webhook Error (Twilio) - Adding Contact Active Tag Failed: ", error, contact);
+                    });
+                    // Increment SMS Sent Number
+                    Helpers.incrementSMS(servantmeta);
+                    // Respond With New Subscriber Message
+                    req.twiml.message('Thanks for subscribing! Message and data rates may apply. Reply HELP for help. Reply STOP to cancel. Enjoy!');
+                    return res.end(req.twiml.toString());
                 });
-                // Increment SMS Sent Number
-                Helpers.incrementSMS(servantmeta);
-                // Respond With New Subscriber Message
-                req.twiml.message('Thanks for subscribing! Message and data rates may apply. Reply HELP for help. Reply STOP to cancel. Enjoy!');
-                return res.end(req.twiml.toString());
             } else {
                 // Create New Contact.  First Check Active And Inactive Tags Exist...
                 checkTagsExist(servantmeta, function(servantmeta) {
@@ -177,7 +180,7 @@ var checkTagsExist = function(servantmeta, callback) {
             page: 1
         };
         ServantSDK.queryArchetypes(servantmeta.user.servant_access_token, servantmeta.servant_id, 'tag', criteria, function(error, response) {
-            if (error) return console.log("Active Tag Creation Error: ", error);
+            if (error) return console.log("Active Tag Query Error: ", error);
             if (response.records.length) {
                 return activeCallback(response.records[0]._id);
             } else {
