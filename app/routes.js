@@ -25,6 +25,14 @@ module.exports = function(app) {
     // Webhooks
     app.post('/webhooks/twilio/sms/incoming', webhooks_twilio.incomingSMS);
 
+    // Ping URL – New Relic and other availability services
+    app.head('/ping', function(req, res, next) {
+        res.json('pinged!');
+    });
+    app.get('/ping', function(req, res, next) {
+        res.json('pinged!');
+    });
+
     // Application
     app.get('/', application.index);
 
