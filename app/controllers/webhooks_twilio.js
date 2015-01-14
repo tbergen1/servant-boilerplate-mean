@@ -126,39 +126,42 @@ var handleStopEvent = function(req, res, next) {
         var servantmeta = servantmetas[0];
         if (!servantmeta) return res.end(req.twiml.toString());
 
-        // Query Contacts To See If Contact Exists
-        var criteria = {
-            query: {
-                'phone_numbers.phone_number': req.body.From.replace('+1', ''),
-                'tags': servantmeta.active_tag_id
-            },
-            sort: {},
-            page: 1
-        };
-        ServantSDK.queryArchetypes(servantmeta.user.servant_access_token, servantmeta.servant_id, 'contact', criteria, function(error, response) {
-            if (error) {
-                console.log("Webhook Error (Twilio) - Finding Contact On Servant: ", error);
+        // Check Active And Inactive Tags Exist...
+        checkTagsExist(servantmeta, function(servantmeta) {
+            // Query Contacts To See If Contact Exists
+            var criteria = {
+                query: {
+                    'phone_numbers.phone_number': req.body.From.replace('+1', ''),
+                    'tags': servantmeta.active_tag_id
+                },
+                sort: {},
+                page: 1
+            };
+            ServantSDK.queryArchetypes(servantmeta.user.servant_access_token, servantmeta.servant_id, 'contact', criteria, function(error, response) {
+                if (error) {
+                    console.log("Webhook Error (Twilio) - Finding Contact On Servant: ", error);
+                    return res.end(req.twiml.toString());
+                }
+                // If No Contact, Do Nothing
+                if (!response.records.length) return res.end(req.twiml.toString());
+                // If Contact Exists, Remove Active Tag And Add Inactive Tag
+                var contact = response.records[0];
+                // Iterate Through Tags.  Remove Relevant Tags.  Add Single Inactive Tag.
+                for (i = 0; i < contact.tags.length; i++) {
+                    // Remove All Inactive Tags
+                    if (contact.tags[i] && contact.tags[i]._id.toString() === servantmeta.inactive_tag_id) contact.tags.splice(i, 1);
+                    // Remove All Active Tags
+                    if (contact.tags[i] && contact.tags[i]._id.toString() === servantmeta.active_tag_id) contact.tags.splice(i, 1);
+                }
+                // Add Single Inactive Tag
+                contact.tags.push(servantmeta.inactive_tag_id);
+                // Save Contact
+                ServantSDK.saveArchetype(servantmeta.user.servant_access_token, servantmeta.servant_id, 'contact', contact, function(error, contact) {
+                    if (error) return console.log("Servant Error – Removing Contact Inactive Tag Failed! ", error);
+                });
+                // Return Twiml
                 return res.end(req.twiml.toString());
-            }
-            // If No Contact, Do Nothing
-            if (!response.records.length) return res.end(req.twiml.toString());
-            // If Contact Exists, Remove Active Tag And Add Inactive Tag
-            var contact = response.records[0];
-            // Iterate Through Tags.  Remove Relevant Tags.  Add Single Inactive Tag.
-            for (i = 0; i < contact.tags.length; i++) {
-                // Remove All Inactive Tags
-                if (contact.tags[i] && contact.tags[i]._id.toString() === servantmeta.inactive_tag_id) contact.tags.splice(i, 1);
-                // Remove All Active Tags
-                if (contact.tags[i] && contact.tags[i]._id.toString() === servantmeta.active_tag_id) contact.tags.splice(i, 1);
-            }
-            // Add Single Inactive Tag
-            contact.tags.push(servantmeta.inactive_tag_id);
-            // Save Contact
-            ServantSDK.saveArchetype(servantmeta.user.servant_access_token, servantmeta.servant_id, 'contact', contact, function(error, contact) {
-                if (error) return console.log("Servant Error – Removing Contact Inactive Tag Failed! ", error);
             });
-            // Return Twiml
-            return res.end(req.twiml.toString());
         });
     });
 };
