@@ -1,3 +1,6 @@
+// New Relic must be the first line of code
+if (process.env.NODE_ENV && process.env.NODE_ENV === 'production') require('newrelic');
+
 // Module Dependencies
 var express = require('express');
 var app = express();
