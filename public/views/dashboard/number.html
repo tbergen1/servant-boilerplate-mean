@@ -19,122 +19,192 @@
     </p>
 
     <div class="page-container st-animate-zoom-in">
-        <i class="fa fa-question-circle help-icon st-red st-animate-blink"></i>
+        <i class="fa fa-question-circle help-icon st-red st-animate-blink" data-ng-click="help = !help"></i>
 
-        <p class="st-centered">
-            <img class="servant-image st-animate-bounce-in" data-ng-src="https://d2d0226i04jal.cloudfront.net/images/servants/{{ s.user.servants[servant_index].personality.toLowerCase() }}.svg">
-        </p>
-        <p class="st-centered st-font st-red">{{s.user.servants[servant_index].master}} </p>
+        <!-- Main View -->
+        <div data-ng-hide="help">
+            <p class="st-centered">
+                <img class="servant-image st-animate-bounce-in" data-ng-src="https://d2d0226i04jal.cloudfront.net/images/servants/{{ s.user.servants[servant_index].personality.toLowerCase() }}.svg">
+            </p>
+            <p class="st-centered st-font st-red">{{s.user.servants[servant_index].master}} </p>
 
-        <!-- NO Phone Number -->
-        <p class="st-font st-centered" data-ng-hide="s.user.servants[servant_index].twilio_phone_number">
-            This Servant Needs A Phone Number Before He Can Do Anything. Search for one below:
-        </p>
+            <!-- NO Phone Number -->
+            <p class="st-font st-centered" data-ng-hide="s.user.servants[servant_index].twilio_phone_number">
+                This Servant Needs A Phone Number Before He Can Do Anything. Search for one below:
+            </p>
 
-        <!-- HAS Phone Number -->
-        <p class="st-font st-centered" data-ng-show="s.user.servants[servant_index].twilio_phone_number">
-            Your Servant's Phone Number is:
-            <span class="st-red">{{ s.user.servants[servant_index].twilio_phone_number }}</span>
-        </p>
-
-        <hr style="margin: 20px auto 20px auto;width:75%">
-
-
-        <!-- HAS Phone Number -->
-        <div data-ng-show="!registering && !registered && s.user.servants[servant_index].twilio_phone_number">
-            <p class="st-font st-centered" style="margin:30px auto;max-width:300px;">
-                To find out what your phone number can do, hover over the help icon.
+            <!-- HAS Phone Number -->
+            <p class="st-font st-centered" data-ng-show="s.user.servants[servant_index].twilio_phone_number">
+                Your Servant's Phone Number is:
+                <span class="st-red">{{ s.user.servants[servant_index].twilio_phone_number }}</span>
             </p>
 
             <hr style="margin: 20px auto 20px auto;width:75%">
 
-            <p class="st-font st-centered" style="margin:30px auto;max-width:300px;">
-                Warning: Releasing this phone number means you will never be able to retrieve it. Anywhere you have posted the phone number publicly will lead people to an incorrect phone number.
-            </p>
 
-            <p class="st-font st-centered st-link" data-ng-click="releasePhoneNumber()" data-ng-hide="releasing">
-                Release Phone Number
-            </p>
+            <!-- HAS Phone Number -->
+            <div data-ng-show="!registering && !registered && s.user.servants[servant_index].twilio_phone_number">
+                <p class="st-font st-centered" style="margin:30px auto;max-width:300px;">
+                    To find out what your phone number can do, hover over the help icon.
+                </p>
 
-            <p class="st-font st-centered st-link" data-ng-click="releasePhoneNumber()" data-ng-show="releasing">
-                Releasing...
-            </p>
-        </div>
+                <hr style="margin: 20px auto 20px auto;width:75%">
 
+                <p class="st-font st-centered" style="margin:30px auto;max-width:300px;">
+                    Warning: Releasing this phone number means you will never be able to retrieve it. Anywhere you have posted the phone number publicly will lead people to an incorrect phone number.
+                </p>
 
+                <p class="st-font st-centered st-link" data-ng-click="releasePhoneNumber()" data-ng-hide="releasing">
+                    Release Phone Number
+                </p>
 
-        <!-- NO Phone Number -->
-        <div data-ng-show="!registering && !registered && !s.user.servants[servant_index].twilio_phone_number">
-
-            <div id="number-search-criteria-1">
-                <p class="st-centered st-label st-font st-red">Search Local Or Toll-Free Numbers</p>
-                <select class="form-control" data-ng-model="number_type" style="margin:0px auto;width:75%;">
-                    <option value="local">
-                        Local Phone Number
-                    </option>
-                    <option value="tollfree">
-                        Toll-Free Number
-                    </option>
-                </select>
+                <p class="st-font st-centered st-link" data-ng-click="releasePhoneNumber()" data-ng-show="releasing">
+                    Releasing...
+                </p>
             </div>
 
-            <div id="number-search-criteria-2">
-                <div style="float:left;width:50%;">
-                    <p class="st-label st-font st-red">Country</p>
-                    <select class="form-control number-field" data-ng-model="country">
-                        <option value="US">
-                            United States
+
+
+            <!-- NO Phone Number -->
+            <div data-ng-show="!registering && !registered && !s.user.servants[servant_index].twilio_phone_number">
+
+                <div id="number-search-criteria-1">
+                    <p class="st-centered st-label st-font st-red">Search Local Or Toll-Free Numbers</p>
+                    <select class="form-control" data-ng-model="number_type" style="margin:0px auto;width:75%;">
+                        <option value="local">
+                            Local Phone Number
                         </option>
-                        <option value="CAD">
-                            Canada
-                        </option>
-                        <option value="GB">
-                            United Kingdom
+                        <option value="tollfree">
+                            Toll-Free Number
                         </option>
                     </select>
                 </div>
-                <div style="float:left;width:50%;" data-ng-show="number_type === 'local'">
-                    <p class="st-label st-font st-country st-red">Area Code</p>
-                    <input type="text" maxlength="10" class="form-control number-field" placeholder="424" data-ng-model="area_code"></input>
+
+                <div id="number-search-criteria-2">
+                    <div style="float:left;width:50%;">
+                        <p class="st-label st-font st-red">Country</p>
+                        <select class="form-control number-field" data-ng-model="country">
+                            <option value="US">
+                                United States
+                            </option>
+                            <option value="CAD">
+                                Canada
+                            </option>
+                            <option value="GB">
+                                United Kingdom
+                            </option>
+                        </select>
+                    </div>
+                    <div style="float:left;width:50%;" data-ng-show="number_type === 'local'">
+                        <p class="st-label st-font st-country st-red">Area Code</p>
+                        <input type="text" maxlength="10" class="form-control number-field" placeholder="424" data-ng-model="area_code"></input>
+                    </div>
                 </div>
+                <p class="st-centered" style="margin-top:10px;">
+                    <button class="st-btn-red st-btn-lg" data-ng-click="searchPhoneNumbers()" data-ng-show="!searching">
+                        Search
+                    </button>
+                    <button class="st-btn-red st-btn-lg st-btn-disabled" data-ng-click="searchPhoneNumbers()" data-ng-show="searching" disabled>
+                        <i class="fa fa-refresh fa-spin"></i> Searching...
+                    </button>
+                </p>
+
+                <hr style="margin: 20px auto 20px auto;width:75%">
+
+                <ul class="list-unstyled">
+                    <li class="phone-number st-link" data-ng-repeat="number in phone_numbers" data-ng-click="purchasePhoneNumber(number.friendly_name)">
+                        {{ number.friendly_name }}
+                    </li>
+                </ul>
+
+                <p class="st-font st-centered" style="font-size:12px;margin:40px 0px 0px 0px;" data-ng-show="phone_numbers.length === 0">
+                    No Phone Numbers Found For This Country And Area Code. Try Another Search...
+                </p>
             </div>
-            <p class="st-centered" style="margin-top:10px;">
-                <button class="st-btn-red st-btn-lg" data-ng-click="searchPhoneNumbers()" data-ng-show="!searching">
-                    Search
-                </button>
-                <button class="st-btn-red st-btn-lg st-btn-disabled" data-ng-click="searchPhoneNumbers()" data-ng-show="searching" disabled>
-                    <i class="fa fa-refresh fa-spin"></i> Searching...
-                </button>
-            </p>
 
-            <hr style="margin: 20px auto 20px auto;width:75%">
+            <div data-ng-show="registering">
+                <p class="st-centered st-font" style="font-size:14px;margin-top:50px;">
+                    <i class="fa fa-refresh fa-spin" style="margin-right:4px;"></i> Registering Phone Number...
+                </p>
+            </div>
 
-            <ul class="list-unstyled">
-                <li class="phone-number st-link" data-ng-repeat="number in phone_numbers" data-ng-click="purchasePhoneNumber(number.friendly_name)">
-                    {{ number.friendly_name }}
-                </li>
-            </ul>
-
-            <p class="st-font st-centered" style="font-size:12px;margin:40px 0px 0px 0px;" data-ng-show="phone_numbers.length === 0">
-                No Phone Numbers Found For This Country And Area Code. Try Another Search...
-            </p>
+            <div data-ng-show="registered">
+                <p class="st-centered st-font" style="font-size:14px;margin:50px 0px 15px 0px;">
+                    <i class="fa fa-check" style="margin-right:4px;"></i> Your Number Has Been Registered!
+                    <p class="st-centered st-font st-animate-blink">Redirecting you...</p>
+                </p>
+            </div>
+            <!-- END NO Phone Number -->
         </div>
+        <!-- END Main View -->
 
-        <div data-ng-show="registering">
-            <p class="st-centered st-font" style="font-size:14px;margin-top:50px;">
-                <i class="fa fa-refresh fa-spin" style="margin-right:4px;"></i> Registering Phone Number...
-            </p>
+
+        <!-- Help View -->
+        <div class="help-area" data-ng-show="help">
+            <h5 class="st-font st-red st-centered">Help Area</h5>
+            <p class="st-font st-centered">"Phone Numbers"</p>
+            <hr style="margin: 20px auto 20px auto;width:95%">
+
+            <table class="table">
+                <tr>
+                    <td>
+                        <i class="fa fa-chevron-right"></i>
+                    </td>
+                    <td class="st-font">
+                        A phone number is required to send and recieve text messages from similar to how you need an email address to send and receive emails from.  Each Servant gets their own phone number dedicated to sending and receiving text messages on behalf of that Servant.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <i class="fa fa-chevron-right"></i>
+                    </td>
+                    <td class="st-font">
+                        Get a local number if you plan on sending text messages to people located within the same area code (e.g., you're a local business like a bakery).  Picking a number with the same area code that your customers have increases the chance they read your message, since they may think your messages are from a friend or family member.  
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <i class="fa fa-chevron-right"></i>
+                    </td>
+                    <td class="st-font">
+                        Get a toll-free number if you would like to send text messages to people everywhere.  You can message people everywhere even if you have a local number.  Toll-free numbers merely exist to allow larger companies to appear more professional.  Both types of numbers provide the same functionality.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <i class="fa fa-chevron-right"></i>
+                    </td>
+                    <td class="st-font">
+                        People can subscribe to receive your Servant's text messages by texting ANY word to your phone number.  Once they do this, they will be added to your Servant's Contacts with the tag "text-marketing-active".  
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <i class="fa fa-chevron-right"></i>
+                    </td>
+                    <td class="st-font">
+                        To comply with federal regulations, people must be able to unsubscribe from your Servant's text messages by texting the word "STOP" to your number.  Servant Texter handles this for you.  When someone texts "STOP" to your Servant's number, their personal number is kept in your Servant's Contacts, but that Contact's tag is changed from "text-marketing-active" to "text-marketing-inactive".
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <i class="fa fa-chevron-right"></i>
+                    </td>
+                    <td class="st-font">
+                        People who have unsubscribed can text "START" to your number to re-subscribe at any time.  Doing this will change the tag on their Contact record in your Servant from "text-marketing-inactive" to "text-marketing-active".
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <i class="fa fa-chevron-right"></i>
+                    </td>
+                    <td class="st-font" colspan="2">
+                        Get further help in the <a href="https://www.hipchat.com/grXCavfpe" target="_blank">Servant Chat Room</a>
+                    </td>
+                </tr>
+            </table>
         </div>
-
-        <div data-ng-show="registered">
-            <p class="st-centered st-font" style="font-size:14px;margin:50px 0px 15px 0px;">
-                <i class="fa fa-check" style="margin-right:4px;"></i> Your Number Has Been Registered!
-                <p class="st-centered st-font st-animate-blink">Redirecting you...</p>
-            </p>
-        </div>
-        <!-- END NO Phone Number -->
-
-
+        <!-- Help Screen -->
 
 
     </div>

@@ -67,6 +67,17 @@ p {
     opacity: 0.3;
     margin-right: 8px;
 }
+/* Help Area */
+.help-area {
+    padding: 0px 10%;
+}
+.help-area td {
+    border:none!important;
+    font-size: 10px;
+}
+.help-area td i {
+    opacity:0.5;
+}
 /* Dashboard */
 
 #dashboard-header {

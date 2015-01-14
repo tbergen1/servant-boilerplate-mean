@@ -19,7 +19,9 @@
     </p>
 
     <div class="page-container st-animate-zoom-in">
-        <div data-ng-show="subscribed">
+        <i class="fa fa-question-circle help-icon st-red st-animate-blink" data-ng-click="help = !help"></i>
+
+        <div data-ng-show="subscribed && !help">
             <h3 class="st-font st-centered">
                 Congratulations!
             </h3>
@@ -30,7 +32,7 @@
                 Redirecting You...
             </p>
         </div>
-        <div data-ng-show="!subscribed">
+        <div data-ng-show="!subscribed && !help">
             <p class="st-centered">
                 <img class="servant-image st-animate-bounce-in" data-ng-src="https://d2d0226i04jal.cloudfront.net/images/servants/{{ s.user.servants[servant_index].personality.toLowerCase() }}.svg">
             </p>
@@ -114,7 +116,59 @@
             <p class="st-centered st-font st-link" style="margin-top:30px;" data-ng-show="canceling">
                 Canceling...
             </p>
-
         </div>
+
+
+        <!-- Help View -->
+        <div class="help-area" data-ng-show="help">
+            <h5 class="st-font st-red st-centered">Help Area</h5>
+            <p class="st-font st-centered">"Subscriptions"</p>
+            <hr style="margin: 20px auto 20px auto;width:95%">
+
+            <table class="table">
+                <tr>
+                    <td>
+                        <i class="fa fa-chevron-right"></i>
+                    </td>
+                    <td class="st-font">
+                        Each Servant has its own subscription with Servant Texter.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <i class="fa fa-chevron-right"></i>
+                    </td>
+                    <td class="st-font">
+                        Subscriptions are paid for using "Servant Pay" which charges the card you currently have on file with Servant.  This way you don't need to enter in your credit card information again, and you will have the ability to easily cancel your subscription for this application in the main Servant dashboard.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <i class="fa fa-chevron-right"></i>
+                    </td>
+                    <td class="st-font">
+                        There are no fees for starting or stopping your subscription.  You can stop or change your subscription plan at any time.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <i class="fa fa-chevron-right"></i>
+                    </td>
+                    <td class="st-font">
+                        Subscriptions are required because renting phone numbers and sending text messages costs money.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <i class="fa fa-chevron-right"></i>
+                    </td>
+                    <td class="st-font" colspan="2">
+                        Get further help in the <a href="https://www.hipchat.com/grXCavfpe" target="_blank">Servant Chat Room</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <!-- Help Screen -->
+
     </div>
 </div>

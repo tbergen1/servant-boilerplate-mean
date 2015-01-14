@@ -74,7 +74,7 @@ var handleStartEvent = function(req, res, next) {
                 contact.tags.push(servantmeta.active_tag_id);
                 // Save Contact
                 ServantSDK.saveArchetype(servantmeta.user.servant_access_token, servantmeta.servant_id, 'contact', contact, function(error, contact) {
-                    if (error) console.log("Webhook Error (Twilio) - Adding Contact Active Tag Failed: ", error);
+                    if (error) console.log("Webhook Error (Twilio) - Adding Contact Active Tag Failed: ", error, contact);
                 });
                 // Increment SMS Sent Number
                 Helpers.incrementSMS(servantmeta);
