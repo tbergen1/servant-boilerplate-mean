@@ -77,7 +77,7 @@ var run = function() {
     sms_count = 0;
     // Log Time
     var taskrunner_time = moment().format("h:mm:ss a MM-DD-YYYY Z");
-    console.log("TaskRunner Started: " + taskrunner_time + ' SMS Count: ' + sms_count);
+    console.log("TaskRunner Started: " + taskrunner_time);
     // Find Tasks
     var populateQuery = [{
         path: 'user',
