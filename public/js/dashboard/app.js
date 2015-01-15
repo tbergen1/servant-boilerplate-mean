@@ -59,12 +59,8 @@ angular.module('appDashboard').run(['$rootScope', '$timeout', '$interval', '$sta
                 for (i = 0; i < $rootScope.s.user.servants.length; i++) {
                     for (j = 0; j < response.servants.length; j++) {
                         if ($rootScope.s.user.servants[i].servant_id === response.servants[j]._id) {
-                            $rootScope.s.user.servants[i].master = response.servants[j].master;
-                            $rootScope.s.user.servants[i].master_biography = response.servants[j].master_biography;
-                            $rootScope.s.user.servants[i].personality = response.servants[j].personality;
-                            $rootScope.s.user.servants[i].servant_pay_subscription_status = response.servants[j].servant_pay_subscription_status;
-                            $rootScope.s.user.servants[i].servant_pay_subscription_plan_canceled = response.servants[j].servant_pay_subscription_plan_canceled;
-                            $rootScope.s.user.servants[i].servant_pay_subscription_plan_id = response.servants[j].servant_pay_subscription_plan_id;
+                            delete response.servants[j]._id; // Delete Or Will Overwrite ServantMeta ID
+                            angular.extend($rootScope.s.user.servants[i], response.servants[j]);
                         }
                     };
                 };
@@ -97,7 +93,7 @@ angular.module('appDashboard').run(['$rootScope', '$timeout', '$interval', '$sta
         // Authorize View
         $rootScope.s.authorizeView = function(callback) {
             // Check For Subscription & Number
-            if ($rootScope.s.user.servants[$rootScope.servant_index].servant_pay_subscription_status === 'none') return callback('no_subscription');
+            if ($rootScope.s.user.servants[$rootScope.servant_index].servant_pay.subscription_status === 'none') return callback('no_subscription');
             if (!$rootScope.s.user.servants[$rootScope.servant_index].twilio_phone_number) return callback('no_number');
             return callback(null);
         };

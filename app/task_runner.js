@@ -122,7 +122,7 @@ var run = function() {
                     }
 
                     // Check Servant Has An Active Subscription
-                    if (servant.servant_pay_subscription_status === 'none') {
+                    if (servant.servant_pay.subscription_status === 'none') {
                         task.status = 'error';
                         task.error = 'Servant did not have an active subscription at time of blast.  Make sure your payment information is correct on Servant and make sure you have a plan with Servant Texter.';
                         task.save();
@@ -133,7 +133,7 @@ var run = function() {
                     ServantSDK.showArchetype(task.user.servant_access_token, task.servant_id, 'tinytext', task.tinytext_id, function(error, tinytext) {
                         
                         // Send Text Blast To All Contacts
-                        blastContacts(servantmeta, tinytext.body, task.user.servant_access_token, task.servant_id, task.page, servant.servant_pay_subscription_plan_id, function(error, error_page) {
+                        blastContacts(servantmeta, tinytext.body, task.user.servant_access_token, task.servant_id, task.page, servant.servant_pay.subscription_plan_id, function(error, error_page) {
                             if (error && error_page) {
                                 task.status = 'error';
                                 task.error = error;

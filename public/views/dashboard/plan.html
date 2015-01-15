@@ -1,4 +1,4 @@
-<div id="plan-page" data-ng-controller="PlanController" data-ng-init="initialize()">
+<div id="plan-page" data-ng-controller="PlanController">
 
     <p id="menu-bar" class="st-font">
         <a data-ui-sref="servants">
@@ -38,16 +38,16 @@
             </p>
             <p class="st-centered st-font st-red">{{s.user.servants[servant_index].master}} </p>
 
-            <p class="st-font st-centered" data-ng-show="s.user.servants[servant_index].servant_pay_subscription_status === 'none'">
+            <p class="st-font st-centered" data-ng-show="s.user.servants[servant_index].servant_pay.subscription_status === 'none'">
                 This Servant does not have a subscription
             </p>
-            <p class="st-font st-centered" data-ng-show="s.user.servants[servant_index].servant_pay_subscription_status === 'active'">
+            <p class="st-font st-centered" data-ng-show="s.user.servants[servant_index].servant_pay.subscription_status === 'active'">
                 Below is this Servant's subscription
             </p>
 
             <hr style="margin: 20px auto 20px auto;width:75%">
 
-            <p class="st-font st-centered" data-ng-show="s.user.servants[servant_index].servant_pay_subscription_status === 'none'">
+            <p class="st-font st-centered" data-ng-show="s.user.servants[servant_index].servant_pay.subscription_status === 'none'">
                 How Many Text Messages Do You Need Each Month?
             </p>
 
@@ -71,7 +71,7 @@
 
             <hr style="margin: 25px auto 20px auto;width:75%">
 
-            <p class="st-font st-centered" style="margin-top:30px;" data-ng-hide="newPlan === s.user.servants[servant_index].servant_pay_subscription_plan_id">
+            <p class="st-font st-centered" style="margin-top:30px;" data-ng-hide="newPlan === s.user.servants[servant_index].servant_pay.subscription_plan_id">
                 Subscribe To
                 <span data-ng-show="newPlan === 'test'">500</span>
                 <span data-ng-show="newPlan === 'plan1'">500</span>
@@ -88,28 +88,28 @@
             </p>
 
             <p class="st-font st-centered" style="margin-top:20px;">
-                <button class="st-btn-red st-btn-lg" data-ng-hide="subscribing || s.user.servants[servant_index].servant_pay_subscription_status === 'active'" data-ng-click="subscribe()">Subscribe</button>
+                <button class="st-btn-red st-btn-lg" data-ng-hide="subscribing || s.user.servants[servant_index].servant_pay.subscription_status === 'active'" data-ng-click="subscribe()">Subscribe</button>
 
-                <span class="st-centered st-font st-red" data-ng-show="newPlan === s.user.servants[servant_index].servant_pay_subscription_plan_id">Select A New Plan To Change Your Subscription</span>
+                <span class="st-centered st-font st-red" data-ng-show="newPlan === s.user.servants[servant_index].servant_pay.subscription_plan_id">Select A New Plan To Change Your Subscription</span>
 
-                <button class="st-btn-red st-btn-lg st-animate-bounce-in" data-ng-hide="subscribing || s.user.servants[servant_index].servant_pay_subscription_status === 'none' || newPlan === s.user.servants[servant_index].servant_pay_subscription_plan_id" data-ng-click="subscribe()">Change Plan</button>
+                <button class="st-btn-red st-btn-lg st-animate-bounce-in" data-ng-hide="subscribing || s.user.servants[servant_index].servant_pay.subscription_status === 'none' || newPlan === s.user.servants[servant_index].servant_pay.subscription_plan_id" data-ng-click="subscribe()">Change Plan</button>
 
                 <button class="st-btn-red st-btn-lg disabled" data-ng-show="subscribing">
                     <i class="fa fa-refresh fa-spin"></i> Subscribing
                 </button>
             </p>
 
-            <p class="st-font st-centered" data-ng-hide="newPlan === s.user.servants[servant_index].servant_pay_subscription_plan_id" style="opacity:0.7;font-size:10px;margin:20px auto 0px auto;width:75%;">
+            <p class="st-font st-centered" data-ng-hide="newPlan === s.user.servants[servant_index].servant_pay.subscription_plan_id" style="opacity:0.7;font-size:10px;margin:20px auto 0px auto;width:75%;">
                 Clicking Subscribe will automatically charge the card you have on file with Servant
             </p>
 
             <hr style="margin: 25px auto 20px auto;width:75%">
 
-            <p class="st-font st-centered" style="margin:30px auto;max-width:300px;" data-ng-show="s.user.servants[servant_index].servant_pay_subscription_status === 'active'">
+            <p class="st-font st-centered" style="margin:30px auto;max-width:300px;" data-ng-show="s.user.servants[servant_index].servant_pay.subscription_status === 'active'">
                 Warning: Canceling your plan means you lose your phone number and you will never be able to retrieve it. Anywhere you have posted the phone number publicly will lead people to an incorrect phone number...
             </p>
 
-            <p class="st-centered st-font st-link" style="margin-top:20px;" data-ng-show="s.user.servants[servant_index].servant_pay_subscription_status === 'active' && !canceling" data-ng-click="cancelPlan()">
+            <p class="st-centered st-font st-link" style="margin-top:20px;" data-ng-show="s.user.servants[servant_index].servant_pay.subscription_status === 'active' && !canceling" data-ng-click="cancelPlan()">
                 Cancel Your Plan
             </p>
 

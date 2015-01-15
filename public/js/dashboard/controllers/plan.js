@@ -3,7 +3,7 @@ angular.module('appDashboard').controller('PlanController', ['$rootScope', '$sco
 
         // Defaults
         $scope.newPlan = 'plan1';
-        if ($rootScope.s.user.servants[$rootScope.servant_index].servant_pay_subscription_plan_id) $scope.newPlan = $rootScope.s.user.servants[$rootScope.servant_index].servant_pay_subscription_plan_id;
+        if ($rootScope.s.user.servants[$rootScope.servant_index].servant_pay.subscription_plan_id) $scope.newPlan = $rootScope.s.user.servants[$rootScope.servant_index].servant_pay.subscription_plan_id;
         $scope.plans = [{
             label: '500 Text Messages for $12/Month',
             plan_id: 'plan1'
@@ -24,16 +24,12 @@ angular.module('appDashboard').controller('PlanController', ['$rootScope', '$sco
             plan_id: 'test'
         }];
 
-        $scope.initialize = function() {
-
-        };
-
         $scope.subscribe = function() {
             $scope.subscribing = true;
             // Check Subscription Status
-            if ($rootScope.s.user.servants[$rootScope.servant_index].servant_pay_subscription_status === 'active') {
+            if ($rootScope.s.user.servants[$rootScope.servant_index].servant_pay.subscription_status === 'active') {
                 // Make Sure Not Resubscribed To Same Plan
-                if ($scope.newPlan === $rootScope.s.user.servants[$rootScope.servant_index].servant_pay_subscription_plan_id) return false;
+                if ($scope.newPlan === $rootScope.s.user.servants[$rootScope.servant_index].servant_pay.subscription_plan_id) return false;
                 // Update
                 ServantAngularService.servantpaySubscriptionUpdate($scope.newPlan).then(function(response) {
                     $rootScope.s.reloadUserAndServantData(function() {
