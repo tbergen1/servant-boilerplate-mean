@@ -46,6 +46,8 @@ angular.module('appDashboard').controller('PlanController', ['$rootScope', '$sco
                         });
                     });
                 }, function(error) {
+                    $scope.subscribing = false;
+                    $scope.error = error.message;
                     console.log(error)
                 });
             } else {
@@ -65,6 +67,8 @@ angular.module('appDashboard').controller('PlanController', ['$rootScope', '$sco
                         });
                     });
                 }, function(error) {
+                    $scope.subscribing = false;
+                    $scope.error = error.message;
                     console.log(error)
                 });
             }
@@ -96,6 +100,8 @@ angular.module('appDashboard').controller('PlanController', ['$rootScope', '$sco
                         });
                     }
                 }, function(error) {
+                    $scope.canceling = false;
+                    $scope.error = error.message;
                     console.log(error)
                 });
             }

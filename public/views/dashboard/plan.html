@@ -109,6 +109,8 @@
                 Warning: Canceling your plan means you lose your phone number and you will never be able to retrieve it. Anywhere you have posted the phone number publicly will lead people to an incorrect phone number...
             </p>
 
+            <p class="st-red st-centered" data-ng-show="error">{{ error }}</p>
+
             <p class="st-centered st-font st-link" style="margin-top:20px;" data-ng-show="s.user.servants[servant_index].servant_pay.subscription_status === 'active' && !canceling" data-ng-click="cancelPlan()">
                 Cancel Your Plan
             </p>
