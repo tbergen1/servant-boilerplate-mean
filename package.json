@@ -25,6 +25,7 @@
     "moment": "^2.8.2",
     "mongoose": "~3.8.0",
     "newrelic": "^1.14.6",
+    "robots.txt": "^1.1.0",
     "servant-sdk-node": "latest",
     "serve-favicon": "^2.0.1",
     "twilio": "^1.10.0"

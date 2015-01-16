@@ -11,6 +11,7 @@ var fs = require('fs');
 var cookieParser = require('cookie-parser');
 var favicon = require('serve-favicon');
 var methodOverride = require('method-override');
+var robots = require('robots.txt');
 
 // Set Environment from ENV variable or default to development
 var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development';
@@ -84,13 +85,16 @@ app.use(bodyParser.urlencoded({
     extended: true
 })); // parse application/x-www-form-urlencoded
 
-// override with the X-HTTP-Method-Override header in the request. simulate DELETE/PUT
+// Override with the X-HTTP-Method-Override header in the request. simulate DELETE/PUT
 app.use(methodOverride('X-HTTP-Method-Override'));
 
-// routes ==================================================
+// Robots.txt
+app.use(robots(__dirname + '/robots.txt'))
+
+// Routes
 require('./app/routes')(app); // pass our application into our routes
 
-// start app ===============================================
+// Start Application
 app.listen(port);
 console.log('****** Servant Boilerplate ' + env + ' is now running on port ' + port + '  ******'); // shoutout to the user
 exports = module.exports = app; // expose app
